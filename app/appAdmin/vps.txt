@@ -1,0 +1,13 @@
+server {
+    listen 80;
+    server_name 157.66.27.96; # hoặc dùng IP VPS nếu chưa có domain
+
+    root /var/www/5kweb;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+
+sudo ln -s /etc/nginx/sites-available/5kNginx /etc/nginx/sites-enabled/

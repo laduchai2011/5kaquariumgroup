@@ -1,0 +1,40 @@
+.List-Table {
+    width: 100%;
+}
+
+.List-row-header {
+    display: flex;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.List-row-header > div {
+    text-align: center;
+    box-sizing: border-box;
+    padding: 5px;
+    font-weight: 600;
+}
+
+.List-row-index {
+    width: 50px;
+}
+
+.List-row-name {
+    flex: 1;
+}
+
+.List-row-size {
+    width: 100px;
+}
+
+.List-row-remain {
+    width: 100px;
+}
+
+.List-row-money {
+    width: 100px;
+}
+
+.List-row-btnContainer {
+    width: 150px;
+}

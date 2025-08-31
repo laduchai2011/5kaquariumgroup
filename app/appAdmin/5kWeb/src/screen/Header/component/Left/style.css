@@ -1,0 +1,10 @@
+.Header_Left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+    cursor: pointer;
+    user-select: none;
+}

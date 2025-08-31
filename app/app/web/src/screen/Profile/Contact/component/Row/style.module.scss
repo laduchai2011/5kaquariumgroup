@@ -1,0 +1,36 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    @include center-of-row;
+    justify-content: space-between;
+    position: relative;
+    box-sizing: border-box;
+    padding: 10px;
+    border-bottom: 1px solid gray;
+
+    > .infor {
+        > div {
+            @include center-of-row;
+
+            > div {
+                font-size: 1.2rem;
+            }
+
+            > div:nth-child(1) {
+                width: 150px;
+                font-weight: 600;
+            }
+        }
+    }
+
+    > .icons {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+
+        > svg {
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    }
+}

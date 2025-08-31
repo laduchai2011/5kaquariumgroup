@@ -1,0 +1,46 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    position: relative;
+    z-index: 10000;
+    
+    > .headerLeft {
+        width: max-content;
+        height: max-content;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 2000;
+    }
+
+    > .headerTop {
+        width: max-content;
+        height: max-content;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+    }
+
+    > div:nth-child(3) {
+        width: 100%;
+        @include center-of-column;
+        background-color: #eee;
+        margin-top: 50px;
+
+        > .main {
+            width: 1280px;
+            background-color: white;
+            box-sizing: border-box;
+            padding: 10px;
+            @include center-of-rectangle;
+
+            @include responsive(lg) {
+                width: 100%;
+            }
+
+            > div {
+                width: 768px;
+            }
+        }
+    }
+}

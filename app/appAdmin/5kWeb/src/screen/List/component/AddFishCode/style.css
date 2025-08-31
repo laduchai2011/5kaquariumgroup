@@ -1,0 +1,29 @@
+.List-AddFishCode-header {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.List-AddFishCode-input {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.List-AddFishCode-input > div {
+    width: 100px;
+}
+
+.List-AddFishCode-textEditor {
+    margin-top: 20px;
+}
+
+.List-AddFishCode-textEditor > div:nth-child(1) {
+    margin-bottom: 10px;
+}
+
+.List-AddFishCode-btn {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}

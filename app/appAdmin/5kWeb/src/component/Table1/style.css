@@ -1,0 +1,21 @@
+.Table1-table {
+    width: 700px;
+    overflow: hidden;
+}
+.Table1-table > div {
+    width: max-content;
+    height: 100%;
+}
+
+.Table1-scroll {
+    width: 750px;
+    height: 5px;
+    background-color: rgb(240, 240, 240);
+    margin-top: 10px;
+}
+
+.Table1-scroll > div {
+    width: 300px;
+    height: 100%;
+    background-color: rgb(145, 145, 145);
+}

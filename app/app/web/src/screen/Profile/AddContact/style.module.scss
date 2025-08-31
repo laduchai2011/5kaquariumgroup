@@ -1,0 +1,75 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    background-color: rgb(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 11000;
+    @include center-of-rectangle;
+
+    > div {
+        // transform: translate(-50%, -50%);
+        background-color: white;
+        width: 300px;
+        // height: 400px;
+        box-sizing: border-box;
+        padding: 10px;
+        border-radius: 10px;
+
+        > div:nth-child(1) {
+            @include center-of-row;
+            justify-content: flex-end;
+
+            > svg {
+                cursor: pointer;
+            }
+        }
+
+        > div:nth-child(2) {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        > div:nth-child(3) {
+            > div {
+                @include center-of-row;
+                margin: 10px 0;
+
+                > div:nth-child(1) {
+                    width: 100px;
+                }
+
+                > div:nth-child(2) {
+                    width: 180px;
+
+                    > input {
+                        width: 100%;
+                        border: none;
+                        outline: none;
+                        border-bottom: 1px solid gray;
+                        box-sizing: border-box;
+                        padding: 5px;
+                    }
+
+                    > textarea {
+                        width: 100%;
+                        border: none;
+                        outline: none;
+                        border-bottom: 1px solid gray;
+                        box-sizing: border-box;
+                        padding: 5px;
+                        resize: none;
+                    }
+                }
+            }
+        }
+
+        > div:nth-child(4) {
+            margin: 10px 0;
+            @include center-of-rectangle;
+        }
+    }
+}

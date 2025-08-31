@@ -1,0 +1,18 @@
+.Header {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    background-color: white;
+    box-sizing: border-box;
+    border-bottom: 1px solid gray;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20000;
+}
+
+.Header > div {
+    height: 100%;
+    width: calc(100% / 3);
+}

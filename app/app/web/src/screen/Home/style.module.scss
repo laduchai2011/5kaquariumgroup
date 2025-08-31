@@ -1,0 +1,65 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    z-index: 10000;
+    
+    > .headerLeft {
+        width: max-content;
+        height: max-content;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 2000;
+    }
+
+    > .headerTop {
+        width: max-content;
+        height: max-content;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    > .main {
+        background-color: #eee;
+        @include center-of-column;
+        width: 100%;
+        height: 100%;
+        margin-top: 50px;
+
+        > .main1 {
+            width: 1280px;
+            background-color: white;
+
+            @include responsive(lg) {
+                width: 100%;
+            }
+
+            > .notificate {
+                box-sizing: border-box;
+                padding: 20px;
+                @include center-of-rectangle;
+
+                > div {
+                    @include center-of-row;
+
+                    > div {
+                        margin: 0 5px;
+                        user-select: none;
+                    }  
+                    
+                    > div:not(:nth-child(1)) {
+                        color: rgb(114, 114, 255);
+                        cursor: pointer;
+
+                        &:hover {
+                            color: blue;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

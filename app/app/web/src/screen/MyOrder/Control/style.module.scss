@@ -1,0 +1,41 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid gray;
+    padding: 10px;
+    @include center-of-row;
+    justify-content: flex-end;
+
+    > div {
+        @include center-of-row;
+
+        > div {
+            margin: 0 10px;
+            font-size: 1.2rem;
+            user-select: none;
+        }
+
+        > .iconContainer {
+            @include center-of-row;
+
+            > svg {
+                cursor: pointer;
+                margin: 0 10px;
+
+                &:hover {
+                    scale: 2;
+                }
+            }
+        }
+
+        > .selectContainer {
+            > select {
+                font-size: 1.2rem;
+                border: none;
+                outline: none;
+            }
+        }
+    }
+}

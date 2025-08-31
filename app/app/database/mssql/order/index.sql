@@ -1,0 +1,51 @@
+CREATE TABLE [order] (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    title NVARCHAR(255) NOT NULL,
+    image NVARCHAR(255) NOT NULL,
+    name NVARCHAR(255) NOT NULL,
+    size NVARCHAR(255) NOT NULL,
+    amount NVARCHAR(255) NOT NULL,
+    discount NVARCHAR(255) NOT NULL,
+    fishCodeInProduct NVARCHAR(255) NOT NULL,
+    price NVARCHAR(255) NOT NULL,
+    status NVARCHAR(255) NOT NULL,
+    userId INT NOT NULL,
+    productId INT NOT NULL,
+    sellerId INT NOT NULL,
+    updateTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    createTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+
+    CONSTRAINT FK_order_Users FOREIGN KEY (userId) REFERENCES account(id),
+    CONSTRAINT FK_order_Products FOREIGN KEY (productId) REFERENCES product(id),
+    CONSTRAINT FK_order_Sellers FOREIGN KEY (sellerId) REFERENCES account(id)
+);
+GO
+
+CREATE TABLE orderProcess (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    isOrder BIT NOT NULL,
+    isConfirm BIT NOT NULL,
+    confirmUser INT NOT NULL,
+    isSend BIT NOT NULL,
+    sendUser INT NOT NULL,
+    isReceive BIT NOT NULL,
+    isPay BIT NOT NULL,
+    orderId INT NOT NULL,
+    updateTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    createTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+
+    CONSTRAINT FK_orderProcess_Orders FOREIGN KEY (orderId) REFERENCES [order](id)
+)
+GO
+
+CREATE TABLE orderPaymentMethod (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    method NVARCHAR(255) NOT NULL,
+    infor NVARCHAR(MAX) NOT NULL,
+    orderId INT NOT NULL,
+	updateTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    createTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+
+    CONSTRAINT FK_orderPaymentMethod_Orders FOREIGN KEY (orderId) REFERENCES [order](id)
+)
+GO

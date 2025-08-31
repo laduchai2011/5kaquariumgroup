@@ -1,0 +1,35 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    background-color: white;
+    box-sizing: border-box;
+    border-bottom: 1px solid gray;
+    height: 50px;
+    width: 100vw;
+    @include center-of-row;
+    justify-content: space-between;
+
+    > div {
+        width: calc(100% / 3);
+        height: 100%;   
+    }
+
+    > div:nth-child(2) {
+        @include center-of-rectangle;
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+
+    > div:nth-child(3) {
+        @include center-of-row;
+        justify-content: flex-end;
+
+        > img {
+            height: 40px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+    }
+}

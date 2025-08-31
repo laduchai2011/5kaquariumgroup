@@ -1,0 +1,15 @@
+.List-main {
+    margin-top: 50px;
+    display: flex;
+    width: 100vw;
+    /* flex-direction: column; */
+    justify-content: center;
+}
+
+.List-main > div > div {
+    width: 1280px;
+    border: 1px solid gray;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-top: 20px;
+}

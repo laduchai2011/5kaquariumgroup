@@ -1,0 +1,26 @@
+.Table1-Row {
+    position: relative;
+}
+
+.Table1-Row-listCell {
+    display: flex;
+    align-items: center;
+    width: max-content;
+}
+
+.Table1-Row-cellIndex {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: aqua;
+    width: max-content;
+    height: max-content;
+    overflow: hidden;
+}
+
+.Table1-Row-option {
+    background-color: antiquewhite;
+    overflow: hidden;
+    height: 0;
+    width: 100%;
+}

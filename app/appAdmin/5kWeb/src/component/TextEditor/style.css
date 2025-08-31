@@ -1,0 +1,8 @@
+.TextEditor-controler {
+    margin: 10px 0;
+}
+
+.TextEditor-controler > button {
+    margin: 0 5px;
+    padding: 5px;
+}

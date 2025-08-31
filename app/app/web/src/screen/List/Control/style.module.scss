@@ -1,0 +1,19 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    @include center-of-row;
+    justify-content: space-between;
+
+    > .iconContainer {
+        @include center-of-row;
+
+        > svg {
+            cursor: pointer;
+            margin: 0 10px;
+
+            &:hover {
+                scale: 2;
+            }
+        }
+    }
+}

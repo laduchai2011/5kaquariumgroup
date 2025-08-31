@@ -1,0 +1,64 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    background-color: rgb(238, 238, 238);
+    
+    > div:nth-child(1) {
+        margin: 5px 0;
+        padding: 5px 0;
+        box-sizing: border-box;
+        @include center-of-row;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgb(214, 214, 214);
+        }
+
+        > div {
+            @include center-of-rectangle;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        > .index {
+            width: 50px;
+        }
+
+        > .name {
+            flex: 1;
+        }
+
+        > .size {
+            min-width: 50px;
+            width: 100px;
+        }
+
+        > .amount {
+            min-width: 50px;
+            width: 100px;
+        }
+
+        > .price {
+            min-width: 100px;
+        }
+
+        > .icon {
+            min-width: 30px;
+
+            > svg {
+                &:hover {
+                    scale: 2;
+                }
+            }
+        }
+    }
+
+    > .textEditorDisplayContainer {
+        height: 0;
+        overflow: hidden;
+
+        &.textEditorDisplayContainer_show {
+            height: max-content;
+        }
+    }
+}

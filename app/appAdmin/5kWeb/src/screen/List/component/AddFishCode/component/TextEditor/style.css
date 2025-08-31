@@ -1,0 +1,14 @@
+.TextEditor-controler {
+    margin: 10px 10;
+    display: flex;
+    align-items: center;
+}
+
+.TextEditor-controler > button {
+    margin: 0 5px;
+    padding: 5px;
+}
+
+.TextEditor-controler > div:nth-child(3) > input {
+    display: none;
+}

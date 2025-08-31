@@ -1,0 +1,41 @@
+.Home-OverView {
+    height: 200px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border-bottom: 1px solid gray;
+    display: flex;
+    align-items: center;
+}
+
+.Home-OverView > div {
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.Home-OverView > div:nth-child(1) {
+    background-color: rgb(239, 239, 255);
+}
+
+.Home-OverView > div:nth-child(2) {
+    background-color: rgb(255, 239, 239);
+}
+
+.Home-OverView > div > h3 {
+    margin: 5px 0;
+}
+
+.Home-OverView > div > div {
+    margin: 5px 0;
+    box-sizing: border-box;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.Home-OverView > div > div > div:nth-child(1) {
+    font-weight: 600;
+    width: 200px;
+}

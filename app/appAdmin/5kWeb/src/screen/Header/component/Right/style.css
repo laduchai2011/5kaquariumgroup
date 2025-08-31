@@ -1,0 +1,29 @@
+.Header_Right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+
+.Header_Right > div {
+    box-sizing: border-box;
+    padding: 0 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.Header_Right > div:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+.Header_Right > img {
+    height: 80%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+    user-select: none;
+}

@@ -1,0 +1,16 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    background-color: white;
+    box-sizing: border-box;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    column-gap: 10px;
+    row-gap: 15px;
+    width: 100%;
+    
+    > div {
+        @include center-of-rectangle;
+    }
+}

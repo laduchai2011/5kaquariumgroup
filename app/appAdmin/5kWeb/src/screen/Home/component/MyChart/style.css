@@ -1,0 +1,19 @@
+.Home-MyChart {
+    box-sizing: border-box;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid gray;
+}
+
+.Home-MyChart-compareContainer {
+    margin-top: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.Home-MyChart-compareContainer > div {
+    width: 50%;
+}
