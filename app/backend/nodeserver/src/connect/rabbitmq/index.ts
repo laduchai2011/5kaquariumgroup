@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
-import amqp, { Connection, Channel } from 'amqplib';
-import { rabbitmq_config } from '@src/config';
-import my_interface from '@src/interface';
-import { my_log } from '@src/log';
+import { Connection, Channel } from 'amqplib';
+// import { rabbitmq_config } from '@src/config';
+// import my_interface from '@src/interface';
+// import { my_log } from '@src/log';
 
 dotenv.config();
 

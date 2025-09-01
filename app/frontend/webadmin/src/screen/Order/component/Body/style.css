@@ -1,0 +1,14 @@
+.Order_Body {
+    width: 100vw;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+}
+
+.Order_Body-main {
+    margin-top: 50px;
+    width: 1280px;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 10px;
+}

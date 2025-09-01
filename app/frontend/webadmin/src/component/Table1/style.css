@@ -1,5 +1,9 @@
+.Table1 {
+    width: 100%;
+}
+
 .Table1-table {
-    width: 700px;
+    width: 100%;
     overflow: hidden;
 }
 .Table1-table > div {

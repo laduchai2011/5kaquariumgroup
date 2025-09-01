@@ -1,4 +1,4 @@
-const BASE_URL = process.env.API_URL || 'http://172.19.224.1:3006';
+import { BASE_URL } from "./baseUrl";
 
 export const ACCOUNT_API = {
     SIGNUP: `${BASE_URL}/api/service_account/mutate/signup`,

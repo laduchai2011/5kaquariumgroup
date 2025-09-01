@@ -1,0 +1,12 @@
+.Order_Control {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.Order_Control > div {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}

@@ -13,26 +13,29 @@ import service_image from './services/image';
 import service_fishCode from './services/fishCode';
 import service_product from './services/product';
 
-// import { produceTask } from './queueRedis/producer';
-// import { consumeTasks } from './queueRedis/consumer';
-// consumeTasks()
-// produceTask({ id: 1, job: "sendEmail" });
-// produceTask({ id: 2, job: "generateReport" });
+
+const NODE_ENV = process.env.NODE_ENV;
+
+const isProduct = NODE_ENV === 'production';
 
 const app: Express = express();
-const port = process.env.PORT || 3006;
+const port = isProduct ? process.env.PORT : 3006;
 
-// app.use(cors({
-//     origin: ["http://172.19.224.1:3000", "http://172.19.224.1:5173"], // domain cho phép
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true // cho phép gửi cookie, Authorization headers
-// }));
+if (NODE_ENV === 'development') {
+    app.use(cors({
+        origin: ["http://172.19.224.1:3000", "http://172.19.224.1:5173"], // domain cho phép
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+        credentials: true // cho phép gửi cookie, Authorization headers
+    }));
+} 
 
-app.use(cors({
-    origin: ["https://5kaquarium.com", "https://admin.5kaquarium.com"], // domain cho phép
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    credentials: true // cho phép gửi cookie, Authorization headers
-}));
+if (NODE_ENV === 'production') {
+    app.use(cors({
+        origin: ["https://5kaquarium.com", "https://admin.5kaquarium.com"], // domain cho phép
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+        credentials: true // cho phép gửi cookie, Authorization headers
+    }));
+}
 
 app.use(cookieParser());
 app.use(`/api`, express.json({ limit: '50mb' }));
@@ -51,5 +54,10 @@ app.use(`/api/service_product`, service_product);
 app.use('/watch1', express.static(path.join(process.cwd(), 'data', 'video', 'output', 'video.mp4')));
 
 app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
+    if (NODE_ENV === 'development') {
+        console.log(`[server]: Server is running at http://localhost:${port}`);
+    }
+    if (NODE_ENV === 'production') {
+        console.log(`[server]: Server is running at http://api.5kaquarium.com`);
+    }
 });

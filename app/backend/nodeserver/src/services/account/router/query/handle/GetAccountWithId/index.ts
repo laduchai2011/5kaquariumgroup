@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import QueryDB_Get_AccountWithId from '../../queryDB/GetAccountWithId';
 import { MyResponse } from '@src/dataStruct/response';
 import { AccountField } from '@src/dataStruct/account';
-import { verifyRefreshToken } from '@src/token';
+// import { verifyRefreshToken } from '@src/token';
 
 
 class Handle_Get_AccountWithId {
@@ -23,7 +23,7 @@ class Handle_Get_AccountWithId {
         const queryDB_get_accountWithId = new QueryDB_Get_AccountWithId();
 
         if (id !== -1) {
-            queryDB_get_accountWithId.setUserId(id)
+            queryDB_get_accountWithId.setUserId(id);
         } else {
             myResponse.message = 'Id người dùng không chính xác !';
             return res.status(500).json(myResponse);

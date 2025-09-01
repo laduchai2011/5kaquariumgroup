@@ -1,4 +1,4 @@
-const BASE_URL = process.env.API_URL || 'http://172.19.224.1:3006';
+import { BASE_URL } from "./baseUrl";
 
 export const ORDER_API = {
     GET_MY_ORDERS: `${BASE_URL}/api/service_order/query/getMyOrders`,

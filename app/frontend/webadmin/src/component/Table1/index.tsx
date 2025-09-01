@@ -148,7 +148,6 @@ const Table1: React.FC = () => {
     return (
         <Context.Provider value={context_value}>
             <div className="Table1">
-                <div>Table1</div>
                 <div className="Table1-table" ref={table_element}>
                     <div>
                         <Row />

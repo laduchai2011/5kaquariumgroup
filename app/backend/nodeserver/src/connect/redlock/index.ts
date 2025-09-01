@@ -4,9 +4,12 @@ import {
     // type Lock 
 } from 'redlock';
 import Redis from 'ioredis';
+import { redis_config } from '@src/config';
+
+
 
 // Base Redis URL
-const baseURL_shopm: string = `redis://${process.env.REDIS_SERVER_HOST}:${process.env.REDIS_SERVER_PORT}` || 'redis://192.168.5.100:6379';
+const baseURL_shopm: string = `redis://${redis_config?.host}:${redis_config?.port}`;
 
 // Tạo Redis client
 const redis = new Redis(baseURL_shopm);

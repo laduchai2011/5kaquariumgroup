@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://172.19.224.1:3006';
+import { BASE_URL } from "./baseUrl";
 
 export const IMAGE_API = {
     GET_IMAGE: `${BASE_URL}/api/service_image/query/image`,
