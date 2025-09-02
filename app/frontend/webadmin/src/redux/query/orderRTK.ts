@@ -14,7 +14,7 @@ export const orderRTK = createApi({
     }),
     tagTypes: ['Order'],
     endpoints: (builder) => ({
-        getOrdersWithFilter: builder.mutation<MyResponse<PagedOrderField>, OrderFilterField>({
+        getOrdersWithFilter: builder.query<MyResponse<PagedOrderField>, OrderFilterField>({
             query: (body) => ({
                 url: ORDER_API.GET_ORDERS_WITH_FILTER,
                 method: 'POST',
@@ -25,5 +25,5 @@ export const orderRTK = createApi({
 });
 
 export const { 
-    useGetOrdersWithFilterMutation
+    useGetOrdersWithFilterQuery
 } = orderRTK;

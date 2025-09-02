@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './style.css';
 import { TfiArrowLeft, TfiArrowRight  } from "react-icons/tfi";
 import { OrderContext } from '@src/screen/Order/context';
@@ -10,12 +10,36 @@ const Control: React.FC = () => {
     if (!orderContext) {
         throw new Error("orderContext in Control component cant undefined !");
     }
-
     const {
         orderFilter,
         setOrderFilter,
         totalCount
     } = orderContext;
+
+    const [orderStatus, setOrderStatus] = useState<string>('all')
+
+    useEffect(() => {
+        const handleValueOrderStatus = () => {
+            const orderFilter_cp = {...orderFilter};
+            const orderProcess_cp = {...orderFilter_cp.orderProcess};
+            if (orderFilter_cp.isOrderProcess === false) {
+                setOrderStatus('all')
+            } else {
+                if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === false && orderProcess_cp.isSend === false && orderProcess_cp.isReceive === false) {
+                    setOrderStatus('order')
+                } else if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === true && orderProcess_cp.isSend === false && orderProcess_cp.isReceive === false) {
+                    setOrderStatus('confirm')
+                } else if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === true && orderProcess_cp.isSend === true && orderProcess_cp.isReceive === false) {
+                    setOrderStatus('send')
+                } else if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === true && orderProcess_cp.isSend === true && orderProcess_cp.isReceive === true) {
+                    setOrderStatus('receive')
+                } else {
+                    setOrderStatus('all')
+                }
+            }
+        }   
+        handleValueOrderStatus()
+    }, [orderFilter])
 
     const handleNextPage = () => {
         const orderFilter_cp = {...orderFilter}
@@ -100,27 +124,10 @@ const Control: React.FC = () => {
         }
 
         orderFilter_cp.orderProcess = orderProcess_cp;
+        setOrderFilter(orderFilter_cp);
     }
 
-    const handleValueOrderStatus = (): string => {
-        const orderFilter_cp = {...orderFilter};
-        const orderProcess_cp = {...orderFilter_cp.orderProcess};
-        if (orderFilter_cp.isOrderProcess === false) {
-            return 'all'
-        } else {
-            if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === false && orderProcess_cp.isSend === false && orderProcess_cp.isReceive === false) {
-                return 'order'
-            } else if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === true && orderProcess_cp.isSend === false && orderProcess_cp.isReceive === false) {
-                return 'confirm'
-            } else if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === true && orderProcess_cp.isSend === true && orderProcess_cp.isReceive === false) {
-                return 'send'
-            } else if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === true && orderProcess_cp.isSend === true && orderProcess_cp.isReceive === true) {
-                return 'receive'
-            }
-            return 'all'
-        }
-         
-    }
+    
 
     return (
         <div className="Order_Control">
@@ -135,7 +142,7 @@ const Control: React.FC = () => {
             <div>
                 <div>Trạng thái đơn hàng</div>
                 <div>
-                    <select defaultValue={handleValueOrderStatus()} onChange={(e) => handleSelectOrderStatus(e)} required>
+                    <select value={orderStatus} onChange={(e) => handleSelectOrderStatus(e)} required>
                         <option value="all">Tất cả</option>
                         <option value="order">Đã mua</option>
                         <option value="confirm">Đã được xác nhận</option>

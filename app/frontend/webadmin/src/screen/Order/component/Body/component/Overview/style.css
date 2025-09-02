@@ -28,14 +28,14 @@
     background-color: red;
     color: white;
     border-radius: 50%;
-    width: max-content;
+    width: 20px;
     aspect-ratio: 1 / 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.8rem;
     box-sizing: border-box;
-    padding: 3px;
+    padding: 1px;
 }
 
 .Order_Overview > div:nth-child(1) {

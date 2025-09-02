@@ -40,10 +40,10 @@ class Handle_GetOrdersWithFilter {
                 myResponse.data = {items: rows, totalCount: result.recordsets[1][0].totalCount};
                 myResponse.message = 'Lấy đơn hàng thành công !';
                 myResponse.isSuccess = true;
-                return res.json(myResponse);
+                return res.status(200).json(myResponse);
             } else {
                 myResponse.message = 'Lấy đơn hàng KHÔNG thành công 1 !';
-                return res.status(500).json(myResponse);
+                return res.status(204).json(myResponse);
             }
         } catch (error) {
             myResponse.message = 'Lấy đơn hàng KHÔNG thành công 2 !';

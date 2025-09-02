@@ -8,7 +8,7 @@ import type { MessageDataInterface } from '@src/component/MessageDialog/type';
 import MainLoading from '@src/component/MainLoading';
 import MessageDialog from '@src/component/MessageDialog';
 import type { OrderFilterField, OrderField } from '@src/dataStruct/order';
-import { useGetOrdersWithFilterMutation } from '@src/redux/query/orderRTK';
+import { useGetOrdersWithFilterQuery } from '@src/redux/query/orderRTK';
 
 
 
@@ -38,21 +38,31 @@ const Order: React.FC = () => {
     })
     const [orders, setOrders] = useState<OrderField[]>([])
     const [totalCount, setTotalCount] = useState<number>(10);
-    const [getOrdersWithFilter] = useGetOrdersWithFilterMutation()
 
+    const {
+        data: data_orders, 
+        // isFetching, 
+        isLoading: isLoading_orders,
+        isError: isError_orders, 
+        error: error_orders
+    } = useGetOrdersWithFilterQuery(orderFilter);
     useEffect(() => {
-        setIsLoading(true);
-        getOrdersWithFilter(orderFilter)
-        .then(res => {
-            if (res.data?.isSuccess && res.data.data) {
-                setTotalCount(res.data.data?.totalCount);
-                setOrders(res.data.data?.items);
-            }
-        })
-        .catch(err => console.error(err))
-        .finally(() => setIsLoading(false))
-    }, [orderFilter, getOrdersWithFilter])
-
+        if (isError_orders && error_orders) {
+            console.error(error_orders);
+        }
+    }, [isError_orders, error_orders])
+    useEffect(() => {
+        setIsLoading(isLoading_orders);
+    }, [isLoading_orders])
+    useEffect(() => {
+        if (data_orders?.isSuccess && data_orders.data) {
+            setTotalCount(data_orders.data.totalCount);
+            setOrders(data_orders.data.items);
+        } else {
+            setTotalCount(0);
+            setOrders([]);
+        }
+    }, [data_orders]) 
 
     const handleCloseMessage = () => {
         setMessage({...message, message: ''})
