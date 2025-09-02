@@ -57,5 +57,7 @@ export interface PagedOrderField {
 export interface OrderFilterField {
     page: number,
     size: number,
+    sellerId: number,
+    isOrderProcess: boolean,
     orderProcess: OrderProcessField;
 }

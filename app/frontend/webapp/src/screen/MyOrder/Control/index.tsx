@@ -61,8 +61,10 @@ const Control = () => {
                 <div className={style.selectContainer}>
                     <select>
                         <option value="all">Tất cả</option>
-                        <option value="cat">Đã mua</option>
-                        <option value="hamster">Đã nhận</option>
+                        <option value="rder">Đã mua</option>
+                        <option value="confirm">Đã được xác nhận</option>
+                        <option value="send">Đã gửi</option>
+                        <option value="receive">Đã nhận</option>
                     </select>
                 </div>
             </div>

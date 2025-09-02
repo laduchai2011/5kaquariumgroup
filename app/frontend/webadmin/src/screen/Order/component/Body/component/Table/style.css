@@ -1,0 +1,75 @@
+.Order_Table {
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    
+}
+
+.Order_Table > div {
+    overflow-x: scroll;
+}
+
+.Order_Table-row {
+    display: flex;
+    align-items: center;
+    width: max-content;
+}
+
+.Order_Table-row-header {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.Order_Table-row > div {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: max-content;
+}
+
+.Order_Table-row-index {
+    width: 50px;
+}
+
+.Order_Table-row-image {
+    width: 100px;
+}
+
+.Order_Table-row-name {
+    width: 100px;
+}
+
+.Order_Table-row-size {
+    width: 50px;
+}
+
+.Order_Table-row-amount {
+    width: 50px;
+}
+
+.Order_Table-row-fishCodeInProduct {
+    width: 100px;
+}
+
+.Order_Table-row-fishAmount {
+    width: 50px;
+}
+
+.Order_Table-row-money {
+    width: 100px;
+}
+
+.Order_Table-row-seller {
+    width: 150px;
+}
+
+.Order_Table-row-customer {
+    width: 150px;
+}
+
+.Order_Table-row-title {
+    width: 500px;
+}

@@ -226,6 +226,7 @@ const Product = () => {
                 id: -1,
                 method: 'cash',
                 infor: '',
+                isPay: false,
                 orderId: -1,
                 updateTime: '',
                 createTime: ''

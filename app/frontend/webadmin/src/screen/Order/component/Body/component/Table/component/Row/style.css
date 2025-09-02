@@ -1,0 +1,71 @@
+.Order_Table_Row {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    border-bottom: 1px solid gray;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+.Order_Table_Row:hover {
+    background-color: rgb(228, 228, 228);
+}
+
+.Order_Table_Row > div {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: max-content;
+}
+
+.Order_Table_Row-index {
+    width: 50px;
+}
+
+.Order_Table_Row-image {
+    width: 100px;
+}
+
+.Order_Table_Row-image > img {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.Order_Table_Row-name {
+    width: 100px;
+}
+
+.Order_Table_Row-size {
+    width: 50px;
+}
+
+.Order_Table_Row-amount {
+    width: 50px;
+}
+
+.Order_Table_Row-fishCodeInProduct {
+    width: 100px;
+}
+
+.Order_Table_Row-fishAmount {
+    width: 50px;
+}
+
+.Order_Table_Row-money {
+    width: 100px;
+}
+
+.Order_Table_Row-seller {
+    width: 150px;
+}
+
+.Order_Table_Row-customer {
+    width: 150px;
+}
+
+.Order_Table_Row-title {
+    width: 500px;
+}

@@ -20,6 +20,8 @@ class Handle_GetOrdersWithFilter {
             isSuccess: false
         };
 
+        await this._mssql_server.init()
+
         const mutateDB_getOrdersWithFilter = new MutateDB_GetOrdersWithFilter();
         mutateDB_getOrdersWithFilter.setOrderFilter(orderFilterField)
 

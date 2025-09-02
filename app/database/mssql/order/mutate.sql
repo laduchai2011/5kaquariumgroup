@@ -90,6 +90,7 @@ GO
 ALTER PROCEDURE GetOrdersWithFilter
     @page INT,
     @size INT,
+	@sellerId INT, 
 	@isOrder BIT,
 	@isConfirm BIT,
 	@isSend BIT,
@@ -104,6 +105,7 @@ BEGIN
 		INNER JOIN	
 			dbo.orderProcess AS op ON o.id = op.orderId
 		WHERE status = 'normal' 
+			AND (@sellerId = -1 OR o.sellerId = @sellerId) 
 			AND (@isOrder IS NULL OR op.isOrder = @isOrder) 
 			AND (@isConfirm IS NULL OR op.isConfirm = @isConfirm) 
 			AND (@isSend IS NULL OR op.isSend = @isSend) 
@@ -119,9 +121,24 @@ BEGIN
 		INNER JOIN	
 			dbo.orderProcess AS op ON o.id = op.orderId
 		WHERE status = 'normal' 
+			AND (@sellerId = -1 OR o.sellerId = @sellerId) 
 			AND (@isOrder IS NULL OR op.isOrder = @isOrder) 
 			AND (@isConfirm IS NULL OR op.isConfirm = @isConfirm) 
 			AND (@isSend IS NULL OR op.isSend = @isSend) 
 			AND (@isReceive IS NULL OR op.isReceive = @isReceive)
 END
 GO
+
+SELECT COUNT(*) FROM dbo.[order] WHERE status = 'normal';
+
+EXEC GetOrdersWithFilter 
+    @page = 1,
+    @size = 10,
+    @sellerId = -1,
+    @isOrder = NULL,
+    @isConfirm = NULL,
+    @isSend = NULL,
+    @isReceive = NULL;
+
+
+DELETE FROM dbo.[order]

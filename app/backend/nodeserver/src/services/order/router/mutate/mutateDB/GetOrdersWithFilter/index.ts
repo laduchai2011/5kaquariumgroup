@@ -32,14 +32,26 @@ class MutateDB_GetOrdersWithFilter extends MutateDB {
     async run(): Promise<OrderQueryResult | void> {
         if (this._connectionPool !== undefined && this._orderFilter !== undefined) {
             try {
+                const isOrderProcess = this._orderFilter.isOrderProcess
+                let isOrder: boolean | null = null;
+                let isConfirm: boolean | null = null;
+                let isSend: boolean | null = null;
+                let isReceive: boolean | null = null;
+                if (isOrderProcess) {
+                    isOrder = this._orderFilter.orderProcess.isOrder;
+                    isConfirm = this._orderFilter.orderProcess.isConfirm;
+                    isSend = this._orderFilter.orderProcess.isSend;
+                    isReceive = this._orderFilter.orderProcess.isReceive;
+                }
                 const result = await this._connectionPool
                     .request()
                     .input("page", sql.Int, this._orderFilter.page)
                     .input("size", sql.Int, this._orderFilter.size)
-                    .input("isOrder", sql.Bit, this._orderFilter.orderProcess.isOrder)
-                    .input("isConfirm", sql.Bit, this._orderFilter.orderProcess.isConfirm)
-                    .input("isSend", sql.Bit, this._orderFilter.orderProcess.isSend)
-                    .input("isReceive", sql.Bit, this._orderFilter.orderProcess.isReceive)
+                    .input("sellerId", sql.Int, this._orderFilter.sellerId)
+                    .input("isOrder", sql.Bit, isOrder)
+                    .input("isConfirm", sql.Bit, isConfirm)
+                    .input("isSend", sql.Bit, isSend)
+                    .input("isReceive", sql.Bit, isReceive)
                     .execute('GetOrdersWithFilter');
                 
                 return result as unknown as OrderQueryResult;

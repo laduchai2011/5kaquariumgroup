@@ -42,6 +42,7 @@ class MutateDB_AddOrderWithTransaction extends MutateDB {
                     .input("sellerId", sql.Numeric, this._newOrder.sellerId)
                     .input("paymentMethod", sql.NVarChar(255), this._newOrderPaymentMethod.method)
                     .input("paymentInfo", sql.NVarChar(sql.MAX), this._newOrderPaymentMethod.infor)
+                    .input("isPay", sql.Bit, this._newOrderPaymentMethod.isPay)
                     .execute('AddOrderWithTransaction');
                 
                 return result
