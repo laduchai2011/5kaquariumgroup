@@ -20,31 +20,31 @@ class Handle_Get_AProductWithId {
 
         const id = parseInt(req.query.id) || -1;
 
-        const { refreshToken } = req.cookies;
+        // const { refreshToken } = req.cookies;
              
-        if (typeof refreshToken === 'string') {
-            const verify_refreshToken = verifyRefreshToken(refreshToken);
+        // if (typeof refreshToken === 'string') {
+        //     const verify_refreshToken = verifyRefreshToken(refreshToken);
 
-            if (verify_refreshToken === "invalid") {
-                myResponse.message = "Refresh-Token không hợp lệ, hãy đăng nhập lại !"
-                return res.status(500).json(myResponse);
-            }
+        //     if (verify_refreshToken === "invalid") {
+        //         myResponse.message = "Refresh-Token không hợp lệ, hãy đăng nhập lại !"
+        //         return res.status(500).json(myResponse);
+        //     }
 
-            if (verify_refreshToken === "expired") {
-                myResponse.message = "Refresh-Token hết hạn, hãy đăng nhập lại !"
-                return res.status(500).json(myResponse);
-            }
+        //     if (verify_refreshToken === "expired") {
+        //         myResponse.message = "Refresh-Token hết hạn, hãy đăng nhập lại !"
+        //         return res.status(500).json(myResponse);
+        //     }
 
-            // if (verify_refreshToken && verify_refreshToken.id) {
-            //    userId = verify_refreshToken.id;
-            // } else {
-            //     myResponse.isSignin = false;
-            //     return res.status(500).json(myResponse);
-            // }
-        } else {
-            myResponse.isSignin = false;
-            return res.status(500).json(myResponse);
-        }
+        //     // if (verify_refreshToken && verify_refreshToken.id) {
+        //     //    userId = verify_refreshToken.id;
+        //     // } else {
+        //     //     myResponse.isSignin = false;
+        //     //     return res.status(500).json(myResponse);
+        //     // }
+        // } else {
+        //     myResponse.isSignin = false;
+        //     return res.status(500).json(myResponse);
+        // }
 
         const queryDB_get_aProductWithId = new QueryDB_Get_AProductWithId();
 
@@ -72,7 +72,7 @@ class Handle_Get_AProductWithId {
         } else {
             myResponse.message = 'Không có dữ liệu nào được tìm thấy !';
             myResponse.isSuccess = true;
-            return res.json(myResponse);
+            return res.status(204).json(myResponse);
         }
     };
 }

@@ -49,3 +49,17 @@ CREATE TABLE orderPaymentMethod (
     CONSTRAINT FK_orderPaymentMethod_Orders FOREIGN KEY (orderId) REFERENCES [order](id)
 )
 GO
+
+CREATE TABLE orderContact (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(100) NOT NULL,
+    phone NVARCHAR(15) NOT NULL,
+	address NVARCHAR(255) NOT NULL,
+	contactId INT NOT NULL,
+    orderId INT NOT NULL,
+	updateTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    createTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+
+    CONSTRAINT FK_orderContact_Orders FOREIGN KEY (orderId) REFERENCES [order](id)
+)
+GO

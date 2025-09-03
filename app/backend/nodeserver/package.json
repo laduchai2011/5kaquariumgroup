@@ -22,6 +22,7 @@
         "dotenv": "^16.4.7",
         "express": "^4.21.2",
         "ffmpeg-static": "^5.2.0",
+        "firebase-admin": "^13.5.0",
         "ioredis": "^5.6.1",
         "jsonwebtoken": "^9.0.2",
         "msnodesqlv8": "^4.5.0",

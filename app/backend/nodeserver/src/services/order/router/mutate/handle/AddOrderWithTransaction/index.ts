@@ -60,6 +60,7 @@ class Handle_AddOrderWithTransaction {
         const mutateDB_addOrderWithTransaction = new MutateDB_AddOrderWithTransaction();
         mutateDB_addOrderWithTransaction.set_newOrder(newAddOrderBody.order);
         mutateDB_addOrderWithTransaction.set_newOrderPaymentMethod(newAddOrderBody.paymentMethod);
+        mutateDB_addOrderWithTransaction.set_newOrderContact(newAddOrderBody.orderContact)
 
         const connection_pool = this._mssql_server.get_connectionPool();
         if (connection_pool) {
@@ -80,7 +81,7 @@ class Handle_AddOrderWithTransaction {
                 return res.json(myResponse);
             } else {
                 myResponse.message = 'Đặt hàng KHÔNG thành công !';
-                return res.status(500).json(myResponse);
+                return res.status(204).json(myResponse);
             }
         } catch (error) {
             myResponse.message = 'Đặt hàng KHÔNG thành công !';

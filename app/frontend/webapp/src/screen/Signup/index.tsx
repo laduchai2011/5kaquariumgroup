@@ -10,8 +10,14 @@ import {
     isValidPhoneNumber 
 } from '@src/utility/string';
 import axiosInstance from '@src/api/axiosInstance';
+import { authFirebase } from '@src/firebaseConfig';
+import { signInWithPhoneNumber, RecaptchaVerifier, ConfirmationResult  } from "firebase/auth";
 
-
+declare global {
+    interface Window {
+        recaptchaVerifier: RecaptchaVerifier;
+    }
+}
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -33,7 +39,10 @@ const Signup = () => {
     const [firstNameWarn, setFirstNameWarn] = useState<string>('');
     const [lastNameWarn, setLastNameWarn] = useState<string>('');
     const [myRes, setMyRes] = useState<MyResponse<AccountField> | undefined>(undefined);
-    
+    const [otp, setOtp] = useState("");
+    const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
+
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
         const value = e.target.value;
         checkString(value, field);
@@ -65,6 +74,28 @@ const Signup = () => {
         } 
     }
 
+    const setupRecaptcha = () => {
+        if (!window.recaptchaVerifier) {
+            window.recaptchaVerifier = new RecaptchaVerifier(
+                authFirebase,
+                "recaptcha-container",
+                { size: "invisible" }
+            );
+        }
+        return window.recaptchaVerifier;
+    };
+
+    const sendOtp = async () => {
+        try {
+            const appVerifier = setupRecaptcha();
+            const result = await signInWithPhoneNumber(authFirebase, "+84789860854", appVerifier);
+            setConfirmationResult(result);
+            alert("OTP sent!");
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const handleSignup = () => {
        signin()
     }
@@ -94,7 +125,7 @@ const Signup = () => {
                 }
                 break;
             }
-            case 'passward': {
+            case 'password': {
                 if (isSpace(str)) {
                     setPasswordWarn('Không được có khoảng trắng !');
                 } else if (containsSpecialCharacters(str)) {
@@ -214,6 +245,8 @@ const Signup = () => {
                         <div onClick={() => goToSignin()}>Đăng nhập</div>
                         {<div style={{ color: myRes?.isSuccess ? 'blue' : 'red' }}>{myRes?.message}</div>}
                     </div>
+                    <div onClick={() => sendOtp()}>sendOtp</div>
+                    <div id="recaptcha-container"></div>
                 </div>
             </div>
         </div>

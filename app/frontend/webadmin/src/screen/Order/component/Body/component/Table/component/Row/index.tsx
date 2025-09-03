@@ -70,6 +70,7 @@ const Row: React.FC<{data: OrderField, index: number}> = ({data, index}) => {
             <div className='Order_Table_Row-fishCodeInProduct'>{data.fishCodeInProduct}</div>
             <div className='Order_Table_Row-fishAmount'>{fishAmount}</div>
             <div className='Order_Table_Row-money'>{money}</div>
+            <div className='Order_Table_Row-isPay'>Chưa thanh toán</div>
             <div className='Order_Table_Row-seller'>{`${seller?.firstName} ${seller?.lastName}`}</div>
             <div className='Order_Table_Row-customer'>{`${customer?.firstName} ${customer?.lastName}`}</div>
             <div className='Order_Table_Row-title'>{data.title}</div>

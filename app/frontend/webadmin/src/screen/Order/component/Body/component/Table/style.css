@@ -62,6 +62,10 @@
     width: 100px;
 }
 
+.Order_Table-row-isPay {
+    width: 100px;
+}
+
 .Order_Table-row-seller {
     width: 150px;
 }

@@ -10,7 +10,7 @@ import { useGetAFishCodeWithIdQuery } from '@src/redux/query/fishCodeRTK';
 import { useGetAccountWithIdQuery } from '@src/redux/query/accountRTK';
 import { ProductField } from '@src/dataStruct/product';
 import { FishCodeField } from '@src/dataStruct/fishCode';
-import { OrderField, AddOrderBody } from '@src/dataStruct/order';
+import { OrderField, AddOrderBody, OrderContactField } from '@src/dataStruct/order';
 import MainLoading from '@src/component/MainLoading';
 import MessageDialog from '@src/component/MessageDialog';
 import { MessageDataInterface } from '@src/component/MessageDialog/type';
@@ -18,6 +18,7 @@ import TextEditorDisplay from '@src/component/TextEditorDisplay';
 import { useAddOrderWithTransactionMutation } from '@src/redux/query/orderRTK';
 import { isNumber } from '@src/utility/string';
 import { AccountField } from '@src/dataStruct/account';
+import { getCookie } from '@src/utility/cookie';
 
 
 
@@ -55,6 +56,7 @@ const Product = () => {
         updateTime: '',
         createTime: '',
     });
+    const [contact, setContact] = useState<OrderContactField | undefined>(undefined)
 
     const {
         data: data_product, 
@@ -106,7 +108,7 @@ const Product = () => {
         if (isError_fishCode && error_fishCode) {
             console.error(error_fishCode);
             setMessage({
-                message: 'Sản phầm không được tìm thấy !',
+                message: 'Mã cá không được tìm thấy !',
                 type: 'error'
             })
         }
@@ -219,39 +221,72 @@ const Product = () => {
         setSellerId(value.trim())
     }
 
-    const handleAddOrder = () => {
-        const orderBody: AddOrderBody = {
-            order: order,
-            paymentMethod: {
+    useEffect(() => {
+        const _selectedContactCookie = getCookie('selectedContact');
+        if (_selectedContactCookie) {
+            const _selectedContact = JSON.parse(_selectedContactCookie) as OrderContactField
+            setContact({
                 id: -1,
-                method: 'cash',
-                infor: '',
-                isPay: false,
+                name: _selectedContact.name,
+                phone: _selectedContact.phone,
+                address: _selectedContact.address,
+                contactId: _selectedContact.id,
                 orderId: -1,
                 updateTime: '',
                 createTime: ''
-            }
+            })
         }
-        setIsLoading(true);
-        addOrderWithTransaction(orderBody)
-        .then(res => {
-            if (res.data?.isSuccess) {
+    }, [])
+
+    const handleAddOrder = () => {
+        const myId = sessionStorage.getItem("myId");
+        if (myId) {
+            if (contact) {
+                const orderBody: AddOrderBody = {
+                order: order,
+                paymentMethod: {
+                    id: -1,
+                    method: 'cash',
+                        infor: '',
+                        isPay: false,
+                        orderId: -1,
+                        updateTime: '',
+                        createTime: ''
+                    },
+                    orderContact: contact
+                }
+                setIsLoading(true);
+                addOrderWithTransaction(orderBody)
+                .then(res => {
+                    if (res.data?.isSuccess) {
+                        setMessage({
+                            message: 'Bạn đã đặt hàng, hãy theo dõi đơn hàng của bạn !',
+                            type: 'success'
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.error(err)
+                    setMessage({
+                        message: 'Đặt hàng thất bại !',
+                        type: 'error'
+                    })
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                })
+            } else {
                 setMessage({
-                    message: 'Bạn đã đặt hàng, hãy theo dõi đơn hàng của bạn !',
-                    type: 'success'
+                    message: 'Bạn cần thiết lập liên hệ trước khi đặt hàng !',
+                    type: 'error'
                 })
             }
-        })
-        .catch(err => {
-            console.error(err)
+        } else {
             setMessage({
-                message: 'Đặt hàng thất bại !',
+                message: 'Bạn cần đăng nhập trước khi đặt hàng !',
                 type: 'error'
             })
-        })
-        .finally(() => {
-            setIsLoading(false);
-        })
+        }  
     }
 
     return (

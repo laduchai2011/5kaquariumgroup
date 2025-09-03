@@ -140,6 +140,14 @@ const Control: React.FC = () => {
                 </div>
             </div>
             <div>
+                <div>Người mua</div>
+                <div>
+                    <select>
+                        <option value="all">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+            <div>
                 <div>Trạng thái đơn hàng</div>
                 <div>
                     <select value={orderStatus} onChange={(e) => handleSelectOrderStatus(e)} required>

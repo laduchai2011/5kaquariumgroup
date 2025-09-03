@@ -44,9 +44,21 @@ export interface OrderPaymentMethodField {
     createTime: string;
 }
 
+export interface OrderContactField {
+    id: number;
+    name: string;
+    phone: string;
+    address: string;
+    contactId: number;
+    orderId: number;
+    updateTime: string;
+    createTime: string;
+}
+
 export type AddOrderBody = {
     order: OrderField, 
-    paymentMethod: OrderPaymentMethodField
+    paymentMethod: OrderPaymentMethodField,
+    orderContact: OrderContactField
 }
 
 export interface PagedOrderField {

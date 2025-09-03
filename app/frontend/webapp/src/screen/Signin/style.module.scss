@@ -36,6 +36,18 @@
             > div:nth-child(3) {
                 @include center-of-rectangle;
             } 
+
+            > div:nth-child(4) {
+                @include center-of-rectangle;
+                cursor: pointer;
+                color: blue;
+                user-select: none;
+                font-size: 0.9rem;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
     }
 }

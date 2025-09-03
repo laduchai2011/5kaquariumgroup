@@ -71,7 +71,7 @@ class Handle_AddProduct {
                 return res.json(myResponse);
             } else {
                 myResponse.message = 'Thêm sản phẩm KHÔNG thành công !';
-                return res.status(500).json(myResponse);
+                return res.status(204).json(myResponse);
             }
         } catch (error) {
             myResponse.message = 'Thêm sản phẩm KHÔNG thành công !';

@@ -35,7 +35,11 @@ ALTER PROCEDURE AddOrderWithTransaction
 	@sellerId INT,
 	@paymentMethod NVARCHAR(255),
 	@paymentInfo NVARCHAR(MAX),
-	@isPay BIT
+	@isPay BIT,
+	@myName NVARCHAR(100),
+	@myPhone NVARCHAR(15),
+	@address NVARCHAR(255),
+	@contactId INT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -58,6 +62,10 @@ BEGIN
         -- Thêm orderPaymentMethod
         INSERT INTO orderPaymentMethod (method, infor, isPay, orderId)
         VALUES (@paymentMethod, @paymentInfo, @isPay, @NewOrderId);
+
+		 -- Thêm orderContact
+        INSERT INTO orderContact (name, phone, address, contactId, orderId)
+        VALUES (@myName, @myPhone, @address, @contactId, @NewOrderId);
 
 		SELECT * FROM dbo.[order] WHERE id = @NewOrderId;
 
@@ -141,4 +149,8 @@ EXEC GetOrdersWithFilter
     @isReceive = NULL;
 
 
+
+
+DELETE FROM dbo.orderPaymentMethod
+DELETE FROM dbo.orderProcess
 DELETE FROM dbo.[order]

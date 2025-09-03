@@ -58,6 +58,10 @@ const Signin = () => {
         }
     }
 
+    const goToSignup = () => {
+        navigate('/signup')
+    }
+
     if (isLoading) {
         return <NormalLoading />
     }
@@ -77,6 +81,7 @@ const Signin = () => {
                     <div>
                         <button onClick={() => handleSignin()}>{ SIGNIN }</button>
                     </div>
+                    <div onClick={() => goToSignup()}>Đăng ký</div>
                 </div>
             </div>
         </div>

@@ -14,7 +14,9 @@ export const productRTK = createApi({
         getAProductWithId: builder.query<ProductField, {id: string}>({
             query: ({id}) => `${PRODUCT_API.GET_APRODUCT_WITH_ID}?id=${id}`,
             transformResponse: (response: MyResponse<ProductField>): ProductField => {
-                if (!response.data) throw new Error('No account data (getAProductWithId)');
+                if (!response.data) {
+                    throw new Error('No account data (getAProductWithId)')
+                };
                 return response.data;
             }
         }),

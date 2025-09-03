@@ -26,7 +26,7 @@ class MutateDB_AddContact extends MutateDB {
                     .request()
                     .input("name", sql.NVarChar(100), this._newContact.name)
                     .input("phone", sql.NVarChar(15), this._newContact.phone)
-                    .input("address", sql.NVarChar(100), this._newContact.address)
+                    .input("address", sql.NVarChar(255), this._newContact.address)
                     .input("userId", sql.Numeric, this._newContact.userId)
                     .execute<ContactField>('AddContact');
                 
