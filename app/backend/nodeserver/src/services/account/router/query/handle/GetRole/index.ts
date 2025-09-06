@@ -72,7 +72,7 @@ class Handle_Get_Role {
         } else {
             myResponse.message = 'Không có dữ liệu nào được tìm thấy !';
             myResponse.isSuccess = true;
-            return res.json(myResponse);
+            return res.status(204).json(myResponse);
         }
     };
 }

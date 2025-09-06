@@ -65,8 +65,13 @@ const AddFishCode: React.FC = () => {
     }
 
     const handleAdd = async () => {
+        const fishCodeField_cp = {...fishCodeField}
+        fishCodeField_cp.name = fishCodeField_cp.name.trim()
+        fishCodeField_cp.size = fishCodeField_cp.size.trim()
+        fishCodeField_cp.amount = fishCodeField_cp.amount.trim()
+        fishCodeField_cp.price = fishCodeField_cp.price.trim()
         setIsLoading(true);
-        addFishCode(fishCodeField)
+        addFishCode(fishCodeField_cp)
         .then(res => {
             console.log('addFishCode', res)
             if (res.data?.isSuccess) {

@@ -1,4 +1,33 @@
+// export interface OrderField {
+//     id: number;
+//     title: string;
+//     image: string;
+//     name: string;
+//     size: string;
+//     amount: string;
+//     discount: string;
+//     fishCodeInProduct: string;
+//     price: string;
+//     status: string;
+//     userId: number;
+//     productId: number;
+//     sellerId: number;
+//     updateTime: string;
+//     createTime: string;
+// }
+
 export interface OrderField {
+    id: number;
+    label: string;
+    total: string;
+    note: string;
+    status: string;
+    userId: number;
+    updateTime: string;
+    createTime: string;
+}
+
+export interface OrderProductField {
     id: number;
     title: string;
     image: string;
@@ -9,12 +38,13 @@ export interface OrderField {
     fishCodeInProduct: string;
     price: string;
     status: string;
-    userId: number;
+    orderId: number;
     productId: number;
-    sellerId: number;
+    sellerId: number | null;
     updateTime: string;
     createTime: string;
 }
+
 
 export interface PagedOrderField {
     items: OrderField[],
@@ -44,6 +74,16 @@ export interface OrderPaymentMethodField {
     createTime: string;
 }
 
+export interface OrderPaymentField {
+    id: number;
+    method: string;
+    infor: string;
+    isPay: boolean;
+    orderId: number;
+    updateTime: string;
+    createTime: string;
+}
+
 export interface OrderContactField {
     id: number;
     name: string;
@@ -53,6 +93,20 @@ export interface OrderContactField {
     orderId: number;
     updateTime: string;
     createTime: string;
+}
+
+export type BuyNowBodyType = {
+    order: OrderField, 
+    product: OrderProductField,
+    payment: OrderPaymentField,
+    contact: OrderContactField
+}
+
+export type AddToNewCartBodyType = {
+    order: OrderField, 
+    product: OrderProductField,
+    payment: OrderPaymentField,
+    contact: OrderContactField
 }
 
 export type AddOrderBody = {

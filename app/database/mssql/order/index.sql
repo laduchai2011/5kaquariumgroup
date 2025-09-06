@@ -1,5 +1,42 @@
+-- CREATE TABLE [order] (
+--     id INT PRIMARY KEY IDENTITY(1,1),
+--     title NVARCHAR(255) NOT NULL,
+--     image NVARCHAR(255) NOT NULL,
+--     name NVARCHAR(255) NOT NULL,
+--     size NVARCHAR(255) NOT NULL,
+--     amount NVARCHAR(255) NOT NULL,
+--     discount NVARCHAR(255) NOT NULL,
+--     fishCodeInProduct NVARCHAR(255) NOT NULL,
+--     price NVARCHAR(255) NOT NULL,
+--     status NVARCHAR(255) NOT NULL,
+--     userId INT NOT NULL,
+--     productId INT NOT NULL,
+--     sellerId INT NOT NULL,
+--     updateTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+--     createTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+
+--     CONSTRAINT FK_order_Users FOREIGN KEY (userId) REFERENCES account(id),
+--     CONSTRAINT FK_order_Products FOREIGN KEY (productId) REFERENCES product(id),
+--     CONSTRAINT FK_order_Sellers FOREIGN KEY (sellerId) REFERENCES account(id)
+-- );
+-- GO
+
 CREATE TABLE [order] (
     id INT PRIMARY KEY IDENTITY(1,1),
+    label NVARCHAR(255) NOT NULL,
+    total NVARCHAR(255) NOT NULL,
+    note NVARCHAR(255) NOT NULL,
+    status NVARCHAR(255) NOT NULL,
+    userId INT NOT NULL,
+    updateTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    createTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+
+    CONSTRAINT FK_order_Users FOREIGN KEY (userId) REFERENCES account(id)
+);
+GO
+
+CREATE TABLE orderProduct (
+	id INT PRIMARY KEY IDENTITY(1,1),
     title NVARCHAR(255) NOT NULL,
     image NVARCHAR(255) NOT NULL,
     name NVARCHAR(255) NOT NULL,
@@ -9,16 +46,16 @@ CREATE TABLE [order] (
     fishCodeInProduct NVARCHAR(255) NOT NULL,
     price NVARCHAR(255) NOT NULL,
     status NVARCHAR(255) NOT NULL,
-    userId INT NOT NULL,
+	orderId INT NOT NULL,
     productId INT NOT NULL,
-    sellerId INT NOT NULL,
+    sellerId INT,
     updateTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
     createTime DATETIMEOFFSET(7) NOT NULL DEFAULT SYSDATETIMEOFFSET(),
 
-    CONSTRAINT FK_order_Users FOREIGN KEY (userId) REFERENCES account(id),
-    CONSTRAINT FK_order_Products FOREIGN KEY (productId) REFERENCES product(id),
-    CONSTRAINT FK_order_Sellers FOREIGN KEY (sellerId) REFERENCES account(id)
-);
+	CONSTRAINT FK_orderProduct_Orders FOREIGN KEY (orderId) REFERENCES [order](id),
+    CONSTRAINT FK_orderProduct_Products FOREIGN KEY (productId) REFERENCES product(id),
+    CONSTRAINT FK_orderProduct_Sellers FOREIGN KEY (sellerId) REFERENCES account(id)
+)
 GO
 
 CREATE TABLE orderProcess (

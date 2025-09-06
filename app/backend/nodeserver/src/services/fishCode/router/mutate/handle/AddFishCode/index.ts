@@ -64,7 +64,6 @@ class Handle_AddFishCode {
 
         try {
             const result = await mutateDB_addFishCode.run();
-            console.log('Handle_AddFishCode', result)
             if (result?.recordset.length && result?.recordset.length > 0) {
                 myResponse.message = 'Thêm mã cá thành công !';
                 myResponse.isSuccess = true;

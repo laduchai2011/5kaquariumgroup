@@ -27,18 +27,18 @@ FROM
     Login('laduchai', '123');
 
 
-ALTER FUNCTION GetAccount (@userId INT) RETURNS TABLE AS RETURN (
+CREATE FUNCTION GetAccount (@userId INT) RETURNS TABLE AS RETURN (
     SELECT
         *
     FROM
         dbo.account
     WHERE
 		status = 'normal' 
-        id = @userId     
+        AND id = @userId     
 );
 GO
 
-ALTER FUNCTION GetAccountWithId (@userId INT) RETURNS TABLE AS RETURN (
+CREATE FUNCTION GetAccountWithId (@userId INT) RETURNS TABLE AS RETURN (
     SELECT
         *
     FROM

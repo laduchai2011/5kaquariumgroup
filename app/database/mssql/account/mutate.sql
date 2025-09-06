@@ -30,6 +30,7 @@ BEGIN
 
 	SELECT * FROM account WHERE id = @userId;
 END;
+GO
 
 CREATE PROCEDURE ChangeAvatar
 	  @userId INT,
@@ -44,6 +45,7 @@ BEGIN
 
 	SELECT * FROM account WHERE id = @userId;
 END;
+GO
 
 CREATE PROCEDURE AddContact
 	  @name NVARCHAR(100),
@@ -58,6 +60,7 @@ BEGIN
 	OUTPUT INSERTED.*
 	VALUES (@name, @phone, @address, 'normal', @userId);
 END;
+GO
 
 
 CREATE PROCEDURE CreateStatistic
@@ -70,6 +73,7 @@ BEGIN
 	OUTPUT INSERTED.*
 	VALUES (0, 0, 0, 0, 0, 0, 0, 'normal', @userId);
 END;
+GO
 
 CREATE PROCEDURE AddAdmin
 	  @userId INT
@@ -81,6 +85,7 @@ BEGIN
 	OUTPUT INSERTED.*
 	VALUES ('admin', 'normal', @userId);
 END;
+GO
 
 EXEC AddAdmin
-    @userId = 7
+    @userId = 3

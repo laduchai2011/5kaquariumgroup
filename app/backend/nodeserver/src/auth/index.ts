@@ -14,7 +14,7 @@ export interface StoreAuthToken {
     blackList: string[],
 }
 
-const serviceRedis = new ServiceRedis()
+const serviceRedis = ServiceRedis.getInstance()
 // serviceRedis.init();
 
 let secure_cookie = false;
@@ -86,7 +86,7 @@ async function authentication(req: Request, res: Response, next: NextFunction) {
                     const new_accessToken = generateAccessToken(myJwtPayload, signOptions)
                     storeAuthToken.accessToken = new_accessToken
 
-                    if (process.env.NODE_ENV !== 'development') {
+                    if (process.env.NODE_ENV === 'development') {
                         res.cookie('id', id, {
                             httpOnly: true,
                             secure: secure_cookie,

@@ -4,26 +4,39 @@ import { RedisClientType } from 'redis';
 
 
 class ServiceRedis {
-    private _clientRedis!: RedisClientType
-    private _isReady = false;
+    private static instance: ServiceRedis;
+    private _clientRedis!: RedisClientType;
+    private _initPromise: Promise<void> | null = null;
 
-    constructor() {
-        // this._clientRedis = redis_server.get_client();
-        // this._clientRedis.on('error', err => console.error(`(ServiceRedis-constructor), err: ${err}`));
-        // this._clientRedis.connect();
-       
+    private constructor() {}
+
+    static getInstance(): ServiceRedis {
+        if (!ServiceRedis.instance) {
+            ServiceRedis.instance = new ServiceRedis();
+        }
+        return ServiceRedis.instance;
     }
 
+    // async init() {
+    //     await redis_server.init();
+    //     this._clientRedis = redis_server.get_client();
+    //     this._clientRedis.on('error', err => console.error(`(ServiceRedis-constructor), err: ${err}`));
+    // }
+
     async init() {
-        await redis_server.init();
-        this._clientRedis = redis_server.get_client();
-        this._clientRedis.on('error', err => console.error(`(ServiceRedis-constructor), err: ${err}`));
-        // console.log(11111111, this._isReady)
-        // if (!this._isReady) {
-        //     const conn = await this._clientRedis.connect();
-        //     console.log(22222222, conn)
-        //     this._isReady = true;
-        // }
+        if (!this._initPromise) {
+            this._initPromise = (async () => {
+                await redis_server.init();
+                this._clientRedis = redis_server.get_client();
+
+                if (!this._clientRedis.listeners("error").length) {
+                    this._clientRedis.on("error", err =>
+                        console.error(`(ServiceRedis), err: ${err}`)
+                    );
+                }
+            })();
+        }
+        return this._initPromise;
     }
 
     async setData<T>(key: string, jsonValue: T, timeExpireat: number) {
@@ -43,7 +56,6 @@ class ServiceRedis {
     async getData<T>(key: string): Promise<T> {
         if (key) {
             const result = await this._clientRedis.get(key)
-            // console.log(33333333, result)
             if (result) {
                 const valueToJson = JSON.parse(result);
                 return valueToJson as T

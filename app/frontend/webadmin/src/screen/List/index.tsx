@@ -19,7 +19,6 @@ const List: React.FC = () => {
         type: 'normal'
     })
 
-   
     useEffect(() => {
         const appRole = sessionStorage.getItem("appRole");
         if (appRole !== 'admin') {

@@ -1,0 +1,46 @@
+.CreateOrder_Customer {
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+.CreateOrder_Customer-inputContainer {
+    margin: 20px 0;
+    font-size: 1.2rem;
+}
+
+.CreateOrder_Customer-inputContainer > div:nth-child(2) > input {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+    box-sizing: border-box;
+    padding: 10px 5px;
+    font-size: 1.1rem;
+}
+
+.CreateOrder_Customer-avatarContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 150px;
+}
+
+.CreateOrder_Customer-avatarContainer > img {
+    height: 150px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.CreateOrder_Customer-avatarContainer > div:nth-child(2) {
+    flex: 1;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 5px 10px;
+} 
+
+.CreateOrder_Customer-avatarContainer > div:nth-child(2) > div:nth-child(1) {
+    font-size: 1.5rem;
+    font-weight: 600px;
+}

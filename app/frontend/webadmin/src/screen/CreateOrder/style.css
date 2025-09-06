@@ -1,0 +1,12 @@
+.CreateOrder {
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.CreateOrder-main {
+    width: 1280px;
+    margin-top: 50px;
+    background-color: white;
+}

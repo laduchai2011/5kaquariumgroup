@@ -230,7 +230,12 @@ const CreateProduct: React.FC = () => {
                 if (data?.file) {
                     const imageUrl = IMAGE_API.GET_IMAGE + '/' + data.file;
                     const product_cp = {...product};
+                    product_cp.title = product_cp.title.trim()
                     product_cp.image = imageUrl;
+                    product_cp.amount = product_cp.amount.trim()
+                    product_cp.discount = product_cp.discount.trim()
+                    product_cp.price = product_cp.price.trim()
+                    product_cp.fishCodeInProduct = product_cp.fishCodeInProduct.trim()
                     setIsLoading(true);
                     addProduct(product_cp)
                     .then(res => {

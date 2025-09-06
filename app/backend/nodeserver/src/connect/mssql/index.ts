@@ -11,42 +11,6 @@ class MSSQL_Server {
     private _connectionPool: sql.ConnectionPool | undefined;
     private _initPromise: Promise<void> | null = null;
 
-    // constructor() {
-    //     if (!MSSQL_Server.instance) {
-    //         const sqlConfig: config = {
-    //             user: mssql_config?.username,
-    //             password: mssql_config?.password,
-    //             database: mssql_config?.database,
-    //             server: mssql_config?.host ? mssql_config?.host : '',
-    //             port: mssql_config?.port,
-    //             pool: {
-    //                 max: 10,
-    //                 min: 0,
-    //                 idleTimeoutMillis: 30000,
-    //             },
-    //             options: {
-    //                 // encrypt: true, // for azure
-    //                 // trustServerCertificate: false // change to true for local dev / self-signed certs
-    //                 encrypt: false, // Tắt mã hóa
-    //                 trustServerCertificate: true, // Bỏ qua kiểm tra chứng chỉ
-    //             },
-    //         };
-
-    //         sql.connect(sqlConfig)
-    //             .then((ConnectionPool: sql.ConnectionPool) => {
-    //                 my_log.withGreen('MSSQL_Server connected successly !');
-    //                 this._connectionPool = ConnectionPool;
-    //             })
-    //             .catch((err) => {
-    //                 console.error(err);
-    //             });
-
-    //         MSSQL_Server.instance = this;
-    //     }
-
-    //     return MSSQL_Server.instance;
-    // }
-
     private constructor() {}
 
     static getInstance(): MSSQL_Server {

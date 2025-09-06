@@ -1,6 +1,6 @@
 ﻿EXEC Signup
-    @userName = N'adminladuchai',
-    @password = N'adminladuchai',
+    @userName = N'adminlahai',
+    @password = N'adminlahai',
     @phone = N'0789860854',
     @firstName = N'Lã',
     @lastName = N'Hải';

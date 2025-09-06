@@ -88,12 +88,12 @@ class Handle_Signin {
 
                     const keyServiceRedis = `token-storeAuthToken-${id}`;
 
-                    const serviceRedis = new ServiceRedis();
+                    const serviceRedis = ServiceRedis.getInstance();
                     await serviceRedis.init();
 
                     await serviceRedis.setData<StoreAuthToken>(keyServiceRedis, storeAuthToken, timeExpireat)
 
-                    if (process.env.NODE_ENV !== 'development') {
+                    if (process.env.NODE_ENV === 'development') {
                         res.cookie('id', id, {
                             httpOnly: true,
                             secure: secure_cookie,

@@ -5,6 +5,7 @@ import Order from '@src/screen/Order';
 import NotAdmin from '@src/screen/NotAdmin';
 import List from '@src/screen/List';
 import CreateProduct from '@src/screen/CreateProduct';
+import CreateOrder from '@src/screen/CreateOrder';
 // import NotFoundPage from '@src/screen/NotFoundPage';
 
 const router = createBrowserRouter(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
         { path: '/notadmin', element: <NotAdmin /> },
         { path: '/list', element: <List /> },
         { path: '/createProduct', element: <CreateProduct /> },
+        { path: '/createOrder', element: <CreateOrder /> },
         // { path: '*', element: <NotFoundPage /> }, // Trang 404
     ],
     {

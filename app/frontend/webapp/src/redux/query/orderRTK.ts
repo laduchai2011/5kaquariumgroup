@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ORDER_API } from '@src/const/api/order';
 import { MyResponse } from '@src/dataStruct/response';
-import { OrderField, AddOrderBody, PagedOrderField } from '@src/dataStruct/order';
+import { OrderField, AddOrderBody, PagedOrderField, BuyNowBodyType } from '@src/dataStruct/order';
 
 
 
@@ -28,10 +28,18 @@ export const orderRTK = createApi({
                 body,
             }),
         }),
+        buyNow: builder.mutation<MyResponse<OrderField>, BuyNowBodyType>({
+            query: (body) => ({
+                url: ORDER_API.BUY_NOW,
+                method: 'POST',
+                body,
+            }),
+        }),
     }),
 });
 
 export const { 
     useGetMyOrdersQuery,
-    useAddOrderWithTransactionMutation
+    useAddOrderWithTransactionMutation,
+    useBuyNowMutation
 } = orderRTK;

@@ -1,0 +1,19 @@
+.CreateOrder_Order {
+    margin: 10px 0;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+.CreateOrder_Order-main {
+    margin: 20px 0;
+}
+
+.CreateOrder_Order-addIcon {
+    cursor: pointer;
+}
+
+.CreateOrder_Order-addIcon:hover {
+    scale: 1.5;
+}
