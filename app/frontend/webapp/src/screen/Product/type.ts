@@ -11,6 +11,7 @@ export interface ProductContextInterface {
     contact: OrderContactField | undefined,
     shoppingCartEdit: ShoppingCartEditInterface,
     setShoppingCartEdit: React.Dispatch<React.SetStateAction<ShoppingCartEditInterface>>
+    setIsShoppingCartCreate: React.Dispatch<React.SetStateAction<boolean>>,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setMessage: React.Dispatch<React.SetStateAction<MessageDataInterface>>
 }

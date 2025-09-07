@@ -2,7 +2,7 @@ import sql from 'mssql';
 import { MutateDB } from '@src/services/order/interface';
 import { OrderField, BuyNowBodyType } from '@src/dataStruct/order';
 
-class MutateDB_BuyNow extends MutateDB {
+class MutateDB_WebappSreenProductBuyNow extends MutateDB {
     private _connectionPool: sql.ConnectionPool | undefined;
     private _buyNowBody: BuyNowBodyType | undefined;
  
@@ -45,7 +45,7 @@ class MutateDB_BuyNow extends MutateDB {
                     .input("myPhone", sql.NVarChar(15), this._buyNowBody.contact.phone)
                     .input("address", sql.Bit, this._buyNowBody.contact.address)
                     .input("contactId", sql.Int, this._buyNowBody.contact.contactId)
-                    .execute('BuyNow');
+                    .execute('WebappSreenProductBuyNow');
                 
                 return result
             } catch (error) {
@@ -56,4 +56,4 @@ class MutateDB_BuyNow extends MutateDB {
 }
 
 
-export default MutateDB_BuyNow;
+export default MutateDB_WebappSreenProductBuyNow;

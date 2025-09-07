@@ -157,7 +157,7 @@ DELETE FROM dbo.[order]
 
 
 ------------------------------for order new-config------------------------
-ALTER PROCEDURE BuyNow 
+CREATE PROCEDURE WebappSreenProductBuyNow 
 	@label NVARCHAR(255),
 	@total NVARCHAR(255),
 	@note NVARCHAR(255),
@@ -219,7 +219,7 @@ BEGIN
 END;
 GO
 
-ALTER PROCEDURE AddToNewCart
+CREATE PROCEDURE WebappSreenProductAddProductIntoNewShoppingCart
 	@label NVARCHAR(255),
 	@total NVARCHAR(255),
 	@note NVARCHAR(255),
@@ -281,7 +281,7 @@ BEGIN
 END;
 GO
 
-ALTER PROCEDURE CreateNewCart
+CREATE PROCEDURE WebappSreenProducCreateShoppingCart
 	@label NVARCHAR(255),
 	@total NVARCHAR(255),
 	@note NVARCHAR(255),

@@ -21,6 +21,7 @@ import { ProductContextInterface } from './type';
 import OverView from './component/OverView';
 import ShoppingCart from './component/ShoppingCart';
 import ShoppingCartEdit from './component/ShoppingCartEdit';
+import ShoppingCartCreate from './component/ShoppingCartCreate';
 import { ShoppingCartEditInterface } from './type';
 
 
@@ -32,6 +33,7 @@ const Product = () => {
     const [fishCode, setFishCode] = useState<FishCodeField | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [shoppingCartEdit, setShoppingCartEdit] = useState<ShoppingCartEditInterface>({ isShow: false });
+    const [isShoppingCartCreate, setIsShoppingCartCreate] = useState<boolean>(false);
     const [message, setMessage] = useState<MessageDataInterface>({
         message: '',
         type: 'normal'
@@ -187,6 +189,7 @@ const Product = () => {
         contact,
         shoppingCartEdit,
         setShoppingCartEdit,
+        setIsShoppingCartCreate,
         setIsLoading,
         setMessage
     }
@@ -203,6 +206,7 @@ const Product = () => {
                         <OverView />
                         <ShoppingCart />
                         {shoppingCartEdit.isShow && <ShoppingCartEdit />}
+                        {isShoppingCartCreate && <ShoppingCartCreate />}
                         <div className={style.seller}>
                             <div>Người bán</div>
                             <div>Cần có thông tin người bán để được giảm giá</div>

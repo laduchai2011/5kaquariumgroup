@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ORDER_API } from '@src/const/api/order';
 import { MyResponse } from '@src/dataStruct/response';
-import { OrderField, AddOrderBody, PagedOrderField, BuyNowBodyType } from '@src/dataStruct/order';
+import { OrderField, PagedOrderField, BuyNowBodyType } from '@src/dataStruct/order';
 
 
 
@@ -21,13 +21,30 @@ export const orderRTK = createApi({
                 return response.data;
             },
         }),
-        addOrderWithTransaction: builder.mutation<MyResponse<OrderField>, AddOrderBody>({
-            query: (body) => ({
-                url: ORDER_API.ADD_ORDER_WITH_TRANSACTION,
-                method: 'POST',
-                body,
-            }),
-        }),
+        getShoppingCarts: builder.query<MyResponse<PagedOrderField>, { page: string; size: string }>({
+            query: ({ page, size }) => `${ORDER_API.GET_SHOPPING_CART}?page=${page}&size=${size}`,
+            // transformResponse: (response: MyResponse<PagedOrderField>) => {
+            //     // if (!response.data) {
+            //     //     throw new Error('No account data (getShoppingCarts)')
+            //     // };
+            //     console.log(11, response)
+            //     // return response.data;
+            // },
+            providesTags: (result) => 
+                result?.isSuccess && result?.data
+                    ? [
+                        ...result.data.items.map((data) => ({ type: 'Order' as const, id: data.id })), 
+                        { type: 'Order', id: 'LIST' }
+                    ]
+                    : [{ type: 'Order', id: 'LIST' }],
+        }), 
+        // addOrderWithTransaction: builder.mutation<MyResponse<OrderField>, AddOrderBody>({
+        //     query: (body) => ({
+        //         url: ORDER_API.ADD_ORDER_WITH_TRANSACTION,
+        //         method: 'POST',
+        //         body,
+        //     }),
+        // }),
         buyNow: builder.mutation<MyResponse<OrderField>, BuyNowBodyType>({
             query: (body) => ({
                 url: ORDER_API.BUY_NOW,
@@ -35,11 +52,27 @@ export const orderRTK = createApi({
                 body,
             }),
         }),
+        createShoppingCart: builder.mutation<MyResponse<OrderField>, OrderField>({
+            query: (body) => ({
+                url: ORDER_API.CREATE_SHOPPING_CART,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: (result) =>
+                result?.isSuccess && result?.data
+                    ? [
+                        { type: 'Order', id: result.data.id },
+                        { type: 'Order', id: 'LIST' }
+                    ]
+                    : [{ type: 'Order', id: 'LIST' }],
+        }),
     }),
 });
 
 export const { 
     useGetMyOrdersQuery,
-    useAddOrderWithTransactionMutation,
-    useBuyNowMutation
+    useGetShoppingCartsQuery,
+    // useAddOrderWithTransactionMutation,
+    useBuyNowMutation,
+    useCreateShoppingCartMutation
 } = orderRTK;

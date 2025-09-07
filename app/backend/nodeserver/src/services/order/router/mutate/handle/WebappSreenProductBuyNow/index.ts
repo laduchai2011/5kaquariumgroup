@@ -1,27 +1,27 @@
 import { mssql_server } from '@src/connect';
 import { Request, Response, NextFunction } from 'express';
 import { MyResponse } from '@src/dataStruct/response';
-import { OrderField } from '@src/dataStruct/order';
+import { OrderField, BuyNowBodyType } from '@src/dataStruct/order';
 import { verifyRefreshToken } from '@src/token';
-import MutateDB_CreateNewCart from '../../mutateDB/CreateNewCart';
+import MutateDB_WebappSreenProductBuyNow from '../../mutateDB/WebappSreenProductBuyNow';
 // import { produceTask } from '@src/queueRedis/producer';
 
 
 
 
-class Handle_CreateNewCart {
+class Handle_WebappSreenProductBuyNow {
     private _mssql_server = mssql_server;
 
     constructor() {}
 
-    setup = async (req: Request<Record<string, never>, unknown, OrderField>, res: Response, next: NextFunction) => {
+    setup = async (req: Request<Record<string, never>, unknown, BuyNowBodyType>, res: Response, next: NextFunction) => {
         const myResponse: MyResponse<OrderField> = {
             isSuccess: false
         };
 
         await this._mssql_server.init()
 
-        const order = req.body;
+        const buyNowBody = req.body;
         const { refreshToken } = req.cookies;
 
         if (typeof refreshToken === 'string') {
@@ -38,8 +38,10 @@ class Handle_CreateNewCart {
             }
 
             const { id } = verify_refreshToken;
-            order.userId = id;
-            res.locals.order = order;
+            const newOrder_cp = {...buyNowBody.order}
+            newOrder_cp.userId = id;
+            buyNowBody.order = newOrder_cp
+            res.locals.buyNowBody = buyNowBody;
 
             next();
         } else {
@@ -49,42 +51,42 @@ class Handle_CreateNewCart {
     };
 
     main = async (_: Request, res: Response) => {
-        const order = res.locals.order as OrderField;
+        const buyNowBody = res.locals.buyNowBody as BuyNowBodyType;
 
         const myResponse: MyResponse<OrderField> = {
             isSuccess: false
         };
 
-        const mutateDB_createNewCart = new MutateDB_CreateNewCart();
-        mutateDB_createNewCart.set_order(order);
+        const mutateDB_webappSreenProductBuyNow = new MutateDB_WebappSreenProductBuyNow();
+        mutateDB_webappSreenProductBuyNow.set_buyNowBody(buyNowBody)
 
         const connection_pool = this._mssql_server.get_connectionPool();
         if (connection_pool) {
-            mutateDB_createNewCart.set_connection_pool(connection_pool);
+            mutateDB_webappSreenProductBuyNow.set_connection_pool(connection_pool);
         } else {
             myResponse.message = 'Kết nối cơ sở dữ liệu không thành công !'
             return res.status(500).json(myResponse);
         }
 
         try {
-            const result = await mutateDB_createNewCart.run();
+            const result = await mutateDB_webappSreenProductBuyNow.run();
             if (result?.recordset.length && result?.recordset.length > 0) {
                 const data = result.recordset[0]
                 // produceTask<OrderField>('addOrder-to-provider', data);
-                myResponse.message = 'Tạo giỏ hàng thành công !';
+                myResponse.message = 'Đặt hàng thành công !';
                 myResponse.isSuccess = true;
                 myResponse.data = data;
                 return res.json(myResponse);
             } else {
-                myResponse.message = 'Tạo giỏ hàng KHÔNG thành công !';
+                myResponse.message = 'Đặt hàng KHÔNG thành công !';
                 return res.status(204).json(myResponse);
             }
         } catch (error) {
-            myResponse.message = 'Đặt hàngTạo giỏ hàng KHÔNG thành công !';
+            myResponse.message = 'Đặt hàng KHÔNG thành công !';
             myResponse.err = error;
             return res.status(500).json(myResponse);
         }
     };
 }
 
-export default Handle_CreateNewCart;
+export default Handle_WebappSreenProductBuyNow;

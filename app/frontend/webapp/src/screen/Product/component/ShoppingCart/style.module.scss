@@ -3,7 +3,7 @@
 .parent {
     margin-top: 15px;
 
-    > div:nth-child(1) {
+    > .header {
         background-color: rgb(223, 223, 223);
         height: 50px;
         font-size: 1.3rem;
@@ -13,67 +13,95 @@
         padding: 5px;
     }
 
-    > .table {
-        margin: 10px 0;
+    > .main {
+        > .table {
+            margin: 10px 0;
 
-        > .row {
-            box-sizing: border-box;
-            border-bottom: 1px solid gray;
-            padding: 10px 0;
-            position: relative;
+            > .row {
+                box-sizing: border-box;
+                border-bottom: 1px solid gray;
+                padding: 10px 0;
+                position: relative;
 
-            > .row1 {
+                > .row1 {
+                    @include center-of-row;
+                    > div {
+                        box-sizing: border-box;
+                        padding: 5px;
+                        @include center-of-rectangle;
+                    }
+
+                    > .rowIndex {
+                        width: 50px;
+                    }
+
+                    > .rowLabel {
+                        width: 60%;
+                    }
+
+                    > .rowTotal {
+                        width: 10%;
+                    }
+
+                    > .rowNote {
+                        flex: 1;
+                    }
+                }
+
+                > .rowSelect {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+
+                > .rowIcon {
+                    position: absolute;
+                    top: 0;
+                    right: 10px;
+
+                    > svg {
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            > .rowHeader {
+                box-sizing: border-box;
+                padding: 15px 0;
+
+                > .row1 {
+                    > div {
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+
+        > .controllerContainer {
+            @include center-of-row;
+            margin: 10px 0;
+
+            > div {
+                margin: 0 10px;
                 @include center-of-row;
-                > div {
-                    box-sizing: border-box;
-                    padding: 5px;
-                    @include center-of-rectangle;
-                }
-
-                > .rowIndex {
-                    width: 50px;
-                }
-
-                > .rowLabel {
-                    width: 60%;
-                }
-
-                > .rowTotal {
-                    width: 10%;
-                }
-
-                > .rowNote {
-                    flex: 1;
-                }
-            }
-
-            > .rowSelect {
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-
-            > .rowIcon {
-                position: absolute;
-                top: 0;
-                right: 10px;
 
                 > svg {
+                    margin: 0 10px;
                     cursor: pointer;
+
+                    &:hover {
+                        scale: 1.5;
+                    }
                 }
             }
         }
+    }
 
-        > .rowHeader {
-            box-sizing: border-box;
-            padding: 15px 0;
-
-            > .row1 {
-                > div {
-                    font-weight: 600;
-                }
-            }
-        }
+    > .main1 {
+        @include center-of-rectangle;
+        height: 50px;
+        font-size: 1.2rem;
+        color: red
     }
 
     > .buttonContainer {
