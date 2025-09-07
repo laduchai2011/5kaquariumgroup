@@ -305,6 +305,7 @@ BEGIN
         VALUES (0, 0, 0, 0, 0, 0, @newOrderId);
 
 		SELECT * FROM dbo.[order] WHERE id = @NewOrderId;
+		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRANSACTION;

@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import style from './style.module.scss';
-import { GrFormAdd, GrFormSubtract  } from "react-icons/gr";
 import HeaderLeft from '@src/component/Header/HeaderLeft';
 import HeaderTop from '@src/component/Header/HeaderTop';
 import { PRODUCT } from '@src/const/text';
 import { useGetAProductWithIdQuery } from '@src/redux/query/productRTK';
 import { useGetAFishCodeWithIdQuery } from '@src/redux/query/fishCodeRTK';
 import { useGetAccountWithIdQuery } from '@src/redux/query/accountRTK';
-import { useBuyNowMutation } from '@src/redux/query/orderRTK';
 import { ProductField } from '@src/dataStruct/product';
 import { FishCodeField } from '@src/dataStruct/fishCode';
-import { OrderField, OrderContactField, BuyNowBodyType, OrderProductField } from '@src/dataStruct/order';
+import { OrderContactField, OrderProductField } from '@src/dataStruct/order';
 import MainLoading from '@src/component/MainLoading';
 import MessageDialog from '@src/component/MessageDialog';
 import { MessageDataInterface } from '@src/component/MessageDialog/type';
 import TextEditorDisplay from '@src/component/TextEditorDisplay';
-import { isNumber } from '@src/utility/string';
 import { AccountField } from '@src/dataStruct/account';
 import { getCookie } from '@src/utility/cookie';
+import { ProductContext } from './context';
+import { ProductContextInterface } from './type';
+import OverView from './component/OverView';
+import ShoppingCart from './component/ShoppingCart';
+import ShoppingCartEdit from './component/ShoppingCartEdit';
+import { ShoppingCartEditInterface } from './type';
 
 
 
@@ -28,26 +31,13 @@ const Product = () => {
     const [product, setProduct] = useState<ProductField | undefined>(undefined);
     const [fishCode, setFishCode] = useState<FishCodeField | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [shoppingCartEdit, setShoppingCartEdit] = useState<ShoppingCartEditInterface>({ isShow: false });
     const [message, setMessage] = useState<MessageDataInterface>({
         message: '',
         type: 'normal'
     })
-    const [moneyTotal, setMoneyTotal] = useState({
-        old: 0,
-        new: 0
-    })
     const [sellerId, setSellerId] = useState<string>('')
     const [seller, setSeller] = useState<AccountField | undefined>(undefined)
-    const [order, setOrder] = useState<OrderField>({
-        id: -1,
-        label: '',
-        total: '',
-        note: '',
-        status: '',
-        userId: -1,
-        createTime: '',
-        updateTime: ''
-    })
     const [orderProduct, setOrderProduct] = useState<OrderProductField>({
         id: -1,
         title: '',
@@ -66,7 +56,6 @@ const Product = () => {
         createTime: '',
     });
     const [contact, setContact] = useState<OrderContactField | undefined>(undefined)
-    const [buyNow] = useBuyNowMutation()
 
     const {
         data: data_product, 
@@ -167,64 +156,6 @@ const Product = () => {
         setMessage({...message, message: ''})
     }
 
-    const handleAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        if (!isNumber(value)) {
-            setMessage({
-                message: 'Số lượng phải là 1 số !',
-                type: 'error'
-            })
-        } else {
-            handleMoney(value);
-            setOrderProduct({...orderProduct, amount: value});
-        }
-    }
-
-    const handleSubAmount = () => {
-        const {amount} = orderProduct;
-        if (isNumber(amount)) {
-            let amount_number = Number(amount);
-            if (amount_number > 1) {
-                amount_number = amount_number - 1;
-                setOrderProduct({...orderProduct, amount: amount_number.toString()})
-                handleMoney(amount_number.toString());
-            } 
-        }
-    }
-
-    const handleAddAmount = () => {
-        const {amount} = orderProduct;
-        const maxAmount = product?.amount
-        if (isNumber(amount) && maxAmount && isNumber(maxAmount)) {
-            let amount_number = Number(amount);
-            const maxAmount_number = Number(maxAmount)
-            if (amount_number < maxAmount_number) {
-                amount_number = amount_number + 1;
-                setOrderProduct({...orderProduct, amount: amount_number.toString()})
-                handleMoney(amount_number.toString());
-            } 
-        }
-    }
-
-    const handleMoney = (amount: string) => {
-        const discount = product?.discount;
-        const price = product?.price;
-        if (amount && discount && price) {
-            const amount_number = Number(amount);
-            const discount_number = Number(discount);
-            const price_number = Number(price);
-
-            const oldTotal = amount_number * price_number;
-            const discountTotal = oldTotal * (discount_number / 100);
-            const newTotal = oldTotal - discountTotal;
-
-            setMoneyTotal({
-                old: oldTotal,
-                new: newTotal
-            })
-        }
-    }
-
     const handleSellerId = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setSeller(undefined);
@@ -248,147 +179,53 @@ const Product = () => {
         }
     }, [])
 
-    const handleBuyNow = () => {
-        const myId = sessionStorage.getItem("myId");
-        if (myId) {
-            if (contact) {
-                const orderBody: BuyNowBodyType = {
-                    order: order,
-                    product: orderProduct,
-                    payment: {
-                        id: -1,
-                        method: 'cash',
-                        infor: '',
-                        isPay: false,
-                        orderId: -1,
-                        updateTime: '',
-                        createTime: ''
-                    },
-                    contact: contact
-                }
-                setIsLoading(true);
-                buyNow(orderBody)
-                 .then(res => {
-                    if (res.data?.isSuccess) {
-                        setMessage({
-                            message: 'Bạn đã đặt hàng, hãy theo dõi đơn hàng của bạn !',
-                            type: 'success'
-                        })
-                    }
-                })
-                .catch(err => {
-                    console.error(err)
-                    setMessage({
-                        message: 'Đặt hàng thất bại !',
-                        type: 'error'
-                    })
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                })
-            } else {
-                setMessage({
-                    message: 'Bạn cần thiết lập liên hệ trước khi đặt hàng !',
-                    type: 'error'
-                })
-            }
-        } else {
-            setMessage({
-                message: 'Bạn cần đăng nhập trước khi đặt hàng !',
-                type: 'error'
-            })
-        }  
+    const valueContext: ProductContextInterface = {
+        product,
+        setProduct,
+        orderProduct,
+        setOrderProduct,
+        contact,
+        shoppingCartEdit,
+        setShoppingCartEdit,
+        setIsLoading,
+        setMessage
     }
 
     return (
-        <div className={style.parent}>
-            {isLoading && <MainLoading />}
-            {message.message.length > 0 && <MessageDialog message={message.message} type={message.type} onClose={() => handleCloseMessage()} />}
-            <div className={style.headerLeft}><HeaderLeft header={PRODUCT} /></div>
-            <div className={style.headerTop}><HeaderTop header={PRODUCT} /></div>
-            { product ?
-                <div className={style.main}>
-                    <div className={style.product}>
-                        <div className={style.imageContainer}>
-                            <img src={product?.image} alt='' />
-                        </div>
-                        <div className={style.inforContainer}>
-                            <span className={style.title}>{product?.title}</span>
-                            <div className={style.infor}>
-                                <div>
-                                    <div>Tên</div>
-                                    <div>{product?.name}</div>
-                                </div>
-                                <div>
-                                    <div>Size</div>
-                                    <div>{product?.size}</div>
-                                </div>
-                                <div>
-                                    <div>Giảm giá</div>
-                                    <div>{`${product?.discount} %`}</div>
-                                </div>
-                                <div>
-                                    <div>Số lượng</div>
-                                    <div>{product?.amount}</div>
-                                </div>
-                                <div>
-                                    <div>Đã bán</div>
-                                    <div>{product?.sold || 0}</div>
-                                </div>
-                                <div>
-                                    <div>Giá</div>
-                                    <div>{`${product?.price} VND`}</div>
-                                </div>
+        <ProductContext.Provider value={valueContext}>
+            <div className={style.parent}>
+                {isLoading && <MainLoading />}
+                {message.message.length > 0 && <MessageDialog message={message.message} type={message.type} onClose={() => handleCloseMessage()} />}
+                <div className={style.headerLeft}><HeaderLeft header={PRODUCT} /></div>
+                <div className={style.headerTop}><HeaderTop header={PRODUCT} /></div>
+                { product ?
+                    <div className={style.main}>
+                        <OverView />
+                        <ShoppingCart />
+                        {shoppingCartEdit.isShow && <ShoppingCartEdit />}
+                        <div className={style.seller}>
+                            <div>Người bán</div>
+                            <div>Cần có thông tin người bán để được giảm giá</div>
+                            <div>
+                                <input value={sellerId} onChange={(e) => handleSellerId(e)} placeholder='Nhập id người bán tại đây' />
                             </div>
-                            <div className={style.order}>
-                                <div className={style.ordertitle}>{`Đặt hàng tại đây, bạn đã đặt ${orderProduct.amount}`}</div>
-                                <div className={style.buttonContainer}>
-                                    <div>
-                                        <div>
-                                            <div className={style.amountInput}>
-                                                <div><GrFormSubtract onClick={() => handleSubAmount()} size={30} /></div>
-                                                <div><input value={orderProduct.amount} onChange={(e) => handleAmount(e)} /></div>
-                                                <div><GrFormAdd onClick={() => handleAddAmount()} size={30} /></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className={style.orderBtn} onClick={() => handleBuyNow()}>Đặt hàng</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={style.moneyTotal}>
-                                    <div>
-                                        <div>{orderProduct.amount}</div>
-                                        <div>{moneyTotal.old}</div>
-                                        <div>{moneyTotal.new}</div>
-                                        <div>VND</div>
-                                    </div>
-                                </div>
+                            {seller && <div>{`${seller?.firstName} ${seller?.lastName}`}</div>}
+                        </div>
+                        <div className={style.paymentMethod}>
+                            <div>Phương thức thanh toán</div>
+                            <div>Liên hệ người bán</div>
+                        </div>
+                        <div className={style.describe}>
+                            <div>Mô tả</div>
+                            <div>
+                                {fishCode?.detail && <TextEditorDisplay data={fishCode?.detail} />}
                             </div>
                         </div>
-                    </div>
-                    <div className={style.seller}>
-                        <div>Người bán</div>
-                        <div>Cần có thông tin người bán để được giảm giá</div>
-                        <div>
-                            <input value={sellerId} onChange={(e) => handleSellerId(e)} placeholder='Nhập id người bán tại đây' />
-                        </div>
-                        {seller && <div>{`${seller?.firstName} ${seller?.lastName}`}</div>}
-                    </div>
-                    <div className={style.paymentMethod}>
-                        <div>Phương thức thanh toán</div>
-                        <div>Liên hệ người bán</div>
-                    </div>
-                    <div className={style.describe}>
-                        <div>Mô tả</div>
-                        <div>
-                            {fishCode?.detail && <TextEditorDisplay data={fishCode?.detail} />}
-                        </div>
-                    </div>
-                </div> :
-                <div className={style.notifyNOTproduct}><h2>Không có sản phẩm nào được tìm thấy</h2></div>
-            }
-        </div>
+                    </div> :
+                    <div className={style.notifyNOTproduct}><h2>Không có sản phẩm nào được tìm thấy</h2></div>
+                }
+            </div>
+        </ProductContext.Provider>
     );
 };
 
