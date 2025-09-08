@@ -1,7 +1,6 @@
-import { useContext, useState, memo } from 'react';
+import { FC, useState, memo } from 'react';
 import style from './style.module.scss';
 import { IoClose } from "react-icons/io5";
-import { ProductContext } from '../../context';
 import { useCreateShoppingCartMutation } from '@src/redux/query/orderRTK';
 import { OrderField } from '@src/dataStruct/order';
 import type { AppDispatch } from '@src/redux';
@@ -11,15 +10,8 @@ import { set_isLoading, set_message } from '@src/redux/slice/globalSlice';
 
 
 
-const ShoppingCartCreate = () => {
+const Create: FC<{onClose: () => void}> = ({ onClose }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const productContext = useContext(ProductContext)
-    if (!productContext) {
-        throw new Error("productContext in ShoppingCartEdit component cant undefined !");
-    }
-    const {
-        setIsShoppingCartCreate
-    } = productContext;
     const [createShoppingCart] = useCreateShoppingCartMutation();
     const [shoppingCart, setShoppingCart] = useState<OrderField>({
         id: -1,
@@ -33,7 +25,7 @@ const ShoppingCartCreate = () => {
     })
 
     const handleClose = () => {
-        setIsShoppingCartCreate(false);
+        onClose()
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
@@ -67,7 +59,7 @@ const ShoppingCartCreate = () => {
                     message: 'Tạo giỏ hàng thành công !',
                     type: 'success'
                 }))
-                setIsShoppingCartCreate(false);
+                onClose()
             } else {
                 console.error(res.data?.err)
                 dispatch(set_message({
@@ -108,4 +100,4 @@ const ShoppingCartCreate = () => {
     )
 }
 
-export default memo(ShoppingCartCreate);
+export default memo(Create);

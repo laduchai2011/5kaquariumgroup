@@ -1,36 +1,20 @@
-import { FC, useContext, memo } from 'react';
+import { FC, memo } from 'react';
 import style from './style.module.scss';
 import { FaEdit } from "react-icons/fa";
 import { OrderField } from '@src/dataStruct/order';
-import { ProductContext } from '@src/screen/Product/context';
 
 
 
-const Row: FC<{data: OrderField, index: number}> = ({ data, index }) => {
-    const productContext = useContext(ProductContext)
-    if (!productContext) {
-        throw new Error("productContext in ShoppingCart-Row component cant undefined !");
-    }
-    const {
-        setShoppingCartEdit,
-        selectedShoppingCart,
-        setSelectedShoppingCart
-    } = productContext;
+const Row: FC<{data: OrderField, index: number, onShowEdit: (data: OrderField) => void}> = ({ data, index, onShowEdit }) => {
 
     const ShowEdit = () => {
-        setShoppingCartEdit(pre => {
-            return {
-                ...pre, 
-                isShow: true,
-                shoppingCart: data
-            }
-        })
+        onShowEdit(data)
     }
 
     const handleSelectedShoppingCart = (e: React.ChangeEvent<HTMLInputElement>) => {
         const checked = e.target.checked;
         if (checked) {
-            setSelectedShoppingCart(data)
+            // setSelectedShoppingCart(data)
         }
     }
 
@@ -42,7 +26,7 @@ const Row: FC<{data: OrderField, index: number}> = ({ data, index }) => {
                 <div className={style.rowTotal}>{data.total}</div>
                 <div className={style.rowNote}>{data.note}</div>   
             </div>
-            <input className={style.rowSelect} checked={selectedShoppingCart?.id===data.id} onChange={(e) => handleSelectedShoppingCart(e)} type='checkbox' />
+            <input className={style.rowSelect} checked={true} onChange={(e) => handleSelectedShoppingCart(e)} type='checkbox' />
             <div className={style.rowIcon}>
                 <FaEdit onClick={() => ShowEdit()} title='Chỉnh sửa' color='green' />
             </div>

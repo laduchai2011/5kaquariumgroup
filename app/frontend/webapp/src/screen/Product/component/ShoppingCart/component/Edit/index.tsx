@@ -1,7 +1,6 @@
-import { useContext, useState, memo } from 'react';
+import { FC, useState, memo } from 'react';
 import style from './style.module.scss';
 import { IoClose } from "react-icons/io5";
-import { ProductContext } from '../../context';
 import { useEditShoppingCartMutation } from '@src/redux/query/orderRTK';
 import { OrderField } from '@src/dataStruct/order';
 import type { AppDispatch } from '@src/redux';
@@ -10,23 +9,13 @@ import { set_isLoading, set_message } from '@src/redux/slice/globalSlice';
 
 
 
-const ShoppingCartEdit = () => {
+const Edit: FC<{data: OrderField | undefined, onClose: () => void}> = ({ data, onClose }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const productContext = useContext(ProductContext)
-    if (!productContext) {
-        throw new Error("productContext in ShoppingCartEdit component cant undefined !");
-    }
-    const {
-        shoppingCartEdit,
-        setShoppingCartEdit
-    } = productContext;
-    const [shoppingCart, setShoppingCart] = useState<OrderField | undefined>(shoppingCartEdit.shoppingCart)
+    const [shoppingCart, setShoppingCart] = useState<OrderField | undefined>(data)
     const [editShoppingCart] = useEditShoppingCartMutation()
 
     const handleClose = () => {
-        setShoppingCartEdit(pre => {
-            return {...pre, isShow: false}
-        })
+        onClose()
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
@@ -59,11 +48,11 @@ const ShoppingCartEdit = () => {
             editShoppingCart(shoppingCart_cp)
             .then(res => {
                 if (res.data?.isSuccess) {
-                    // dispatch(set_message({
-                    //     message: 'Thay đổi giỏ hàng thành công !',
-                    //     type: 'success'
-                    // }))
-                    // setShoppingCartEdit({...shoppingCartEdit, isShow: false});
+                    dispatch(set_message({
+                        message: 'Thay đổi giỏ hàng thành công !',
+                        type: 'success'
+                    }))
+                    onClose()
                 } else {
                     console.error(res.data?.err)
                     dispatch(set_message({
@@ -105,4 +94,4 @@ const ShoppingCartEdit = () => {
     )
 }
 
-export default memo(ShoppingCartEdit);
+export default memo(Edit);

@@ -5,13 +5,17 @@ import { ProductContext } from '../../context';
 import { isNumber } from '@src/utility/string';
 import { useBuyNowMutation } from '@src/redux/query/orderRTK';
 import { BuyNowBodyType, OrderField } from '@src/dataStruct/order';
-
+import type { AppDispatch } from '@src/redux';
+import { useDispatch } from 'react-redux';
+import { set_isLoading, set_message } from '@src/redux/slice/globalSlice';
 
 
 
 
 
 const OverView = () => {
+    console.log('OverView')
+    const dispatch = useDispatch<AppDispatch>();
     const productContext = useContext(ProductContext)
     if (!productContext) {
         throw new Error("productContext in OverView component cant undefined !");
@@ -20,9 +24,7 @@ const OverView = () => {
         product,
         orderProduct,
         setOrderProduct,
-        contact,
-        setIsLoading,
-        setMessage
+        contact
     } = productContext;
     const [buyNow] = useBuyNowMutation()
     const [moneyTotal, setMoneyTotal] = useState({
@@ -62,10 +64,10 @@ const OverView = () => {
     const handleAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         if (!isNumber(value)) {
-            setMessage({
+            dispatch(set_message({
                 message: 'Số lượng phải là 1 số !',
                 type: 'error'
-            })
+            }))
         } else {
             handleMoney(value);
             setOrderProduct({...orderProduct, amount: value});
@@ -116,37 +118,38 @@ const OverView = () => {
                     },
                     contact: contact
                 }
-                setIsLoading(true);
+                
+                dispatch(set_isLoading(true));
                 buyNow(orderBody)
-                    .then(res => {
+                .then(res => {
                     if (res.data?.isSuccess) {
-                        setMessage({
+                        dispatch(set_message({
                             message: 'Bạn đã đặt hàng, hãy theo dõi đơn hàng của bạn !',
                             type: 'success'
-                        })
+                        }))
                     }
                 })
                 .catch(err => {
                     console.error(err)
-                    setMessage({
+                    dispatch(set_message({
                         message: 'Đặt hàng thất bại !',
                         type: 'error'
-                    })
+                    }))
                 })
                 .finally(() => {
-                    setIsLoading(false);
+                    dispatch(set_isLoading(false));
                 })
             } else {
-                setMessage({
+                dispatch(set_message({
                     message: 'Bạn cần thiết lập liên hệ trước khi đặt hàng !',
                     type: 'error'
-                })
+                }))
             }
         } else {
-            setMessage({
+            dispatch(set_message({
                 message: 'Bạn cần đăng nhập trước khi đặt hàng !',
                 type: 'error'
-            })
+            }))
         }  
     }
 

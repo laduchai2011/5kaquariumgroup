@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import style from './style.module.scss';
 import HeaderLeft from '@src/component/Header/HeaderLeft';
@@ -12,7 +12,6 @@ import { FishCodeField } from '@src/dataStruct/fishCode';
 import { OrderContactField, OrderProductField, OrderField } from '@src/dataStruct/order';
 import MainLoading from '@src/component/MainLoading';
 import MessageDialog from '@src/component/MessageDialog';
-import { MessageDataInterface } from '@src/component/MessageDialog/type';
 import TextEditorDisplay from '@src/component/TextEditorDisplay';
 import { AccountField } from '@src/dataStruct/account';
 import { getCookie } from '@src/utility/cookie';
@@ -20,25 +19,27 @@ import { ProductContext } from './context';
 import { ProductContextInterface } from './type';
 import OverView from './component/OverView';
 import ShoppingCart from './component/ShoppingCart';
-import ShoppingCartEdit from './component/ShoppingCartEdit';
-import ShoppingCartCreate from './component/ShoppingCartCreate';
-import { ShoppingCartEditInterface } from './type';
+// import ShoppingCartEdit from './component/ShoppingCartEdit';
+// import ShoppingCartCreate from './component/ShoppingCartCreate';
+import type { AppDispatch, RootState } from '@src/redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { set_isLoading, set_message } from '@src/redux/slice/globalSlice';
 
 
 
 
 const Product = () => {
     const { id } = useParams<{ id: string }>();
+
+    const dispatch = useDispatch<AppDispatch>();
+    const isLoading = useSelector((state: RootState) => state.globalSlice.isLoading);
+    const message = useSelector((state: RootState) => state.globalSlice.message);
+
     const [product, setProduct] = useState<ProductField | undefined>(undefined);
     const [fishCode, setFishCode] = useState<FishCodeField | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [shoppingCartEdit, setShoppingCartEdit] = useState<ShoppingCartEditInterface>({ isShow: false, shoppingCart: undefined });
+    // const [shoppingCartEdit, setShoppingCartEdit] = useState<ShoppingCartEditInterface>({ isShow: false, shoppingCart: undefined });
     const [selectedShoppingCart, setSelectedShoppingCart] = useState<OrderField | undefined>(undefined);
-    const [isShoppingCartCreate, setIsShoppingCartCreate] = useState<boolean>(false);
-    const [message, setMessage] = useState<MessageDataInterface>({
-        message: '',
-        type: 'normal'
-    })
+    // const [isShoppingCartCreate, setIsShoppingCartCreate] = useState<boolean>(false);
     const [sellerId, setSellerId] = useState<string>('')
     const [seller, setSeller] = useState<AccountField | undefined>(undefined)
     const [orderProduct, setOrderProduct] = useState<OrderProductField>({
@@ -70,15 +71,15 @@ const Product = () => {
     useEffect(() => {
         if (isError_product && error_product) {
             console.error(error_product);
-            setMessage({
+            dispatch(set_message({
                 message: 'Sản phầm không được tìm thấy !',
                 type: 'error'
-            })
+            }))
         }
-    }, [isError_product, error_product])
+    }, [dispatch, isError_product, error_product])
     useEffect(() => {
-        setIsLoading(isLoading_product)
-    }, [isLoading_product])
+        dispatch(set_isLoading(isLoading_product))
+    }, [dispatch, isLoading_product])
     useEffect(() => {
         if (data_product) {
             setProduct(data_product)
@@ -109,15 +110,15 @@ const Product = () => {
     useEffect(() => {
         if (isError_fishCode && error_fishCode) {
             console.error(error_fishCode);
-            setMessage({
+            dispatch(set_message({
                 message: 'Mã cá không được tìm thấy !',
                 type: 'error'
-            })
+            }))
         }
-    }, [isError_fishCode, error_fishCode])
+    }, [dispatch, isError_fishCode, error_fishCode])
     useEffect(() => {
-        setIsLoading(isLoading_fishCode)
-    }, [isLoading_fishCode])
+        dispatch(set_isLoading(isLoading_fishCode))
+    }, [dispatch, isLoading_fishCode])
     useEffect(() => {
         if (data_fishCode) {
             setFishCode(data_fishCode)
@@ -134,15 +135,15 @@ const Product = () => {
     useEffect(() => {
         if (isError_seller && error_seller) {
             console.error(error_seller);
-            setMessage({
+            dispatch(set_message({
                 message: 'Không tìm thấy người bán !',
                 type: 'warn'
-            })
+            }))
         }
-    }, [isError_seller, error_seller])
+    }, [dispatch, isError_seller, error_seller])
     useEffect(() => {
-        setIsLoading(isLoading_seller)
-    }, [isLoading_seller])
+        dispatch(set_isLoading(isLoading_seller))
+    }, [dispatch, isLoading_seller])
     useEffect(() => {
         if (data_seller) {
             setSeller(data_seller)
@@ -156,7 +157,7 @@ const Product = () => {
     }, [data_seller]) 
 
     const handleCloseMessage = () => {
-        setMessage({...message, message: ''})
+        dispatch(set_message({...message, message: ''}))
     }
 
     const handleSellerId = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,57 +183,55 @@ const Product = () => {
         }
     }, [])
 
-    const valueContext: ProductContextInterface = {
+    const valueContext = useMemo<ProductContextInterface>(() => ({
         product,
         setProduct,
         orderProduct,
         setOrderProduct,
         contact,
-        shoppingCartEdit,
-        setShoppingCartEdit,
+        // shoppingCartEdit,
+        // setShoppingCartEdit,
         selectedShoppingCart,
         setSelectedShoppingCart,
-        setIsShoppingCartCreate,
-        setIsLoading,
-        setMessage
-    }
+        // setIsShoppingCartCreate
+    }), [product, orderProduct, contact, selectedShoppingCart]);
 
     return (
-        <ProductContext.Provider value={valueContext}>
-            <div className={style.parent}>
-                {isLoading && <MainLoading />}
-                {message.message.length > 0 && <MessageDialog message={message.message} type={message.type} onClose={() => handleCloseMessage()} />}
-                <div className={style.headerLeft}><HeaderLeft header={PRODUCT} /></div>
-                <div className={style.headerTop}><HeaderTop header={PRODUCT} /></div>
-                { product ?
-                    <div className={style.main}>
-                        <OverView />
-                        <ShoppingCart />
-                        {shoppingCartEdit.isShow && <ShoppingCartEdit />}
-                        {isShoppingCartCreate && <ShoppingCartCreate />}
-                        <div className={style.seller}>
-                            <div>Người bán</div>
-                            <div>Cần có thông tin người bán để được giảm giá</div>
-                            <div>
-                                <input value={sellerId} onChange={(e) => handleSellerId(e)} placeholder='Nhập id người bán tại đây' />
-                            </div>
-                            {seller && <div>{`${seller?.firstName} ${seller?.lastName}`}</div>}
+        <div className={style.parent}>
+            {isLoading && <MainLoading />}
+            {message.message.length > 0 && <MessageDialog message={message.message} type={message.type} onClose={() => handleCloseMessage()} />}
+            <div className={style.headerLeft}><HeaderLeft header={PRODUCT} /></div>
+            <div className={style.headerTop}><HeaderTop header={PRODUCT} /></div>
+            <ProductContext.Provider value={valueContext}>
+            { product ?
+                <div className={style.main}>
+                    <OverView />
+                    <ShoppingCart />
+                    {/* {shoppingCartEdit.isShow && <ShoppingCartEdit />} */}
+                    {/* {isShoppingCartCreate && <ShoppingCartCreate />} */}
+                    <div className={style.seller}>
+                        <div>Người bán</div>
+                        <div>Cần có thông tin người bán để được giảm giá</div>
+                        <div>
+                            <input value={sellerId} onChange={(e) => handleSellerId(e)} placeholder='Nhập id người bán tại đây' />
                         </div>
-                        <div className={style.paymentMethod}>
-                            <div>Phương thức thanh toán</div>
-                            <div>Liên hệ người bán</div>
+                        {seller && <div>{`${seller?.firstName} ${seller?.lastName}`}</div>}
+                    </div>
+                    <div className={style.paymentMethod}>
+                        <div>Phương thức thanh toán</div>
+                        <div>Liên hệ người bán</div>
+                    </div>
+                    <div className={style.describe}>
+                        <div>Mô tả</div>
+                        <div>
+                            {fishCode?.detail && <TextEditorDisplay data={fishCode?.detail} />}
                         </div>
-                        <div className={style.describe}>
-                            <div>Mô tả</div>
-                            <div>
-                                {fishCode?.detail && <TextEditorDisplay data={fishCode?.detail} />}
-                            </div>
-                        </div>
-                    </div> :
-                    <div className={style.notifyNOTproduct}><h2>Không có sản phẩm nào được tìm thấy</h2></div>
-                }
-            </div>
-        </ProductContext.Provider>
+                    </div>
+                </div> :
+                <div className={style.notifyNOTproduct}><h2>Không có sản phẩm nào được tìm thấy</h2></div>
+            }
+            </ProductContext.Provider>
+        </div>
     );
 };
 

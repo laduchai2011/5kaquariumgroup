@@ -1,29 +1,35 @@
-import { useContext, useEffect, useState, memo } from 'react';
+import { useEffect, useState, memo, useMemo, useCallback } from 'react';
 import style from './style.module.scss';
-import { ProductContext } from '../../context';
+// import { ProductContext } from '../../context';
 import { useGetShoppingCartsQuery } from '@src/redux/query/orderRTK';
 import { GrFormNext, GrFormPrevious  } from "react-icons/gr";
 import { OrderField } from '@src/dataStruct/order';
 import Row from './component/Row';
-
+import Create from './component/Create';
+import Edit from './component/Edit';
+import type { AppDispatch } from '@src/redux';
+import { useDispatch } from 'react-redux';
+import { set_isLoading, set_message } from '@src/redux/slice/globalSlice';
 
 
 
 
 const ShoppingCart = () => {
-    const productContext = useContext(ProductContext)
-    if (!productContext) {
-        throw new Error("productContext in ShoppingCart component cant undefined !");
-    }
-    const {
-        setIsShoppingCartCreate,
-        setMessage,
-        setIsLoading
-    } = productContext;
+    const dispatch = useDispatch<AppDispatch>();
+    // const productContext = useContext(ProductContext)
+    // if (!productContext) {
+    //     throw new Error("productContext in ShoppingCart component cant undefined !");
+    // }
+    // const {
+    //     setIsShoppingCartCreate
+    // } = productContext;
     const [page, setPage] = useState<string>('1');
     const size = '5';
     const [totalCount, setTotalCount] = useState<number>(10);
     const [shoppingCarts, setShoppingCarts] = useState<OrderField[]>([]);
+    const [isCreate, setIsCreate] = useState<boolean>(false);
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [dataEdit, setDataEdit] = useState<OrderField | undefined>(undefined) 
 
     const {
         data: data_ShoppingCart, 
@@ -35,15 +41,15 @@ const ShoppingCart = () => {
     useEffect(() => {
         if (isError_ShoppingCart && error_ShoppingCart) {
             console.error(error_ShoppingCart);
-            setMessage({
+            dispatch(set_message({
                 message: 'Đã có lỗi xảy ra !',
                 type: 'error'
-            })
+            }))
         }
-    }, [isError_ShoppingCart, error_ShoppingCart, setMessage])
+    }, [dispatch, isError_ShoppingCart, error_ShoppingCart])
     useEffect(() => {
-        setIsLoading(isLoading_ShoppingCart)
-    }, [isLoading_ShoppingCart, setIsLoading])
+        dispatch(set_isLoading(isLoading_ShoppingCart))
+    }, [dispatch, isLoading_ShoppingCart])
     useEffect(() => {
         if (data_ShoppingCart?.isSuccess && data_ShoppingCart.data) {
             setTotalCount(data_ShoppingCart.data.totalCount)
@@ -87,16 +93,37 @@ const ShoppingCart = () => {
         return 10;
     }
 
-    const handleCreateShoppingCart = () => {
-        setIsShoppingCartCreate(true);
-    }
 
-    const list_shoppingCart = shoppingCarts.map((item, index) => {
-        return <Row data={item} index={index} key={item.id} />
-    })
+    const handleShowEdit = useCallback((data: OrderField) => {
+        setIsEdit(true)
+        setDataEdit(data)
+    }, []);
+    const handleCloseEdit = useCallback(() => {
+        setIsEdit(false)
+    }, []);
+
+    const handleShowCreate = useCallback(() => {
+        setIsCreate(true)
+    }, []);
+    const handleCloseCreate = useCallback(() => {
+        setIsCreate(false);
+    }, []);
+
+    const list_shoppingCart = useMemo(() => {
+        return shoppingCarts.map((item, index) => (
+            <Row 
+                data={item} 
+                index={index} 
+                key={item.id} 
+                onShowEdit={handleShowEdit} 
+            />
+        ));
+    }, [shoppingCarts, handleShowEdit]);
 
     return (
         <div className={style.parent}>
+            {isCreate && <Create onClose={() => handleCloseCreate()} />}
+            {isEdit && <Edit data={dataEdit} onClose={() => handleCloseEdit()} />}
             <div className={style.header}>Giỏ hàng của bạn</div>
             {shoppingCarts.length > 0 ? <div className={style.main}>
                 <div className={style.table}>
@@ -119,7 +146,7 @@ const ShoppingCart = () => {
                 </div>
             </div> : <div className={style.main1}>Bạn chưa có giỏ hàng nào !</div>}
             <div className={style.buttonContainer}>
-                <div onClick={() => handleCreateShoppingCart()}>Tạo giỏ hàng mới</div>
+                <div onClick={() => handleShowCreate()}>Tạo giỏ hàng mới</div>
             </div>
         </div>
     )
