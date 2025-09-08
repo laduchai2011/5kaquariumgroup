@@ -4,11 +4,13 @@ import { accountRTK } from './query/accountRTK';
 import { productRTK } from './query/productRTK';
 import { fishCodeRTK } from './query/fishCodeRTK';
 import { orderRTK } from './query/orderRTK';
+import globalReducer from '@src/redux/slice/globalSlice';
 import productReducer from '@src/redux/slice/productSlice';
 import headerLeftReducer from '@src/redux/slice/headerLeftSlice';
 
 export const store = configureStore({
     reducer: {
+        globalSlice: globalReducer,
         productSlice: productReducer,
         headerLeftSlice: headerLeftReducer,
         [accountRTK.reducerPath]: accountRTK.reducer,

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, memo } from 'react';
 import style from './style.module.scss';
 import { GrFormAdd, GrFormSubtract  } from "react-icons/gr";
 import { ProductContext } from '../../context';
@@ -14,7 +14,7 @@ import { BuyNowBodyType, OrderField } from '@src/dataStruct/order';
 const OverView = () => {
     const productContext = useContext(ProductContext)
     if (!productContext) {
-        throw new Error("productContext in List component cant undefined !");
+        throw new Error("productContext in OverView component cant undefined !");
     }
     const {
         product,
@@ -213,4 +213,4 @@ const OverView = () => {
     )
 }
 
-export default OverView;
+export default memo(OverView);

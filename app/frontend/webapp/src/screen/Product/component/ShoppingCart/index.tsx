@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, memo } from 'react';
 import style from './style.module.scss';
 import { ProductContext } from '../../context';
 import { useGetShoppingCartsQuery } from '@src/redux/query/orderRTK';
@@ -45,7 +45,6 @@ const ShoppingCart = () => {
         setIsLoading(isLoading_ShoppingCart)
     }, [isLoading_ShoppingCart, setIsLoading])
     useEffect(() => {
-        console.log('data_ShoppingCart', data_ShoppingCart)
         if (data_ShoppingCart?.isSuccess && data_ShoppingCart.data) {
             setTotalCount(data_ShoppingCart.data.totalCount)
             setShoppingCarts(data_ShoppingCart.data.items)
@@ -75,8 +74,8 @@ const ShoppingCart = () => {
 
     const handlePageNumber = () => {
         if (totalCount) {
-            const kqn = Math.floor(totalCount / 10);
-            const kqd = totalCount % 10;
+            const kqn = Math.floor(totalCount / Number(size));
+            const kqd = totalCount % Number(size);
             let pageNumber = 0;
             if (kqd > 0) {
                 pageNumber = kqn + 1;
@@ -93,20 +92,6 @@ const ShoppingCart = () => {
     }
 
     const list_shoppingCart = shoppingCarts.map((item, index) => {
-        // return (
-        //     <div className={style.row} >
-        //         <div className={style.row1}>
-        //             <div className={style.rowIndex}>{index}</div>
-        //             <div className={style.rowLabel}>{item.label}</div>
-        //             <div className={style.rowTotal}>{item.total}</div>
-        //             <div className={style.rowNote}>{item.note}</div>   
-        //         </div>
-        //         <input className={style.rowSelect} type='checkbox' />
-        //         <div className={style.rowIcon}>
-        //             <FaEdit onClick={() => ShowEdit()} title='Chỉnh sửa' color='green' />
-        //         </div>
-        //     </div>
-        // )
         return <Row data={item} index={index} key={item.id} />
     })
 
@@ -140,4 +125,4 @@ const ShoppingCart = () => {
     )
 }
 
-export default ShoppingCart;
+export default memo(ShoppingCart);

@@ -2,7 +2,7 @@ import sql from 'mssql';
 import { MutateDB } from '@src/services/order/interface';
 import { OrderField } from '@src/dataStruct/order';
 
-class MutateDB_WebappSreenProducCreateShoppingCart extends MutateDB {
+class MutateDB_WebappSreenProductCreateShoppingCart extends MutateDB {
     private _connectionPool: sql.ConnectionPool | undefined;
     private _order: OrderField | undefined;
  
@@ -28,7 +28,7 @@ class MutateDB_WebappSreenProducCreateShoppingCart extends MutateDB {
                     .input("total", sql.NVarChar(255), this._order.total)
                     .input("note", sql.NVarChar(255), this._order.note)
                     .input("userId", sql.Int, this._order.userId)
-                    .execute('WebappSreenProducCreateShoppingCart');
+                    .execute('WebappSreenProductCreateShoppingCart');
                 
                 return result
             } catch (error) {
@@ -39,4 +39,4 @@ class MutateDB_WebappSreenProducCreateShoppingCart extends MutateDB {
 }
 
 
-export default MutateDB_WebappSreenProducCreateShoppingCart;
+export default MutateDB_WebappSreenProductCreateShoppingCart;

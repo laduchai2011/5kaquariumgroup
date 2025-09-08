@@ -281,7 +281,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE WebappSreenProducCreateShoppingCart
+CREATE PROCEDURE WebappSreenProductCreateShoppingCart
 	@label NVARCHAR(255),
 	@total NVARCHAR(255),
 	@note NVARCHAR(255),
@@ -311,6 +311,27 @@ BEGIN
 		ROLLBACK TRANSACTION;
 		THROW;
 	END CATCH
+END;
+GO
+
+CREATE PROCEDURE WebappSreenProductEditShoppingCart
+	  @label NVARCHAR(255),
+	  @note NVARCHAR(255),
+	  @id INT,
+	  @userId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	UPDATE dbo.[order]
+	SET 
+		label = @label, 
+		note = @note
+	OUTPUT INSERTED.*
+	WHERE 
+		status = 'normal'
+		AND id = @id
+		AND userId = @userId
 END;
 GO
 

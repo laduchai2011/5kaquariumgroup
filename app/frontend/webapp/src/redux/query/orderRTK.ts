@@ -66,6 +66,20 @@ export const orderRTK = createApi({
                     ]
                     : [{ type: 'Order', id: 'LIST' }],
         }),
+        editShoppingCart: builder.mutation<MyResponse<OrderField>, OrderField>({
+            query: (body) => ({
+                url: ORDER_API.EDIT_SHOPPING_CART,
+                method: 'PATCH',
+                body,
+            }),
+            invalidatesTags: (result) =>
+                result?.isSuccess && result?.data
+                    ? [
+                        { type: 'Order', id: result.data.id },
+                        { type: 'Order', id: 'LIST' }
+                    ]
+                    : [{ type: 'Order', id: 'LIST' }],
+        }),
     }),
 });
 
@@ -74,5 +88,6 @@ export const {
     useGetShoppingCartsQuery,
     // useAddOrderWithTransactionMutation,
     useBuyNowMutation,
-    useCreateShoppingCartMutation
+    useCreateShoppingCartMutation,
+    useEditShoppingCartMutation
 } = orderRTK;

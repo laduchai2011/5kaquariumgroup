@@ -8,6 +8,7 @@
     width: 100vw;
     @include center-of-row;
     justify-content: space-between;
+    z-index: 10000;
 
     > div {
         width: calc(100% / 3);

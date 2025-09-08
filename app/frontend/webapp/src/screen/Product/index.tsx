@@ -9,7 +9,7 @@ import { useGetAFishCodeWithIdQuery } from '@src/redux/query/fishCodeRTK';
 import { useGetAccountWithIdQuery } from '@src/redux/query/accountRTK';
 import { ProductField } from '@src/dataStruct/product';
 import { FishCodeField } from '@src/dataStruct/fishCode';
-import { OrderContactField, OrderProductField } from '@src/dataStruct/order';
+import { OrderContactField, OrderProductField, OrderField } from '@src/dataStruct/order';
 import MainLoading from '@src/component/MainLoading';
 import MessageDialog from '@src/component/MessageDialog';
 import { MessageDataInterface } from '@src/component/MessageDialog/type';
@@ -32,7 +32,8 @@ const Product = () => {
     const [product, setProduct] = useState<ProductField | undefined>(undefined);
     const [fishCode, setFishCode] = useState<FishCodeField | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [shoppingCartEdit, setShoppingCartEdit] = useState<ShoppingCartEditInterface>({ isShow: false });
+    const [shoppingCartEdit, setShoppingCartEdit] = useState<ShoppingCartEditInterface>({ isShow: false, shoppingCart: undefined });
+    const [selectedShoppingCart, setSelectedShoppingCart] = useState<OrderField | undefined>(undefined);
     const [isShoppingCartCreate, setIsShoppingCartCreate] = useState<boolean>(false);
     const [message, setMessage] = useState<MessageDataInterface>({
         message: '',
@@ -189,6 +190,8 @@ const Product = () => {
         contact,
         shoppingCartEdit,
         setShoppingCartEdit,
+        selectedShoppingCart,
+        setSelectedShoppingCart,
         setIsShoppingCartCreate,
         setIsLoading,
         setMessage

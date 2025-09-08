@@ -3,13 +3,13 @@ import { Request, Response, NextFunction } from 'express';
 import { MyResponse } from '@src/dataStruct/response';
 import { OrderField } from '@src/dataStruct/order';
 import { verifyRefreshToken } from '@src/token';
-import MutateDB_WebappSreenProducCreateShoppingCart from '../../mutateDB/WebappSreenProducCreateShoppingCart';
+import MutateDB_WebappSreenProductCreateShoppingCart from '../../mutateDB/WebappSreenProductCreateShoppingCart';
 // import { produceTask } from '@src/queueRedis/producer';
 
 
 
 
-class Handle_WebappSreenProducCreateShoppingCart {
+class Handle_WebappSreenProductCreateShoppingCart {
     private _mssql_server = mssql_server;
 
     constructor() {}
@@ -55,19 +55,19 @@ class Handle_WebappSreenProducCreateShoppingCart {
             isSuccess: false
         };
 
-        const mutateDB_webappSreenProducCreateShoppingCart = new MutateDB_WebappSreenProducCreateShoppingCart();
-        mutateDB_webappSreenProducCreateShoppingCart.set_order(order);
+        const mutateDB_webappSreenProductCreateShoppingCart = new MutateDB_WebappSreenProductCreateShoppingCart();
+        mutateDB_webappSreenProductCreateShoppingCart.set_order(order);
 
         const connection_pool = this._mssql_server.get_connectionPool();
         if (connection_pool) {
-            mutateDB_webappSreenProducCreateShoppingCart.set_connection_pool(connection_pool);
+            mutateDB_webappSreenProductCreateShoppingCart.set_connection_pool(connection_pool);
         } else {
             myResponse.message = 'Kết nối cơ sở dữ liệu không thành công !'
             return res.status(500).json(myResponse);
         }
 
         try {
-            const result = await mutateDB_webappSreenProducCreateShoppingCart.run();
+            const result = await mutateDB_webappSreenProductCreateShoppingCart.run();
             if (result?.recordset.length && result?.recordset.length > 0) {
                 const data = result.recordset[0]
                 // produceTask<OrderField>('addOrder-to-provider', data);
@@ -80,11 +80,11 @@ class Handle_WebappSreenProducCreateShoppingCart {
                 return res.status(204).json(myResponse);
             }
         } catch (error) {
-            myResponse.message = 'Đặt hàngTạo giỏ hàng KHÔNG thành công !';
+            myResponse.message = 'Tạo giỏ hàng KHÔNG thành công !';
             myResponse.err = error;
             return res.status(500).json(myResponse);
         }
     };
 }
 
-export default Handle_WebappSreenProducCreateShoppingCart;
+export default Handle_WebappSreenProductCreateShoppingCart;

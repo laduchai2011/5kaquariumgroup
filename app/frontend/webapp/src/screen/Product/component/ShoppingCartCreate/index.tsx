@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, memo } from 'react';
 import style from './style.module.scss';
 import { IoClose } from "react-icons/io5";
 import { ProductContext } from '../../context';
@@ -105,4 +105,4 @@ const ShoppingCartCreate = () => {
     )
 }
 
-export default ShoppingCartCreate;
+export default memo(ShoppingCartCreate);

@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import Handle_GetOrdersWithFilter from './handle/GetOrdersWithFilter';
 import Handle_WebappSreenProductBuyNow from './handle/WebappSreenProductBuyNow';
 import Handle_AddToNewCart from './handle/AddToNewCart';
-import Handle_WebappSreenProducCreateShoppingCart from './handle/WebappSreenProducCreateShoppingCart';
+import Handle_WebappSreenProductCreateShoppingCart from './handle/WebappSreenProductCreateShoppingCart';
+import Handle_WebappSreenProductEditShoppingCart from './handle/WebappSreenProductEditShoppingCart';
 import Handle_AddPaymentToNewCart from './handle/AddPaymentToNewCart';
 import Handle_AddContactToNewCart from './handle/AddContactToNewCart';
 import Handle_AddProductToNewCart from './handle/AddProductToNewCart';
@@ -20,7 +21,8 @@ const handle_getOrdersWithFilter = new Handle_GetOrdersWithFilter();
 // newlogic
 const handle_webappSreenProductBuyNow = new Handle_WebappSreenProductBuyNow();
 const handle_addToNewCart = new Handle_AddToNewCart();
-const handle_webappSreenProducCreateShoppingCart = new Handle_WebappSreenProducCreateShoppingCart();
+const handle_webappSreenProductCreateShoppingCart = new Handle_WebappSreenProductCreateShoppingCart();
+const handle_webappSreenProductEditShoppingCart = new Handle_WebappSreenProductEditShoppingCart();
 const handle_addPaymentToNewCart = new Handle_AddPaymentToNewCart();
 const handle_addContactToNewCart = new Handle_AddContactToNewCart();
 const handle_addProductToNewCart = new Handle_AddProductToNewCart();
@@ -55,10 +57,17 @@ router_mutate_order.post(
 );
 
 router_mutate_order.post(
-    '/webappSreenProducCreateShoppingCart',
+    '/webappSreenProductCreateShoppingCart',
     authentication,
-    handle_webappSreenProducCreateShoppingCart.setup,
-    handle_webappSreenProducCreateShoppingCart.main
+    handle_webappSreenProductCreateShoppingCart.setup,
+    handle_webappSreenProductCreateShoppingCart.main
+);
+
+router_mutate_order.patch(
+    '/webappSreenProductEditShoppingCart',
+    authentication,
+    handle_webappSreenProductEditShoppingCart.setup,
+    handle_webappSreenProductEditShoppingCart.main
 );
 
 router_mutate_order.post(
