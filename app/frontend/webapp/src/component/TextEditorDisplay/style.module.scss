@@ -1,6 +1,5 @@
 @use 'src/utility/style/mixin.scss' as *;
 
 .parent {
-    width: max-content;
-    height: max-content;
+    width: 100%;
 }

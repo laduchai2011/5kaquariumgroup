@@ -16,13 +16,6 @@ import { set_isLoading, set_message } from '@src/redux/slice/globalSlice';
 
 const ShoppingCart = () => {
     const dispatch = useDispatch<AppDispatch>();
-    // const productContext = useContext(ProductContext)
-    // if (!productContext) {
-    //     throw new Error("productContext in ShoppingCart component cant undefined !");
-    // }
-    // const {
-    //     setIsShoppingCartCreate
-    // } = productContext;
     const [page, setPage] = useState<string>('1');
     const size = '5';
     const [totalCount, setTotalCount] = useState<number>(10);
@@ -131,7 +124,7 @@ const ShoppingCart = () => {
                         <div className={style.row1}>
                             <div className={style.rowIndex}>Stt</div>
                             <div className={style.rowLabel}>Nhãn</div>
-                            <div className={style.rowTotal}>Tổng</div>
+                            <div className={style.rowTotal}>Tổng (VND)</div>
                             <div className={style.rowNote}>Chú thích</div>
                         </div>
                     </div>

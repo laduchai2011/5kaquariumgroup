@@ -2,12 +2,12 @@ import { mssql_server } from '@src/connect';
 import { Request, Response } from 'express';
 import { MyResponse } from '@src/dataStruct/response';
 import { OrderProductField } from '@src/dataStruct/order';
-import MutateDB_AddProductToNewCart from '../../mutateDB/AddProductToNewCart';
+import MutateDB_WebappSreenProductAddProductToShoppingCart from '../../mutateDB/WebappSreenProductAddProductToShoppingCart';
 
 
 
 
-class Handle_AddProductToNewCart {
+class Handle_WebappSreenProductAddProductToShoppingCart {
     private _mssql_server = mssql_server;
 
     constructor() {}
@@ -20,19 +20,19 @@ class Handle_AddProductToNewCart {
             isSuccess: false
         };
 
-        const mutateDB_addProductToNewCart = new MutateDB_AddProductToNewCart();
-        mutateDB_addProductToNewCart.set_orderProduct(orderProduct)
+        const mutateDB_webappSreenProductAddProductToShoppingCart = new MutateDB_WebappSreenProductAddProductToShoppingCart();
+        mutateDB_webappSreenProductAddProductToShoppingCart.set_orderProduct(orderProduct)
 
         const connection_pool = this._mssql_server.get_connectionPool();
         if (connection_pool) {
-            mutateDB_addProductToNewCart.set_connection_pool(connection_pool);
+            mutateDB_webappSreenProductAddProductToShoppingCart.set_connection_pool(connection_pool);
         } else {
             myResponse.message = 'Kết nối cơ sở dữ liệu không thành công !'
             return res.status(500).json(myResponse);
         }
 
         try {
-            const result = await mutateDB_addProductToNewCart.run();
+            const result = await mutateDB_webappSreenProductAddProductToShoppingCart.run();
             if (result?.recordset.length && result?.recordset.length > 0) {
                 const data = result.recordset[0]
                 myResponse.message = 'Thêm sản phẩm vào giỏ hàng thành công !';
@@ -51,4 +51,4 @@ class Handle_AddProductToNewCart {
     };
 }
 
-export default Handle_AddProductToNewCart;
+export default Handle_WebappSreenProductAddProductToShoppingCart;

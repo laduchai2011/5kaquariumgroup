@@ -6,5 +6,6 @@ export const ORDER_API = {
     BUY_NOW: `${BASE_URL}/api/service_order/mutate/webappSreenProductBuyNow`,
     CREATE_SHOPPING_CART: `${BASE_URL}/api/service_order/mutate/webappSreenProductCreateShoppingCart`,
     EDIT_SHOPPING_CART: `${BASE_URL}/api/service_order/mutate/webappSreenProductEditShoppingCart`,
+    ADD_PRODUCT_TO_SHOPPING_CART: `${BASE_URL}/api/service_order/mutate/webappSreenProductAddProductToShoppingCart`,
     GET_SHOPPING_CART: `${BASE_URL}/api/service_order/query/webappSreenProductGetShoppingCarts`,
 }

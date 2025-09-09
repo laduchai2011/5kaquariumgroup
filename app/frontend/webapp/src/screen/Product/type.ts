@@ -8,6 +8,4 @@ export interface ProductContextInterface {
     orderProduct: OrderProductField,
     setOrderProduct: React.Dispatch<React.SetStateAction<OrderProductField>>,
     contact: OrderContactField | undefined,
-    selectedShoppingCart: OrderField | undefined,
-    setSelectedShoppingCart: React.Dispatch<React.SetStateAction<OrderField | undefined>>,
 }

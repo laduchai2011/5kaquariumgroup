@@ -8,6 +8,8 @@
 
     > .row {
         @include center-of-row;
+        padding: 10px 0;
+        
         > div {
             box-sizing: border-box;
             padding: 5px;
@@ -31,11 +33,11 @@
         }
     }
 
-    > .rowSelect {
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
+    // > .rowSelect {
+    //     position: absolute;
+    //     top: 0;
+    //     left: 0;
+    // }
 
     > .rowIcon {
         position: absolute;
@@ -44,6 +46,7 @@
 
         > svg {
             cursor: pointer;
+            margin: 0 10px;
         }
     }
 }

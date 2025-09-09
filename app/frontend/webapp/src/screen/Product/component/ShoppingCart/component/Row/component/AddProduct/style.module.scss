@@ -1,0 +1,100 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    background-color: rgba(121, 121, 121, 0.3) !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20000;
+    @include center-of-rectangle;
+
+    > div {
+        width: 300px;
+        background-color: white;
+        box-sizing: border-box;
+        padding: 10px;
+        border-radius: 10px;
+
+        > div:nth-child(1) {
+            @include center-of-row;
+            justify-content: flex-end;
+
+            > svg {
+                cursor: pointer;
+            }
+        }
+
+        > div:nth-child(2) {
+            @include center-of-row;
+            justify-content: space-between;
+            margin: 10px 0;
+
+            > div:nth-child(1) {
+                width: 150px;
+                font-size: 1.2rem;
+            }
+
+            > div:nth-child(2) {
+                > input {
+                    width: 100px;
+                    border: none;
+                    outline: none;
+                    border-bottom: 1px solid gray;
+                    font-size: 1.2rem;
+                    text-align: center;
+                }
+            }
+        }
+
+        > div:nth-child(3) {
+            text-align: center;
+            color: red;
+        }
+
+        > div:nth-child(4) {
+            margin: 10px 0;
+            @include center-of-row;
+            justify-content: space-around;
+
+            > div:nth-child(1) {
+                color: blue;
+                font-size: 1.1rem;
+            }
+
+            > div:nth-child(2) {
+                color: gray;
+                font-size: 0.9rem;
+                text-decoration:line-through;
+                font-style: italic;
+            }
+        }
+
+        > div:nth-child(5) {
+            @include center-of-rectangle;
+            margin-top: 15px;
+            background-color: rgb(255, 0, 0);
+            box-sizing: border-box;
+            padding: 10px;
+            cursor: pointer;
+            user-select: none;
+
+            &:active {
+                background-color: rgb(255, 0, 0, 0.8);
+            }
+    
+            > div {
+                @include center-of-row;
+
+                > svg {
+                    margin: 0 5px;
+                }
+
+                > div {
+                    color: white;
+                }
+            }
+        }
+    }
+}

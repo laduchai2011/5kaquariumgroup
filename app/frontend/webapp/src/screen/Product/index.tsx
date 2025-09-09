@@ -19,8 +19,6 @@ import { ProductContext } from './context';
 import { ProductContextInterface } from './type';
 import OverView from './component/OverView';
 import ShoppingCart from './component/ShoppingCart';
-// import ShoppingCartEdit from './component/ShoppingCartEdit';
-// import ShoppingCartCreate from './component/ShoppingCartCreate';
 import type { AppDispatch, RootState } from '@src/redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { set_isLoading, set_message } from '@src/redux/slice/globalSlice';
@@ -37,9 +35,6 @@ const Product = () => {
 
     const [product, setProduct] = useState<ProductField | undefined>(undefined);
     const [fishCode, setFishCode] = useState<FishCodeField | undefined>(undefined);
-    // const [shoppingCartEdit, setShoppingCartEdit] = useState<ShoppingCartEditInterface>({ isShow: false, shoppingCart: undefined });
-    const [selectedShoppingCart, setSelectedShoppingCart] = useState<OrderField | undefined>(undefined);
-    // const [isShoppingCartCreate, setIsShoppingCartCreate] = useState<boolean>(false);
     const [sellerId, setSellerId] = useState<string>('')
     const [seller, setSeller] = useState<AccountField | undefined>(undefined)
     const [orderProduct, setOrderProduct] = useState<OrderProductField>({
@@ -189,12 +184,7 @@ const Product = () => {
         orderProduct,
         setOrderProduct,
         contact,
-        // shoppingCartEdit,
-        // setShoppingCartEdit,
-        selectedShoppingCart,
-        setSelectedShoppingCart,
-        // setIsShoppingCartCreate
-    }), [product, orderProduct, contact, selectedShoppingCart]);
+    }), [product, orderProduct, contact]);
 
     return (
         <div className={style.parent}>
@@ -207,8 +197,6 @@ const Product = () => {
                 <div className={style.main}>
                     <OverView />
                     <ShoppingCart />
-                    {/* {shoppingCartEdit.isShow && <ShoppingCartEdit />} */}
-                    {/* {isShoppingCartCreate && <ShoppingCartCreate />} */}
                     <div className={style.seller}>
                         <div>Người bán</div>
                         <div>Cần có thông tin người bán để được giảm giá</div>

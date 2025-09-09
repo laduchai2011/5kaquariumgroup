@@ -8,7 +8,7 @@ import Handle_WebappSreenProductCreateShoppingCart from './handle/WebappSreenPro
 import Handle_WebappSreenProductEditShoppingCart from './handle/WebappSreenProductEditShoppingCart';
 import Handle_AddPaymentToNewCart from './handle/AddPaymentToNewCart';
 import Handle_AddContactToNewCart from './handle/AddContactToNewCart';
-import Handle_AddProductToNewCart from './handle/AddProductToNewCart';
+import Handle_WebappSreenProductAddProductToShoppingCart from './handle/WebappSreenProductAddProductToShoppingCart';
 import authentication from '@src/auth';
 
 
@@ -25,7 +25,7 @@ const handle_webappSreenProductCreateShoppingCart = new Handle_WebappSreenProduc
 const handle_webappSreenProductEditShoppingCart = new Handle_WebappSreenProductEditShoppingCart();
 const handle_addPaymentToNewCart = new Handle_AddPaymentToNewCart();
 const handle_addContactToNewCart = new Handle_AddContactToNewCart();
-const handle_addProductToNewCart = new Handle_AddProductToNewCart();
+const handle_webappSreenProductAddProductToShoppingCart = new Handle_WebappSreenProductAddProductToShoppingCart();
 
 
 
@@ -83,9 +83,9 @@ router_mutate_order.post(
 );
 
 router_mutate_order.post(
-    '/addProductToNewCart',
+    '/webappSreenProductAddProductToShoppingCart',
     authentication,
-    handle_addProductToNewCart.main
+    handle_webappSreenProductAddProductToShoppingCart.main
 );
 
 export default router_mutate_order;

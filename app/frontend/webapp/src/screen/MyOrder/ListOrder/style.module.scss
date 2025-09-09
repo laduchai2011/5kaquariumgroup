@@ -1,0 +1,50 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    margin: 10px 0;
+
+    > .table {
+        box-sizing: border-box;
+        padding: 5px;
+        border: 1px solid gray;
+        border-radius: 10px;
+
+        > .rowHeader {
+            box-sizing: border-box;
+            padding: 5px 0;
+
+            > div {
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+        }
+
+        > .row {
+            @include center-of-row;
+            border-bottom: 1px solid gray;
+            box-sizing: border-box;
+
+            > div {
+                box-sizing: border-box;
+                padding: 5px;
+                @include center-of-rectangle;
+            }
+
+            > .rowIndex {
+                width: 50px;
+            }
+
+            > .rowLabel {
+                width: 60%;
+            }
+
+            > .rowTotal {
+                width: 10%;
+            }
+
+            > .rowNote {
+                flex: 1;
+            }
+        }
+    }
+}

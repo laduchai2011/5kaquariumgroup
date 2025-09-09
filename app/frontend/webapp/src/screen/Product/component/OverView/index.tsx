@@ -14,7 +14,6 @@ import { set_isLoading, set_message } from '@src/redux/slice/globalSlice';
 
 
 const OverView = () => {
-    console.log('OverView')
     const dispatch = useDispatch<AppDispatch>();
     const productContext = useContext(ProductContext)
     if (!productContext) {

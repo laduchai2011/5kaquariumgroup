@@ -2,7 +2,7 @@ import sql from 'mssql';
 import { MutateDB } from '@src/services/order/interface';
 import { OrderProductField } from '@src/dataStruct/order';
 
-class MutateDB_AddProductToNewCart extends MutateDB {
+class MutateDB_WebappSreenProductAddProductToShoppingCart extends MutateDB {
     private _connectionPool: sql.ConnectionPool | undefined;
     private _orderProduct: OrderProductField | undefined;
  
@@ -24,9 +24,9 @@ class MutateDB_AddProductToNewCart extends MutateDB {
             try {
                 const result = await this._connectionPool
                     .request()
-                    .input("@title", sql.NVarChar(255), this._orderProduct.title)
-                    .input("@image", sql.NVarChar(255), this._orderProduct.image)
-                    .input("@name", sql.NVarChar(255), this._orderProduct.name)
+                    .input("title", sql.NVarChar(255), this._orderProduct.title)
+                    .input("image", sql.NVarChar(255), this._orderProduct.image)
+                    .input("name", sql.NVarChar(255), this._orderProduct.name)
                     .input("size", sql.NVarChar(255), this._orderProduct.size)
                     .input("amount", sql.NVarChar(255), this._orderProduct.amount)
                     .input("discount", sql.NVarChar(255), this._orderProduct.discount)
@@ -35,7 +35,7 @@ class MutateDB_AddProductToNewCart extends MutateDB {
                     .input("productId", sql.Int, this._orderProduct.productId)
                     .input("sellerId", sql.Int, this._orderProduct.sellerId)
                     .input("orderId", sql.Int, this._orderProduct.orderId)
-                    .execute('AddProductToNewCart');
+                    .execute('WebappSreenProductAddProductToShoppingCart');
                 
                 return result
             } catch (error) {
@@ -46,4 +46,4 @@ class MutateDB_AddProductToNewCart extends MutateDB {
 }
 
 
-export default MutateDB_AddProductToNewCart;
+export default MutateDB_WebappSreenProductAddProductToShoppingCart;

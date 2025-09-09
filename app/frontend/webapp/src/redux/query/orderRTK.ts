@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ORDER_API } from '@src/const/api/order';
 import { MyResponse } from '@src/dataStruct/response';
-import { OrderField, PagedOrderField, BuyNowBodyType } from '@src/dataStruct/order';
+import { OrderField, OrderProductField, PagedOrderField, BuyNowBodyType } from '@src/dataStruct/order';
 
 
 
@@ -80,6 +80,13 @@ export const orderRTK = createApi({
                     ]
                     : [{ type: 'Order', id: 'LIST' }],
         }),
+        addProductToShoppingCart: builder.mutation<MyResponse<OrderProductField>, OrderProductField>({
+            query: (body) => ({
+                url: ORDER_API.ADD_PRODUCT_TO_SHOPPING_CART,
+                method: 'POST',
+                body,
+            }),
+        }),
     }),
 });
 
@@ -89,5 +96,6 @@ export const {
     // useAddOrderWithTransactionMutation,
     useBuyNowMutation,
     useCreateShoppingCartMutation,
-    useEditShoppingCartMutation
+    useEditShoppingCartMutation,
+    useAddProductToShoppingCartMutation
 } = orderRTK;

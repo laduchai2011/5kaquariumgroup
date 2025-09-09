@@ -1,0 +1,39 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    @include center-of-row;
+    border-bottom: 1px solid gray;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgb(240, 240, 240);
+    }
+
+    &.parrentSelected {
+        background-color: rgb(240, 240, 240);
+    }
+
+    > div {
+        box-sizing: border-box;
+        padding: 10px 5px;
+        @include center-of-rectangle;
+    }
+
+    > .rowIndex {
+        width: 50px;
+    }
+
+    > .rowLabel {
+        width: 60%;
+    }
+
+    > .rowTotal {
+        width: 10%;
+        color: blue;
+    }
+
+    > .rowNote {
+        flex: 1;
+    }
+}

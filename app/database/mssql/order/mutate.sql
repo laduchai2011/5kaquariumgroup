@@ -219,67 +219,67 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE WebappSreenProductAddProductIntoNewShoppingCart
-	@label NVARCHAR(255),
-	@total NVARCHAR(255),
-	@note NVARCHAR(255),
-	@userId INT,
-	@title NVARCHAR(255),
-	@image NVARCHAR(255),
-	@name NVARCHAR(255),
-	@size NVARCHAR(255),
-	@amount NVARCHAR(255),
-	@discount NVARCHAR(255),
-	@fishCodeInProduct NVARCHAR(255),
-	@price NVARCHAR(255),
-	@productId INT,
-	@sellerId INT,
-	@paymentMethod NVARCHAR(255),
-	@paymentInfo NVARCHAR(MAX),
-	@isPay BIT,
-	@myName NVARCHAR(100),
-	@myPhone NVARCHAR(15),
-	@address NVARCHAR(255),
-	@contactId INT
-AS
-BEGIN
-	SET NOCOUNT ON;
+-- CREATE PROCEDURE WebappSreenProductAddProductIntoNewShoppingCart
+-- 	@label NVARCHAR(255),
+-- 	@total NVARCHAR(255),
+-- 	@note NVARCHAR(255),
+-- 	@userId INT,
+-- 	@title NVARCHAR(255),
+-- 	@image NVARCHAR(255),
+-- 	@name NVARCHAR(255),
+-- 	@size NVARCHAR(255),
+-- 	@amount NVARCHAR(255),
+-- 	@discount NVARCHAR(255),
+-- 	@fishCodeInProduct NVARCHAR(255),
+-- 	@price NVARCHAR(255),
+-- 	@productId INT,
+-- 	@sellerId INT,
+-- 	@paymentMethod NVARCHAR(255),
+-- 	@paymentInfo NVARCHAR(MAX),
+-- 	@isPay BIT,
+-- 	@myName NVARCHAR(100),
+-- 	@myPhone NVARCHAR(15),
+-- 	@address NVARCHAR(255),
+-- 	@contactId INT
+-- AS
+-- BEGIN
+-- 	SET NOCOUNT ON;
 
-	BEGIN TRY
-        BEGIN TRANSACTION;
-		DECLARE @newOrderId INT;
+-- 	BEGIN TRY
+--         BEGIN TRANSACTION;
+-- 		DECLARE @newOrderId INT;
 
-		-- Thêm order
-        INSERT INTO [order] (label, total, note, status, userId)
-        VALUES (@label, @total, @note, 'normal', @userId);
+-- 		-- Thêm order
+--         INSERT INTO [order] (label, total, note, status, userId)
+--         VALUES (@label, @total, @note, 'normal', @userId);
 
-		SET @newOrderId = SCOPE_IDENTITY();
+-- 		SET @newOrderId = SCOPE_IDENTITY();
 
-		-- Thêm orderProduct
-        INSERT INTO orderProduct (title, image, name, size, amount, discount, fishCodeInProduct, price, status, orderId, productId, sellerId)
-        VALUES (@title, @image, @name, @size, @amount, @discount, @fishCodeInProduct, @price, 'normal', @newOrderId, @productId, @sellerId);
+-- 		-- Thêm orderProduct
+--         INSERT INTO orderProduct (title, image, name, size, amount, discount, fishCodeInProduct, price, status, orderId, productId, sellerId)
+--         VALUES (@title, @image, @name, @size, @amount, @discount, @fishCodeInProduct, @price, 'normal', @newOrderId, @productId, @sellerId);
 
-		-- Thêm orderProcess
-        INSERT INTO orderProcess (isOrder, isConfirm, confirmUser, isSend, sendUser, isReceive, orderId)
-        VALUES (0, 0, 0, 0, 0, 0, @newOrderId);
+-- 		-- Thêm orderProcess
+--         INSERT INTO orderProcess (isOrder, isConfirm, confirmUser, isSend, sendUser, isReceive, orderId)
+--         VALUES (0, 0, 0, 0, 0, 0, @newOrderId);
 
-		 -- Thêm orderPaymentMethod
-        INSERT INTO orderPaymentMethod (method, infor, isPay, orderId)
-        VALUES (@paymentMethod, @paymentInfo, @isPay, @newOrderId);
+-- 		 -- Thêm orderPaymentMethod
+--         INSERT INTO orderPaymentMethod (method, infor, isPay, orderId)
+--         VALUES (@paymentMethod, @paymentInfo, @isPay, @newOrderId);
 
-		 -- Thêm orderContact
-        INSERT INTO orderContact (name, phone, address, contactId, orderId)
-        VALUES (@myName, @myPhone, @address, @contactId, @newOrderId);
+-- 		 -- Thêm orderContact
+--         INSERT INTO orderContact (name, phone, address, contactId, orderId)
+--         VALUES (@myName, @myPhone, @address, @contactId, @newOrderId);
 
-		SELECT * FROM dbo.[order] WHERE id = @NewOrderId;
-		COMMIT TRANSACTION;
-	END TRY
-	BEGIN CATCH
-		ROLLBACK TRANSACTION;
-		THROW;
-	END CATCH
-END;
-GO
+-- 		SELECT * FROM dbo.[order] WHERE id = @NewOrderId;
+-- 		COMMIT TRANSACTION;
+-- 	END TRY
+-- 	BEGIN CATCH
+-- 		ROLLBACK TRANSACTION;
+-- 		THROW;
+-- 	END CATCH
+-- END;
+-- GO
 
 CREATE PROCEDURE WebappSreenProductCreateShoppingCart
 	@label NVARCHAR(255),
@@ -366,7 +366,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE AddProductToNewCart
+CREATE PROCEDURE WebappSreenProductAddProductToShoppingCart
 	@title NVARCHAR(255),
 	@image NVARCHAR(255),
 	@name NVARCHAR(255),
