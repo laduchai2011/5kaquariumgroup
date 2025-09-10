@@ -1,21 +1,3 @@
-// export interface OrderField {
-//     id: number;
-//     title: string;
-//     image: string;
-//     name: string;
-//     size: string;
-//     amount: string;
-//     discount: string;
-//     fishCodeInProduct: string;
-//     price: string;
-//     status: string;
-//     userId: number;
-//     productId: number;
-//     sellerId: number;
-//     updateTime: string;
-//     createTime: string;
-// }
-
 export interface OrderField {
     id: number;
     label: string;
@@ -100,6 +82,14 @@ export type BuyNowBodyType = {
     product: OrderProductField,
     payment: OrderPaymentField,
     contact: OrderContactField
+}
+
+export type GetMyOrderBodyType = {
+    page: number,
+    size: number,
+    order: OrderField, 
+    process: OrderProcessField,
+    isProcess: boolean
 }
 
 export type AddToNewCartBodyType = {

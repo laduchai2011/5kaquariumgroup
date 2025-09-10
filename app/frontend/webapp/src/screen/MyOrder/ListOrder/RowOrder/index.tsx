@@ -1,16 +1,33 @@
-import { FC, memo, useRef } from 'react';
+import { FC, memo, useRef, useEffect } from 'react';
 import style from './style.module.scss';
 import { OrderField } from '@src/dataStruct/order';
 
 
-const RowOrder: FC<{data: OrderField, index: number}> = ({ data, index }) => {
+const RowOrder: FC<{
+    data: OrderField, 
+    index: number, 
+    selectedData: OrderField | undefined,
+    onSelected: () => void
+}> = ({ data, index, selectedData, onSelected }) => {
     const parent_element = useRef<HTMLDivElement | null>(null);
     
     const handleSelected = () => {
-        if (parent_element.current) {
-            parent_element.current.classList.toggle(style.parrentSelected)
-        }
+        onSelected()
     }
+
+    useEffect(() => {
+        if (parent_element.current) {
+            if (selectedData) {
+                if (data.id === selectedData.id) {
+                    parent_element.current.classList.add(style.parrentSelected)
+                } else {
+                    parent_element.current.classList.remove(style.parrentSelected)
+                }
+            } else {
+                parent_element.current.classList.remove(style.parrentSelected)
+            }
+        }
+    }, [data, selectedData])
 
     return (
        <div className={style.parent} onClick={() => handleSelected()} ref={parent_element}>

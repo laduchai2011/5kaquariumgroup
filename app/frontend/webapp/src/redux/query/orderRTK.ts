@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ORDER_API } from '@src/const/api/order';
 import { MyResponse } from '@src/dataStruct/response';
-import { OrderField, OrderProductField, PagedOrderField, BuyNowBodyType } from '@src/dataStruct/order';
+import { OrderField, OrderProductField, PagedOrderField, BuyNowBodyType, GetMyOrderBodyType } from '@src/dataStruct/order';
 
 
 
@@ -14,22 +14,15 @@ export const orderRTK = createApi({
     }),
     tagTypes: ['Order'],
     endpoints: (builder) => ({
-        getMyOrders: builder.query<PagedOrderField, { page: string; size: string }>({
-            query: ({ page, size }) => `${ORDER_API.GET_MY_ORDERS}?page=${page}&size=${size}`,
-            transformResponse: (response: { isSuccess: boolean; data: PagedOrderField }) => {
-                if (!response.data) throw new Error('No data');
-                return response.data;
-            },
+        getMyOrders: builder.query<MyResponse<PagedOrderField>, GetMyOrderBodyType>({
+            query: (body) => ({
+                url: ORDER_API.GET_MY_ORDERS,
+                method: 'POST',
+                body
+            })
         }),
         getShoppingCarts: builder.query<MyResponse<PagedOrderField>, { page: string; size: string }>({
             query: ({ page, size }) => `${ORDER_API.GET_SHOPPING_CART}?page=${page}&size=${size}`,
-            // transformResponse: (response: MyResponse<PagedOrderField>) => {
-            //     // if (!response.data) {
-            //     //     throw new Error('No account data (getShoppingCarts)')
-            //     // };
-            //     console.log(11, response)
-            //     // return response.data;
-            // },
             providesTags: (result) => 
                 result?.isSuccess && result?.data
                     ? [
@@ -38,6 +31,9 @@ export const orderRTK = createApi({
                     ]
                     : [{ type: 'Order', id: 'LIST' }],
         }), 
+        getMyAllOrderProductsInOrder: builder.query<MyResponse<OrderProductField>, {orderId: string}>({
+            query: ({orderId}) => `${ORDER_API.GET_MY_ALL_ORDER_PRODUCTS_IN_ORDER}?orderId=${orderId}`,
+        }),
         // addOrderWithTransaction: builder.mutation<MyResponse<OrderField>, AddOrderBody>({
         //     query: (body) => ({
         //         url: ORDER_API.ADD_ORDER_WITH_TRANSACTION,
@@ -93,6 +89,7 @@ export const orderRTK = createApi({
 export const { 
     useGetMyOrdersQuery,
     useGetShoppingCartsQuery,
+    useGetMyAllOrderProductsInOrderQuery,
     // useAddOrderWithTransactionMutation,
     useBuyNowMutation,
     useCreateShoppingCartMutation,

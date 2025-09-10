@@ -4,13 +4,10 @@ import HeaderLeft from '@src/component/Header/HeaderLeft';
 import HeaderTop from '@src/component/Header/HeaderTop';
 import Control from './Control';
 import ListOrder from './ListOrder';
-import List from './List';
-import Total from './Total';
+import ListOrderProduct from './ListOrderProduct';
 import { MY_ORDER } from '@src/const/text';
 import { useGetMyOrdersQuery } from '@src/redux/query/orderRTK';
-import { PagedOrderField } from '@src/dataStruct/order';
-import { MyOrderContext } from './context';
-import { MyOrderContextInterface } from './type';
+import { PagedOrderField, GetMyOrderBodyType } from '@src/dataStruct/order';;
 import MainLoading from '@src/component/MainLoading';
 import MessageDialog from '@src/component/MessageDialog';
 import type { AppDispatch, RootState } from '@src/redux';
@@ -22,18 +19,39 @@ import { set_isLoading, set_message } from '@src/redux/slice/globalSlice';
 
 
 
+
 const MyOrder = () => {
     const dispatch = useDispatch<AppDispatch>();
     const isLoading = useSelector((state: RootState) => state.globalSlice.isLoading);
     const message = useSelector((state: RootState) => state.globalSlice.message);
-    // const [isLoading, setIsLoading] = useState<boolean>(false);
     const [data, setData] = useState<PagedOrderField | undefined>(undefined);
-    const [page, setPage] = useState<string>('1');
-    const size = '10';
-    // const [message, setMessage] = useState<MessageDataInterface>({
-    //     message: '',
-    //     type: 'normal'
-    // })
+    const [getMyOrderBody, setGetMyOrderBody] = useState<GetMyOrderBodyType>({
+        page: 1,
+        size: 5,
+        order: {
+            id: -1,
+            label: '',
+            total: '',
+            note: '',
+            status: '',
+            userId: -1,
+            updateTime: '',
+            createTime: ''
+        },
+        process: {
+            id: -1,
+            isOrder: false,
+            isConfirm: false,
+            confirmUser: false,
+            isSend: false,
+            sendUser: false,
+            isReceive: false,
+            orderId: -1,
+            updateTime: '',
+            createTime: ''
+        },
+        isProcess: false
+    })
     
     const {
         data: data_, 
@@ -41,7 +59,7 @@ const MyOrder = () => {
         isLoading: isLoading_,
         isError, 
         error
-    } = useGetMyOrdersQuery({page: page, size: size});
+    } = useGetMyOrdersQuery(getMyOrderBody);
     
     useEffect(() => {
         if (isError && error) {
@@ -54,21 +72,12 @@ const MyOrder = () => {
     }, [dispatch, isLoading_])
 
     useEffect(() => {
-        setData(data_)
+        setData(data_?.data)
     }, [data_]) 
 
 
     const handleCloseMessage = () => {
         dispatch(set_message({...message, message: ''}))
-    }
-
-    const valueContext: MyOrderContextInterface = {
-        orders: data?.items,
-        totalCount: data?.totalCount,
-        page: page,
-        setPage: setPage,
-        // setIsLoading,
-        // setMessage
     }
 
     return (
@@ -77,18 +86,15 @@ const MyOrder = () => {
             <div className={style.headerTop}><HeaderTop header={MY_ORDER} /></div>
             {isLoading && <MainLoading />}
             {message.message.length > 0 && <MessageDialog message={message.message} type={message.type} onClose={() => handleCloseMessage()} />}
-            <MyOrderContext.Provider value={valueContext}>
-                <div>
-                    <div className={style.main}>
-                        <div>
-                            <Control />
-                            <ListOrder />
-                            {/* <List />
-                            <Total /> */}
-                        </div>
+            <div>
+                <div className={style.main}>
+                    <div>
+                        <Control data={data} getMyOrderBody={getMyOrderBody} setGetMyOrderBody={setGetMyOrderBody} />
+                        <ListOrder data={data} />
+                        {/* <ListOrderProduct /> */}
                     </div>
                 </div>
-            </MyOrderContext.Provider> 
+            </div>
         </div>
     )
 }
