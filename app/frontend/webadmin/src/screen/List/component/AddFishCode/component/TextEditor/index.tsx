@@ -10,6 +10,8 @@ import {
 } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import blockRendererFn from './component/blockRendererFn';
+import blockStyleFn, { setBlockAlignment } from './component/blockStyleFn';
+import type { Alignment } from './component/blockStyleFn/type';
 import { ListContext } from '@src/screen/List/context';
 import { FaFileImage } from "react-icons/fa";
 import { IMAGE_API } from '@src/const/api/image';
@@ -119,10 +121,8 @@ const TextEditor: React.FC<{
                     const res = await axios.post<{file: string}>(IMAGE_API.UPLOAD_AIMAGE, formData, {
                         headers: { "Content-Type": "multipart/form-data" },
                     });
-                    console.log(res)
                     const uploadedUrl = IMAGE_API.GET_IMAGE + '/' + res.data.file;
-                    console.log(11111111111)
-                // Thay localUrl bằng uploadedUrl trong chuỗi JSON
+                    // Thay localUrl bằng uploadedUrl trong chuỗi JSON
                     contentString = contentString.replaceAll(localUrl, uploadedUrl);
                 } catch (error) {
                     console.error("Upload failed", error);
@@ -138,12 +138,26 @@ const TextEditor: React.FC<{
         }
     };
 
+    const handleAlign = (alignment: Alignment) => {
+        const newState = setBlockAlignment(editorState, alignment);
+        setEditorState(EditorState.forceSelection(newState, newState.getSelection()));
+    };
+
+    useEffect(() => {
+        console.log(
+            editorState.getCurrentContent().getBlockForKey(editorState.getSelection().getStartKey()).getData().toJS()
+        );
+    }, [editorState])
+
     return (
         <div className="TextEditor">
             <div className='TextEditor-controler'>
-                <button onClick={saveContent}>Save</button>
-                <button onClick={toggleBold}>Bold</button>
-                <div>
+                <button onClick={saveContent}>Lưu</button>
+                <button onClick={toggleBold}>Đậm</button>
+                <button onClick={() => handleAlign('left')}>Trái</button>
+                <button onClick={() => handleAlign('center')}>Giữa</button>
+                <button onClick={() => handleAlign('right')}>Phải</button>
+                <div className='TextEditor-controler-addImage'>
                     <input
                         type="file"
                         accept="image/*"
@@ -159,12 +173,13 @@ const TextEditor: React.FC<{
                     />
                 </div>
             </div>
-            <div style={{ border: '1px solid #ccc', minHeight: 100, padding: 10 }}>
+            <div className='TextEditor-editorContainer' style={{ border: '1px solid #ccc', minHeight: 100, padding: 10 }}>
                 <Editor
                     editorState={editorState}
                     onChange={setEditorState}
                     handleKeyCommand={handleKeyCommand}
                     blockRendererFn={blockRendererFn}
+                    blockStyleFn={blockStyleFn}
                 />
             </div>
         </div>

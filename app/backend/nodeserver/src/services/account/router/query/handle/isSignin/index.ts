@@ -29,10 +29,10 @@ class Handle_IsSignin {
                 myResponse.data = verify_refreshToken.id;
                 myResponse.isSuccess = true;
                 myResponse.isSignin = true;
-                return res.json(myResponse);
+                return res.status(200).json(myResponse);
             } else {
                 myResponse.isSignin = false;
-                return res.status(500).json(myResponse);
+                return res.status(204).json(myResponse);
             }
         } else {
             myResponse.isSignin = false;

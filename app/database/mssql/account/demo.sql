@@ -28,3 +28,11 @@ EXEC Signup
 
 DELETE FROM dbo.account
 WHERE id = 5;
+
+
+EXEC Signup
+    @userName = N'laduchai1',
+    @password = N'laduchai1',
+    @phone = N'07898608541',
+    @firstName = N'Lã',
+    @lastName = N'Hải';

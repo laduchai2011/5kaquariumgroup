@@ -9,28 +9,6 @@ const App = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        // const myId = sessionStorage.getItem("myId");
-        // if (myId === null) {
-        //     const fetchCheckSignin = async () => {
-        //         try {
-        //             setIsLoading(true);
-        //             const response = await axiosInstance.get<MyResponse<number>>(
-        //                 `/api/service_account/query/isSignin`
-        //             );
-        //             const resData = response.data;
-        //             if (resData.isSuccess) {
-        //                 sessionStorage.setItem("myId", `${resData.data}`);
-        //             }
-        //         } catch (error) {
-        //             console.error(error);
-        //         } finally {
-        //             setIsLoading(false);
-        //         }
-        //     }
-
-        //     fetchCheckSignin();
-        // }
-
         const appRole = sessionStorage.getItem("appRole");
         if (appRole === null) {
             const fetchCheckRole = async () => {

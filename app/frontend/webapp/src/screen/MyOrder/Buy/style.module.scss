@@ -1,0 +1,15 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    margin: 40px 0;
+    @include center-of-rectangle;
+
+    > .button {
+        background-color: red;
+        color: white;
+        box-sizing: border-box;
+        padding: 10px;
+        border-radius: 15px;
+        cursor: pointer;
+    }
+}

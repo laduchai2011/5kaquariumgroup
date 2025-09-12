@@ -68,12 +68,12 @@ class Handle_Get_Contacts {
             myResponse.data = result?.recordset;
             myResponse.message = 'Lấy dữ liệu thành công !';
             myResponse.isSuccess = true;
-            return res.json(myResponse);
+            return res.status(200).json(myResponse);
         } else {
             myResponse.message = 'Không có dữ liệu nào được tìm thấy !';
             myResponse.isSuccess = true;
             myResponse.data = [];
-            return res.json(myResponse);
+            return res.status(204).json(myResponse);
         }
     };
 }

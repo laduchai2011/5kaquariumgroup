@@ -148,3 +148,25 @@ BEGIN
     FROM adminOrderProduct
 END
 GO
+
+
+CREATE PROCEDURE WebappSreenMyOrderGetMyOrderProcessInOrder
+	@orderId INT,
+	@userId INT
+AS
+BEGIN
+	WITH adminOrderProcess AS (
+        SELECT op.*,
+			ROW_NUMBER() OVER (ORDER BY op.id DESC) AS rn
+        FROM dbo.[orderProcess] AS op
+		INNER JOIN	
+			dbo.[order] AS o ON op.orderId = o.id
+		WHERE 
+			o.status = 'normal'  
+			AND o.userId = @userId
+			AND op.orderId = @orderId
+    )
+    SELECT *
+    FROM adminOrderProcess
+END
+GO

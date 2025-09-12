@@ -1,0 +1,39 @@
+@use 'src/utility/style/mixin.scss' as *;
+
+.parent {
+    background-color: rgb(255, 251, 246);
+    box-sizing: border-box;
+    border: 1px dashed gray;
+
+    > .header {
+        font-weight: 600;
+        font-size: 1.2rem;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+    > .main {
+        box-sizing: border-box;
+        padding: 10px;
+
+        > div {
+            margin: 10px 0;
+            @include center-of-row;
+
+            > div:nth-child(1) {
+                width: 160px;
+            }
+        }
+
+        > div:nth-child(3) {
+            > div:nth-child(2) {
+                @include center-of-row;
+                
+                > div {
+                    margin: 0 5px;
+                    @include center-of-row;
+                }
+            }
+        }
+    }
+}

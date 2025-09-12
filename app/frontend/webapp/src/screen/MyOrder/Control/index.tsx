@@ -41,10 +41,11 @@ const Control: FC<{
     }
 
     const handlePageNumber = (): number => {
-        const totalCount = data?.totalCount
+        const totalCount = data?.totalCount;
+        const size = getMyOrderBody.size;
         if (totalCount) {
-            const kqn = Math.floor(totalCount / 10);
-            const kqd = totalCount % 10;
+            const kqn = Math.floor(totalCount / size);
+            const kqd = totalCount % size;
             let pageNumber = 0;
             if (kqd > 0) {
                 pageNumber = kqn + 1;
@@ -53,7 +54,7 @@ const Control: FC<{
             }
             return pageNumber;
         }
-        return 10;
+        return size;
     }
 
     const handleSelectOrderStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -67,7 +68,7 @@ const Control: FC<{
                 break; 
             } 
             case 'shoppingCart': { 
-                getMyOrderBody_cp.isProcess = false;
+                getMyOrderBody_cp.isProcess = true;
                 process_cp.isOrder = false;
                 process_cp.isConfirm = false;
                 process_cp.isSend = false;

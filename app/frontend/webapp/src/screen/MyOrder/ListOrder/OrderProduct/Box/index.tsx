@@ -1,11 +1,40 @@
-import { FC, memo } from 'react';
+import { FC, memo, useState, useEffect } from 'react';
 import style from './style.module.scss';
+import { OrderProductField } from '@src/dataStruct/order';
 
 
 
 
-const Box: FC<{index: number}> = ({ index }) => {
-   
+const Box: FC<{data: OrderProductField, index: number}> = ({ data, index }) => {
+    const [moneyTotal, setMoneyTotal] = useState({
+        old: 0,
+        new: 0
+    })
+
+    useEffect(() => {
+        const handleMoney = (amount: string) => {
+            const discount = data.discount;
+            const price = data.price;
+            if (amount && discount && price) {
+                const amount_number = Number(amount);
+                const discount_number = Number(discount);
+                const price_number = Number(price);
+
+                const oldTotal = amount_number * price_number;
+                const discountTotal = oldTotal * (discount_number / 100);
+                const newTotal = oldTotal - discountTotal;
+
+                setMoneyTotal({
+                    old: oldTotal,
+                    new: newTotal
+                })
+            }
+        }
+        handleMoney(data.amount)
+    }, [data])
+
+    
+
     return (
         <div className={style.parent}>
             <div className={style.imageContainer}>
@@ -14,16 +43,17 @@ const Box: FC<{index: number}> = ({ index }) => {
                 <div><div>Xem sản phẩm</div></div>
             </div>
             <div className={style.contentContainer}>
+                <div>{ data.title }</div>
                 <div>
-                    title Danh sách sản phẩm của giỏ hàng hoặc đơn hàng Danh sách sản phẩm của giỏ hàng hoặc đơn hàng title Danh sách sản phẩm của giỏ hàng hoặc đơn hàng Danh sách sản phẩm của giỏ hàng hoặc đơn hàng
+                    <div>{ data.name }</div>
+                    <div>{ data.size }</div>
                 </div>
                 <div>
-                    <div>ten</div>
-                    <div>size</div>
-                </div>
-                <div>
-                    <div>so luong</div>
-                    <div>tien</div>
+                    <div>{ data.amount }</div>
+                    <div>
+                        <div>{`${moneyTotal.new} vnd`}</div>
+                        <div>{`${moneyTotal.old} vnd`}</div>
+                    </div>
                 </div>
             </div>
         </div>

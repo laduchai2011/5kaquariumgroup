@@ -39,30 +39,30 @@ const Order: React.FC = () => {
     const [orders, setOrders] = useState<OrderField[]>([])
     const [totalCount, setTotalCount] = useState<number>(10);
 
-    const {
-        data: data_orders, 
-        // isFetching, 
-        isLoading: isLoading_orders,
-        isError: isError_orders, 
-        error: error_orders
-    } = useGetOrdersWithFilterQuery(orderFilter);
-    useEffect(() => {
-        if (isError_orders && error_orders) {
-            console.error(error_orders);
-        }
-    }, [isError_orders, error_orders])
-    useEffect(() => {
-        setIsLoading(isLoading_orders);
-    }, [isLoading_orders])
-    useEffect(() => {
-        if (data_orders?.isSuccess && data_orders.data) {
-            setTotalCount(data_orders.data.totalCount);
-            setOrders(data_orders.data.items);
-        } else {
-            setTotalCount(0);
-            setOrders([]);
-        }
-    }, [data_orders]) 
+    // const {
+    //     data: data_orders, 
+    //     // isFetching, 
+    //     isLoading: isLoading_orders,
+    //     isError: isError_orders, 
+    //     error: error_orders
+    // } = useGetOrdersWithFilterQuery(orderFilter);
+    // useEffect(() => {
+    //     if (isError_orders && error_orders) {
+    //         console.error(error_orders);
+    //     }
+    // }, [isError_orders, error_orders])
+    // useEffect(() => {
+    //     setIsLoading(isLoading_orders);
+    // }, [isLoading_orders])
+    // useEffect(() => {
+    //     if (data_orders?.isSuccess && data_orders.data) {
+    //         setTotalCount(data_orders.data.totalCount);
+    //         setOrders(data_orders.data.items);
+    //     } else {
+    //         setTotalCount(0);
+    //         setOrders([]);
+    //     }
+    // }, [data_orders]) 
 
     const handleCloseMessage = () => {
         setMessage({...message, message: ''})
@@ -80,10 +80,11 @@ const Order: React.FC = () => {
     return (
         <OrderContext.Provider value={valueContext}>
             <div className="Order">
-                <Header />
+                {/* <Header />
                 {isLoading && <MainLoading />}
                 {message.message.length > 0 && <MessageDialog message={message.message} type={message.type} onClose={() => handleCloseMessage()} />}
-                <Body />
+                <Body /> */}
+                <div>Tạm ngừng hoạt động</div>
             </div>
         </OrderContext.Provider>
     );

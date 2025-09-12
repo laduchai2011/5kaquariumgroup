@@ -1,4 +1,4 @@
-import ImageComponent from "../ImageComponent";
+import ImageComponent from "./ImageComponent";
 
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const blockRendererFn = (block: any) => {

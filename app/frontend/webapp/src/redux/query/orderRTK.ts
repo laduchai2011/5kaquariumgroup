@@ -1,7 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ORDER_API } from '@src/const/api/order';
 import { MyResponse } from '@src/dataStruct/response';
-import { OrderField, OrderProductField, PagedOrderField, BuyNowBodyType, GetMyOrderBodyType } from '@src/dataStruct/order';
+import { 
+    OrderField, 
+    OrderProductField, 
+    OrderProcessField, 
+    PagedOrderField, 
+    BuyNowBodyType, 
+    GetMyOrderBodyType 
+} from '@src/dataStruct/order';
 
 
 
@@ -12,7 +19,7 @@ export const orderRTK = createApi({
         baseUrl: '', 
         credentials: 'include' 
     }),
-    tagTypes: ['Order'],
+    tagTypes: ['Order', 'OrderProcess'],
     endpoints: (builder) => ({
         getMyOrders: builder.query<MyResponse<PagedOrderField>, GetMyOrderBodyType>({
             query: (body) => ({
@@ -31,8 +38,15 @@ export const orderRTK = createApi({
                     ]
                     : [{ type: 'Order', id: 'LIST' }],
         }), 
-        getMyAllOrderProductsInOrder: builder.query<MyResponse<OrderProductField>, {orderId: string}>({
+        getMyAllOrderProductsInOrder: builder.query<MyResponse<OrderProductField[]>, {orderId: string}>({
             query: ({orderId}) => `${ORDER_API.GET_MY_ALL_ORDER_PRODUCTS_IN_ORDER}?orderId=${orderId}`,
+        }),
+        getMyOrderProcessInOrder: builder.query<MyResponse<OrderProcessField>, {orderId: string}>({
+            query: ({orderId}) => `${ORDER_API.GET_MY_ORDER_PROCESS_IN_ORDER}?orderId=${orderId}`,
+            providesTags: (result) =>
+                result?.isSuccess && result?.data
+                    ? [{ type: 'OrderProcess', id: 'LIST' }]
+                    : [],
         }),
         // addOrderWithTransaction: builder.mutation<MyResponse<OrderField>, AddOrderBody>({
         //     query: (body) => ({
@@ -90,6 +104,7 @@ export const {
     useGetMyOrdersQuery,
     useGetShoppingCartsQuery,
     useGetMyAllOrderProductsInOrderQuery,
+    useGetMyOrderProcessInOrderQuery,
     // useAddOrderWithTransactionMutation,
     useBuyNowMutation,
     useCreateShoppingCartMutation,

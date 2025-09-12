@@ -1,15 +1,15 @@
 import { mssql_server } from '@src/connect';
 import { Request, Response } from 'express';
 import { MyResponse } from '@src/dataStruct/response';
-import { OrderProductField } from '@src/dataStruct/order';
-import QueryDB_WebappSreenMyOrderGetMyALLOrderProductsInOrder from '../../queryDB/WebappSreenMyOrderGetMyALLOrderProductsInOrder';
+import { OrderProcessField } from '@src/dataStruct/order';
+import QueryDB_WebappSreenMyOrderGetMyOrderProcessInOrder from '../../queryDB/WebappSreenMyOrderGetMyOrderProcessInOrder';
 import { verifyRefreshToken } from '@src/token';
 
 
 
 
 
-class Handle_WebappSreenMyOrderGetMyALLOrderProductsInOrder {
+class Handle_WebappSreenMyOrderGetMyOrderProcessInOrder {
     private _mssql_server = mssql_server;
 
     constructor() {}
@@ -17,7 +17,7 @@ class Handle_WebappSreenMyOrderGetMyALLOrderProductsInOrder {
     main = async (req: Request<unknown, unknown, unknown, {orderId: string}>, res: Response) => {
         const orderId = parseInt(req.query.orderId) || -1;
 
-        const myResponse: MyResponse<OrderProductField[]> = {
+        const myResponse: MyResponse<OrderProcessField> = {
             isSuccess: false
         };
 
@@ -51,35 +51,35 @@ class Handle_WebappSreenMyOrderGetMyALLOrderProductsInOrder {
 
         await this._mssql_server.init()
 
-        const queryDB_webappSreenMyOrderGetMyALLOrderProductsInOrder = new QueryDB_WebappSreenMyOrderGetMyALLOrderProductsInOrder();
-        queryDB_webappSreenMyOrderGetMyALLOrderProductsInOrder.setOrderId(orderId);
-        queryDB_webappSreenMyOrderGetMyALLOrderProductsInOrder.setUserId(userId);
+        const queryDB_webappSreenMyOrderGetMyOrderProcessInOrder = new QueryDB_WebappSreenMyOrderGetMyOrderProcessInOrder();
+        queryDB_webappSreenMyOrderGetMyOrderProcessInOrder.setOrderId(orderId);
+        queryDB_webappSreenMyOrderGetMyOrderProcessInOrder.setUserId(userId);
 
         const connection_pool = this._mssql_server.get_connectionPool();
         if (connection_pool) {
-            queryDB_webappSreenMyOrderGetMyALLOrderProductsInOrder.set_connection_pool(connection_pool);
+            queryDB_webappSreenMyOrderGetMyOrderProcessInOrder.set_connection_pool(connection_pool);
         } else {
             myResponse.message = 'Kết nối cơ sở dữ liệu không thành công !'
             return res.status(500).json(myResponse);
         }
 
         try {
-            const result = await queryDB_webappSreenMyOrderGetMyALLOrderProductsInOrder.run();
+            const result = await queryDB_webappSreenMyOrderGetMyOrderProcessInOrder.run();
             if (result?.recordset.length && result?.recordset.length > 0) {
-                myResponse.data = result?.recordset
-                myResponse.message = 'Lấy sản phẩm được đặt thành công !';
+                myResponse.data = result?.recordset[0]
+                myResponse.message = 'Lấy tiến trình đơn hàng thành công !';
                 myResponse.isSuccess = true;
                 return res.status(200).json(myResponse);
             } else {
-                myResponse.message = 'Lấy sản phẩm được đặt KHÔNG thành công 1 !';
+                myResponse.message = 'Lấy tiến trình đơn hàng KHÔNG thành công 1 !';
                 return res.status(204).json(myResponse);
             }
         } catch (error) {
-            myResponse.message = 'Lấy sản phẩm được đặt KHÔNG thành công 2 !';
+            myResponse.message = 'Lấy tiến trình đơn hàng KHÔNG thành công 2 !';
             myResponse.err = error;
             return res.status(500).json(myResponse);
         }
     };
 }
 
-export default Handle_WebappSreenMyOrderGetMyALLOrderProductsInOrder;
+export default Handle_WebappSreenMyOrderGetMyOrderProcessInOrder;

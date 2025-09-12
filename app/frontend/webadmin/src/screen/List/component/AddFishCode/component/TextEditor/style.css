@@ -9,6 +9,28 @@
     padding: 5px;
 }
 
-.TextEditor-controler > div:nth-child(3) > input {
+.TextEditor-controler-addImage > input {
     display: none;
+}
+
+/* .blockStyleFn-align-left {
+    text-align: left;
+}
+.blockStyleFn-align-center {
+    text-align: center;
+}
+.blockStyleFn-align-right {
+    text-align: right;
+} */
+
+[data-block="true"].blockStyleFn-align-left > .public-DraftStyleDefault-block {
+  text-align: left !important;
+}
+
+[data-block="true"].blockStyleFn-align-center > .public-DraftStyleDefault-block {
+  text-align: center !important;
+}
+
+[data-block="true"].blockStyleFn-align-right > .public-DraftStyleDefault-block {
+  text-align: right !important;
 }

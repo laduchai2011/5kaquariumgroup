@@ -1,7 +1,7 @@
 export const HOME = 'Trang chủ';
 export const PRODUCT = 'Sản phẩm';
 export const LIST = 'Danh sách';
-export const MY_ORDER = 'Đơn hàng của bạn';
+export const ORDER = 'Đơn hàng';
 export const PROFILE = 'Trang cá nhân';
 export const ABOUT5K = 'Về 5K';
 export const SIGNIN = 'Đăng nhập';
