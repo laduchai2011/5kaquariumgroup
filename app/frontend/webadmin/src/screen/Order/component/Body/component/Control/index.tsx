@@ -11,8 +11,8 @@ const Control: React.FC = () => {
         throw new Error("orderContext in Control component cant undefined !");
     }
     const {
-        orderFilter,
-        setOrderFilter,
+        orderBody,
+        setOrderBody,
         totalCount
     } = orderContext;
 
@@ -20,12 +20,14 @@ const Control: React.FC = () => {
 
     useEffect(() => {
         const handleValueOrderStatus = () => {
-            const orderFilter_cp = {...orderFilter};
-            const orderProcess_cp = {...orderFilter_cp.orderProcess};
-            if (orderFilter_cp.isOrderProcess === false) {
+            const orderBody_cp = {...orderBody};
+            const orderProcess_cp = {...orderBody.process};
+            if (orderBody_cp.isProcess === false) {
                 setOrderStatus('all')
             } else {
-                if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === false && orderProcess_cp.isSend === false && orderProcess_cp.isReceive === false) {
+                if (orderProcess_cp.isOrder === false && orderProcess_cp.isConfirm === false && orderProcess_cp.isSend === false && orderProcess_cp.isReceive === false) {
+                    setOrderStatus('shoppingCart')
+                } else if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === false && orderProcess_cp.isSend === false && orderProcess_cp.isReceive === false) {
                     setOrderStatus('order')
                 } else if (orderProcess_cp.isOrder === true && orderProcess_cp.isConfirm === true && orderProcess_cp.isSend === false && orderProcess_cp.isReceive === false) {
                     setOrderStatus('confirm')
@@ -39,32 +41,32 @@ const Control: React.FC = () => {
             }
         }   
         handleValueOrderStatus()
-    }, [orderFilter])
+    }, [orderBody])
 
     const handleNextPage = () => {
-        const orderFilter_cp = {...orderFilter}
-        const currentPage = orderFilter_cp.page;
+        const orderBody_cp = {...orderBody}
+        const currentPage = orderBody_cp.page;
         if (currentPage < handlePageNumber()) {
             const newPage = currentPage + 1;
-            orderFilter_cp.page = newPage;
+            orderBody_cp.page = newPage;
         }
-        setOrderFilter(orderFilter_cp)
+        setOrderBody(orderBody_cp)
     }
 
     const handleBackPage = () => {
-        const orderFilter_cp = {...orderFilter}
-        const currentPage = orderFilter_cp.page;
+        const orderBody_cp = {...orderBody}
+        const currentPage = orderBody_cp.page;
         if (currentPage > 1) {
             const newPage = currentPage + 1;
-            orderFilter_cp.page = newPage;
+            orderBody_cp.page = newPage;
         }
-        setOrderFilter(orderFilter_cp)
+        setOrderBody(orderBody_cp)
     }
 
     const handlePageNumber = (): number => {
         if (totalCount) {
-            const kqn = Math.floor(totalCount / 10);
-            const kqd = totalCount % 10;
+            const kqn = Math.floor(totalCount / orderBody.size);
+            const kqd = totalCount % orderBody.size;
             let pageNumber = 0;
             if (kqd > 0) {
                 pageNumber = kqn + 1;
@@ -78,15 +80,23 @@ const Control: React.FC = () => {
 
     const handleSelectOrderStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
-        const orderFilter_cp = {...orderFilter};
-        const orderProcess_cp = {...orderFilter_cp.orderProcess};
+        const orderBody_cp = {...orderBody};
+        const orderProcess_cp = {...orderBody_cp.process};
         switch(value) { 
             case 'all': { 
-                orderFilter_cp.isOrderProcess = false;
+                orderBody_cp.isProcess = false;
+                break; 
+            } 
+            case 'shoppingCart': { 
+                orderBody_cp.isProcess = true;
+                orderProcess_cp.isOrder = false;
+                orderProcess_cp.isConfirm = false;
+                orderProcess_cp.isSend = false;
+                orderProcess_cp.isReceive = false;
                 break; 
             } 
             case 'order': { 
-                orderFilter_cp.isOrderProcess = true;
+                orderBody_cp.isProcess = true;
                 orderProcess_cp.isOrder = true;
                 orderProcess_cp.isConfirm = false;
                 orderProcess_cp.isSend = false;
@@ -94,7 +104,7 @@ const Control: React.FC = () => {
                 break; 
             } 
             case 'confirm': { 
-                orderFilter_cp.isOrderProcess = true;
+                orderBody_cp.isProcess = true;
                 orderProcess_cp.isOrder = true;
                 orderProcess_cp.isConfirm = true;
                 orderProcess_cp.isSend = false;
@@ -102,7 +112,7 @@ const Control: React.FC = () => {
                 break; 
             } 
             case 'send': { 
-                orderFilter_cp.isOrderProcess = true;
+                orderBody_cp.isProcess = true;
                 orderProcess_cp.isOrder = true;
                 orderProcess_cp.isConfirm = true;
                 orderProcess_cp.isSend = true;
@@ -110,7 +120,7 @@ const Control: React.FC = () => {
                 break; 
             } 
             case 'receive': { 
-                orderFilter_cp.isOrderProcess = true;
+                orderBody_cp.isProcess = true;
                 orderProcess_cp.isOrder = true;
                 orderProcess_cp.isConfirm = true;
                 orderProcess_cp.isSend = true;
@@ -123,8 +133,8 @@ const Control: React.FC = () => {
             } 
         }
 
-        orderFilter_cp.orderProcess = orderProcess_cp;
-        setOrderFilter(orderFilter_cp);
+        orderBody_cp.process = orderProcess_cp;
+        setOrderBody(orderBody);
     }
 
     
@@ -160,7 +170,7 @@ const Control: React.FC = () => {
                 </div>
             </div>
             <div className='Order_Control-pageContainer'>
-                <div>{`${orderFilter.page}/${handlePageNumber()}`}</div>
+                <div>{`${orderBody.page}/${handlePageNumber()}`}</div>
                 <div>
                     <TfiArrowLeft onClick={() => handleBackPage()} />
                     <TfiArrowRight onClick={() => handleNextPage()} />

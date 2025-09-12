@@ -2,7 +2,7 @@ import { mssql_server } from '@src/connect';
 import { Request, Response } from 'express';
 import { MyResponse } from '@src/dataStruct/response';
 import { PagedOrderField, OrderField, GetMyOrderBodyType } from '@src/dataStruct/order';
-import MutateDB_WebappSreenMyOrderGetMyOrders from '../../queryDB/WebappSreenMyOrderGetMyOrders';
+import QueryDB_WebappSreenMyOrderGetMyOrders from '../../queryDB/WebappSreenMyOrderGetMyOrders';
 import { verifyRefreshToken } from '@src/token';
 
 
@@ -53,19 +53,19 @@ class Handle_WebappSreenMyOrderGetMyOrders {
 
         await this._mssql_server.init()
 
-        const mutateDB_webappSreenMyOrderGetMyOrders = new MutateDB_WebappSreenMyOrderGetMyOrders();
-        mutateDB_webappSreenMyOrderGetMyOrders.setMyOrder(myOrder)
+        const queryDB_webappSreenMyOrderGetMyOrders = new QueryDB_WebappSreenMyOrderGetMyOrders();
+        queryDB_webappSreenMyOrderGetMyOrders.setMyOrder(myOrder)
 
         const connection_pool = this._mssql_server.get_connectionPool();
         if (connection_pool) {
-            mutateDB_webappSreenMyOrderGetMyOrders.set_connection_pool(connection_pool);
+            queryDB_webappSreenMyOrderGetMyOrders.set_connection_pool(connection_pool);
         } else {
             myResponse.message = 'Kết nối cơ sở dữ liệu không thành công !'
             return res.status(500).json(myResponse);
         }
 
         try {
-            const result = await mutateDB_webappSreenMyOrderGetMyOrders.run();
+            const result = await queryDB_webappSreenMyOrderGetMyOrders.run();
             if (result?.recordset.length && result?.recordset.length > 0) {
                 const rows: OrderField[] = result.recordset;
                 myResponse.data = {items: rows, totalCount: result.recordsets[1][0].totalCount};

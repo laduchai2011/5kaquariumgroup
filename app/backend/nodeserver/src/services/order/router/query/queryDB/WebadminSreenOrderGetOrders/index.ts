@@ -1,6 +1,7 @@
 import sql from 'mssql';
 import { QueryDB } from '@src/services/order/interface';
-import { OrderField, GetMyOrderBodyType } from '@src/dataStruct/order';
+import { OrderField, AdminOrderBodyType } from '@src/dataStruct/order';
+
 
 interface TotalCountField {
     totalCount: number;
@@ -13,9 +14,10 @@ type OrderQueryResult = {
     output: Record<string, unknown>;
 };
 
-class QueryDB_WebappSreenMyOrderGetMyOrders extends QueryDB {
+class QueryDB_WebadminSreenOrderGetOrders extends QueryDB {
     private _connectionPool: sql.ConnectionPool | undefined;
-    private _myOrder: GetMyOrderBodyType | undefined;
+    private _orderBody: AdminOrderBodyType | undefined;
+
 
     constructor() {
         super();
@@ -25,35 +27,34 @@ class QueryDB_WebappSreenMyOrderGetMyOrders extends QueryDB {
         this._connectionPool = connectionPool;
     }
 
-    setMyOrder(myOrder: GetMyOrderBodyType): void {
-        this._myOrder = myOrder;
+    setOrderBody(orderBody: AdminOrderBodyType): void {
+        this._orderBody = orderBody;
     }
 
     async run(): Promise<OrderQueryResult | void> {
-        if (this._connectionPool !== undefined && this._myOrder !== undefined) {
+        if (this._connectionPool !== undefined && this._orderBody !==undefined) {
             try {
-                const isProcess = this._myOrder.isProcess
+                const isProcess = this._orderBody.isProcess
                 let isOrder: boolean | null = null;
                 let isConfirm: boolean | null = null;
                 let isSend: boolean | null = null;
                 let isReceive: boolean | null = null;
                 if (isProcess) {
-                    isOrder = this._myOrder.process.isOrder;
-                    isConfirm = this._myOrder.process.isConfirm;
-                    isSend = this._myOrder.process.isSend;
-                    isReceive = this._myOrder.process.isReceive;
+                    isOrder = this._orderBody.process.isOrder;
+                    isConfirm = this._orderBody.process.isConfirm;
+                    isSend = this._orderBody.process.isSend;
+                    isReceive = this._orderBody.process.isReceive;
                 }
                 const result = await this._connectionPool
                     .request()
-                    .input("page", sql.Int, this._myOrder.page)
-                    .input("size", sql.Int, this._myOrder.size)
+                    .input("page", sql.Int, this._orderBody.page)
+                    .input("size", sql.Int, this._orderBody.size)
                     .input("isOrder", sql.Bit, isOrder)
                     .input("isConfirm", sql.Bit, isConfirm)
                     .input("isSend", sql.Bit, isSend)
                     .input("isReceive", sql.Bit, isReceive)
-                    .input("userId", sql.Int, this._myOrder.order.userId)
-                    .execute('WebappSreenMyOrderGetMyOrders');
-                
+                    .execute('WebadminSreenOrderGetOrders')
+                    
                 return result as unknown as OrderQueryResult;
             } catch (error) {
                 console.error(error);
@@ -63,4 +64,5 @@ class QueryDB_WebappSreenMyOrderGetMyOrders extends QueryDB {
 }
 
 
-export default QueryDB_WebappSreenMyOrderGetMyOrders;
+
+export default QueryDB_WebadminSreenOrderGetOrders;

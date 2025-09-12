@@ -1,0 +1,41 @@
+.Order_ListOrder {
+    margin: 30px 10px;
+    box-sizing: border-box;
+    border: 1px dashed gray;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.Order_ListOrder-row {
+    display: flex;
+    align-items: center;
+}
+
+.Order_ListOrder-row > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.Order_ListOrder-row-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.Order_ListOrder-row-index {
+    width: 50px;
+}
+
+.Order_ListOrder-row-label {
+    width: 800px;
+}
+
+.Order_ListOrder-row-total {
+    width: 100px;
+}
+
+.Order_ListOrder-row-note {
+    width: 300px;
+}

@@ -92,6 +92,14 @@ export type GetMyOrderBodyType = {
     isProcess: boolean
 }
 
+export type AdminOrderBodyType = {
+    page: number,
+    size: number,
+    process: OrderProcessField,
+    isProcess: boolean
+}
+
+
 export type AddToNewCartBodyType = {
     order: OrderField, 
     product: OrderProductField,
@@ -99,11 +107,11 @@ export type AddToNewCartBodyType = {
     contact: OrderContactField
 }
 
-export type AddOrderBody = {
-    order: OrderField, 
-    paymentMethod: OrderPaymentMethodField,
-    orderContact: OrderContactField
-}
+// export type AddOrderBody = {
+//     order: OrderField, 
+//     paymentMethod: OrderPaymentMethodField,
+//     orderContact: OrderContactField
+// }
 
 export interface PagedOrderField {
     items: OrderField[],

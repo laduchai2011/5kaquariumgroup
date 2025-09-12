@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import './style.css';
-import type { PagedOrderField, OrderFilterField } from '@src/dataStruct/order';
+import type { PagedOrderField, AdminOrderBodyType } from '@src/dataStruct/order';
 import { OrderContext } from '@src/screen/Order/context';
-import { useGetOrdersWithFilterQuery } from '@src/redux/query/orderRTK';
+import { useGetOrdersQuery } from '@src/redux/query/orderRTK';
 
 
 const Overview: React.FC = () => {
@@ -12,7 +12,7 @@ const Overview: React.FC = () => {
     }
     const {
         setIsLoading,
-        setOrderFilter
+        setOrderBody
     } = orderContext;
 
     const [allOrder, setAllOrder] = useState<PagedOrderField | undefined>(undefined)
@@ -21,12 +21,11 @@ const Overview: React.FC = () => {
     const [sendOrder, setSendOrder] = useState<PagedOrderField | undefined>(undefined)
     const [receiveOrder, setReceiveOrder] = useState<PagedOrderField | undefined>(undefined)
 
-    const orderFilter_Overview: OrderFilterField = {
+    const orderBody_Overview: AdminOrderBodyType = {
         page: 1,
         size: 10,
-        sellerId: -1,
-        isOrderProcess: false,
-        orderProcess: {
+        isProcess: false,
+        process: {
             id: -1,
             isOrder: false,
             isConfirm: false,
@@ -41,17 +40,25 @@ const Overview: React.FC = () => {
     }
 
 
-    const handleSelectOrderStatus = (orderStatus: string): OrderFilterField => {
+    const handleSelectOrderStatus = (orderStatus: string): AdminOrderBodyType => {
         const value = orderStatus;
-        const orderFilter_cp = {...orderFilter_Overview};
-        const orderProcess_cp = {...orderFilter_cp.orderProcess};
+        const orderBody_cp = {...orderBody_Overview};
+        const orderProcess_cp = {...orderBody_cp.process};
         switch(value) { 
             case 'all': { 
-                orderFilter_cp.isOrderProcess = false;
+                orderBody_cp.isProcess = false;
+                break; 
+            } 
+            case 'shoppingCart': { 
+                orderBody_cp.isProcess = true;
+                orderProcess_cp.isOrder = false;
+                orderProcess_cp.isConfirm = false;
+                orderProcess_cp.isSend = false;
+                orderProcess_cp.isReceive = false;
                 break; 
             } 
             case 'order': { 
-                orderFilter_cp.isOrderProcess = true;
+                orderBody_cp.isProcess = true;
                 orderProcess_cp.isOrder = true;
                 orderProcess_cp.isConfirm = false;
                 orderProcess_cp.isSend = false;
@@ -59,7 +66,7 @@ const Overview: React.FC = () => {
                 break; 
             } 
             case 'confirm': { 
-                orderFilter_cp.isOrderProcess = true;
+                orderBody_cp.isProcess = true;
                 orderProcess_cp.isOrder = true;
                 orderProcess_cp.isConfirm = true;
                 orderProcess_cp.isSend = false;
@@ -67,7 +74,7 @@ const Overview: React.FC = () => {
                 break; 
             } 
             case 'send': { 
-                orderFilter_cp.isOrderProcess = true;
+                orderBody_cp.isProcess = true;
                 orderProcess_cp.isOrder = true;
                 orderProcess_cp.isConfirm = true;
                 orderProcess_cp.isSend = true;
@@ -75,7 +82,7 @@ const Overview: React.FC = () => {
                 break; 
             } 
             case 'receive': { 
-                orderFilter_cp.isOrderProcess = true;
+                orderBody_cp.isProcess = true;
                 orderProcess_cp.isOrder = true;
                 orderProcess_cp.isConfirm = true;
                 orderProcess_cp.isSend = true;
@@ -88,9 +95,9 @@ const Overview: React.FC = () => {
             } 
         }
 
-        orderFilter_cp.orderProcess = orderProcess_cp;
+        orderBody_cp.process = orderProcess_cp;
 
-        return orderFilter_cp;
+        return orderBody_cp;
     }
 
     const {
@@ -99,7 +106,7 @@ const Overview: React.FC = () => {
         isLoading: isLoading_allOrders,
         isError: isError_allOrders, 
         error: error_allOrders
-    } = useGetOrdersWithFilterQuery(handleSelectOrderStatus('all'));
+    } = useGetOrdersQuery(handleSelectOrderStatus('all'));
     useEffect(() => {
         if (isError_allOrders && error_allOrders) {
             console.error(error_allOrders);
@@ -120,7 +127,7 @@ const Overview: React.FC = () => {
         isLoading: isLoading_orderOrders,
         isError: isError_orderOrders, 
         error: error_orderOrders
-    } = useGetOrdersWithFilterQuery(handleSelectOrderStatus('order'));
+    } = useGetOrdersQuery(handleSelectOrderStatus('order'));
     useEffect(() => {
         if (isError_orderOrders && error_orderOrders) {
             console.error(error_orderOrders);
@@ -141,7 +148,7 @@ const Overview: React.FC = () => {
         isLoading: isLoading_confirmOrders,
         isError: isError_confirmOrders, 
         error: error_confirmOrders
-    } = useGetOrdersWithFilterQuery(handleSelectOrderStatus('confirm'));
+    } = useGetOrdersQuery(handleSelectOrderStatus('confirm'));
     useEffect(() => {
         if (isError_confirmOrders && error_confirmOrders) {
             console.error(error_confirmOrders);
@@ -162,7 +169,7 @@ const Overview: React.FC = () => {
         isLoading: isLoading_sendOrders,
         isError: isError_sendOrders, 
         error: error_sendOrders
-    } = useGetOrdersWithFilterQuery(handleSelectOrderStatus('send'));
+    } = useGetOrdersQuery(handleSelectOrderStatus('send'));
     useEffect(() => {
         if (isError_sendOrders && error_sendOrders) {
             console.error(error_sendOrders);
@@ -183,7 +190,7 @@ const Overview: React.FC = () => {
         isLoading: isLoading_receiveOrders,
         isError: isError_receiveOrders, 
         error: error_receiveOrders
-    } = useGetOrdersWithFilterQuery(handleSelectOrderStatus('receive'));
+    } = useGetOrdersQuery(handleSelectOrderStatus('receive'));
     useEffect(() => {
         if (isError_receiveOrders && error_receiveOrders) {
             console.error(error_receiveOrders);
@@ -199,7 +206,7 @@ const Overview: React.FC = () => {
     }, [data_receiveOrders]) 
 
     const handleGetOrder = (orderStatus: string) => {
-        setOrderFilter(handleSelectOrderStatus(orderStatus))
+        setOrderBody(handleSelectOrderStatus(orderStatus))
     }
     
     

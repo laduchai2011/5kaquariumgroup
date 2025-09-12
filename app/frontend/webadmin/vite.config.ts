@@ -12,5 +12,10 @@ export default defineConfig({
     },
     define: {
         global: 'globalThis'
-    }
+    },
+    server: {
+        allowedHosts: [
+            '5kaquarium.local.com', // thêm host bạn muốn cho phép
+        ],
+    },
 });

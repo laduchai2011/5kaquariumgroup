@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '@src/redux';
 import { MdOutlineMenu } from "react-icons/md";
 import { set_isShow, set_headerSelected } from '@src/redux/slice/headerLeftSlice';
-import { HOME, PRODUCT, LIST, MY_ORDER, PROFILE, ABOUT5K } from '@src/const/text';
+import { HOME, PRODUCT, LIST, ORDER, PROFILE, ABOUT5K } from '@src/const/text';
 import { HeaderSelections, HeaderSelected } from '@src/component/Header/HeaderLeft/type';
 import { useNavigate } from 'react-router-dom';
 
@@ -86,7 +86,7 @@ const HeaderLeft: FC<{header: string}> = ({header}) => {
                 <div className={`${return_headerSelected(HOME)}`} onClick={() => handleSelected(HeaderSelections.HOME)}>{ HOME }</div>
                 <div className={`${return_headerSelected(PRODUCT)}`} onClick={() => handleSelected(HeaderSelections.PRODUCT)}>{ PRODUCT }</div>
                 <div className={`${return_headerSelected(LIST)}`} onClick={() => handleSelected(HeaderSelections.LIST)}>{ LIST }</div>
-                <div className={`${return_headerSelected(MY_ORDER)}`} onClick={() => handleSelected(HeaderSelections.MY_ORDER)}>{ MY_ORDER }</div>
+                <div className={`${return_headerSelected(ORDER)}`} onClick={() => handleSelected(HeaderSelections.MY_ORDER)}>{ ORDER }</div>
                 <div className={`${return_headerSelected(PROFILE)}`} onClick={() => handleSelected(HeaderSelections.PROFILE)}>{ PROFILE }</div>
                 <div className={`${return_headerSelected(ABOUT5K)}`} onClick={() => handleSelected(HeaderSelections.ABOUT5K)}>{ ABOUT5K }</div>
             </div>

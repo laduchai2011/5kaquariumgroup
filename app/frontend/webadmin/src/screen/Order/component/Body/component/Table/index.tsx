@@ -38,7 +38,7 @@ const Table: React.FC = () => {
                     <div className='Order_Table-row-customer Order_Table-row-header'>Khách hàng</div>
                     <div className='Order_Table-row-title Order_Table-row-header'>Tiêu đề</div>
                 </div>
-                { list_order }
+                {/* { list_order } */}
             </div>
         </div>
     );
