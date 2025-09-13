@@ -3,7 +3,8 @@ import './style.css';
 import Overview from './component/Overview';
 import Control from './component/Control';
 import ListOrder from './component/ListOrder';
-import Table from './component/Table';
+// import Table from './component/Table';
+import ListProduct from './component/LishProduct';
 
 
 
@@ -14,7 +15,8 @@ const Body: React.FC = () => {
                 <Overview />
                 <Control />
                 <ListOrder />
-                <Table />
+                {/* <Table /> */}
+                <ListProduct />
             </div>
         </div>
     );

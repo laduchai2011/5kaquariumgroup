@@ -69,7 +69,7 @@ router_query_order.post(
     handle_webadminSreenOrderGetOrders.main
 );
 
-router_query_order.post(
+router_query_order.get(
     '/webadminSreenOrderGetALLOrderProductsInOrder', 
     authentication,
     handle_webadminSreenOrderGetALLOrderProductsInOrder.main

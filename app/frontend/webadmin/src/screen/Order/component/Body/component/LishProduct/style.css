@@ -1,0 +1,79 @@
+.Order_ListProduct {
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    
+}
+
+.Order_ListProduct > div {
+    overflow-x: scroll;
+}
+
+.Order_ListProduct-row {
+    display: flex;
+    align-items: center;
+    width: max-content;
+}
+
+.Order_ListProduct-row-header {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.Order_ListProduct-row > div {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: max-content;
+}
+
+.Order_ListProduct-row-index {
+    width: 50px;
+}
+
+.Order_ListProduct-row-image {
+    width: 100px;
+}
+
+.Order_ListProduct-row-name {
+    width: 100px;
+}
+
+.Order_ListProduct-row-size {
+    width: 50px;
+}
+
+.Order_ListProduct-row-amount {
+    width: 50px;
+}
+
+.Order_ListProduct-row-fishCodeInProduct {
+    width: 100px;
+}
+
+.Order_ListProduct-row-fishAmount {
+    width: 50px;
+}
+
+.Order_ListProduct-row-money {
+    width: 100px;
+}
+
+.Order_ListProduct-row-isPay {
+    width: 100px;
+}
+
+.Order_ListProduct-row-seller {
+    width: 150px;
+}
+
+/* .Order_ListProduct-row-customer {
+    width: 150px;
+} */
+
+.Order_ListProduct-row-title {
+    width: 500px;
+}

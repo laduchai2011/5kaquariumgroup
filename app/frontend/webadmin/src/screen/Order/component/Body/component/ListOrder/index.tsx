@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import './style.css';
 import { OrderContext } from '@src/screen/Order/context';
+import type { OrderField } from '@src/dataStruct/order';
 
 
 
@@ -12,16 +13,21 @@ const ListOrder: React.FC = () => {
     }
 
     const {
-        orders
+        orders,
+        setSelectedOrder
     } = orderContext;
 
-    const list_order = orders.map((data, key) => {
+    const handleSelectedOrder = (item: OrderField) => {
+        setSelectedOrder(item)
+    }
+
+    const list_order = orders.map((item, key) => {
         return (
-            <div className='Order_ListOrder-row' key={data.id}>
+            <div className='Order_ListOrder-row' key={item.id} onClick={() => handleSelectedOrder(item)}>
                 <div className='Order_ListOrder-row-index'>{key}</div>
-                <div className='Order_ListOrder-row-label'>{data.label}</div>
-                <div className='Order_ListOrder-row-total'>{data.total}</div>
-                <div className='Order_ListOrder-row-note'>{data.note}</div>
+                <div className='Order_ListOrder-row-label'>{item.label}</div>
+                <div className='Order_ListOrder-row-total'>{item.total}</div>
+                <div className='Order_ListOrder-row-note'>{item.note}</div>
             </div>
         )
     })

@@ -1,7 +1,5 @@
 import express, { Router } from 'express';
 import dotenv from 'dotenv';
-// import Handle_AddOrderWithTransaction from './handle/AddOrderWithTransaction';
-import Handle_GetOrdersWithFilter from './handle/GetOrdersWithFilter';
 import Handle_WebappSreenProductBuyNow from './handle/WebappSreenProductBuyNow';
 import Handle_AddToNewCart from './handle/AddToNewCart';
 import Handle_WebappSreenProductCreateShoppingCart from './handle/WebappSreenProductCreateShoppingCart';
@@ -16,8 +14,6 @@ import authentication from '@src/auth';
 dotenv.config();
 
 const router_mutate_order: Router = express.Router();
-// const handle_addOrderWithTransaction = new Handle_AddOrderWithTransaction();
-const handle_getOrdersWithFilter = new Handle_GetOrdersWithFilter();
 // newlogic
 const handle_webappSreenProductBuyNow = new Handle_WebappSreenProductBuyNow();
 const handle_addToNewCart = new Handle_AddToNewCart();
@@ -30,16 +26,6 @@ const handle_webappSreenProductAddProductToShoppingCart = new Handle_WebappSreen
 
 
 
-// router_mutate_order.post(
-//     '/addOrderWithTransaction',
-//     handle_addOrderWithTransaction.setup,
-//     handle_addOrderWithTransaction.main
-// );
-
-router_mutate_order.post(
-    '/getOrdersWithFilter',
-    handle_getOrdersWithFilter.main
-);
 
 
 ///////////////

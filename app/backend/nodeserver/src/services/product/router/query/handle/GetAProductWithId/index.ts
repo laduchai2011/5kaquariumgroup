@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import QueryDB_Get_AProductWithId from '../../queryDB/GetAProductWithId';
 import { MyResponse } from '@src/dataStruct/response';
 import { ProductField } from '@src/dataStruct/product';
-import { verifyRefreshToken } from '@src/token';
+// import { verifyRefreshToken } from '@src/token';
 
 
 class Handle_Get_AProductWithId {

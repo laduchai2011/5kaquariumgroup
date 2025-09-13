@@ -48,13 +48,6 @@ export const orderRTK = createApi({
                     ? [{ type: 'OrderProcess', id: 'LIST' }]
                     : [],
         }),
-        // addOrderWithTransaction: builder.mutation<MyResponse<OrderField>, AddOrderBody>({
-        //     query: (body) => ({
-        //         url: ORDER_API.ADD_ORDER_WITH_TRANSACTION,
-        //         method: 'POST',
-        //         body,
-        //     }),
-        // }),
         buyNow: builder.mutation<MyResponse<OrderField>, BuyNowBodyType>({
             query: (body) => ({
                 url: ORDER_API.BUY_NOW,
@@ -105,7 +98,6 @@ export const {
     useGetShoppingCartsQuery,
     useGetMyAllOrderProductsInOrderQuery,
     useGetMyOrderProcessInOrderQuery,
-    // useAddOrderWithTransactionMutation,
     useBuyNowMutation,
     useCreateShoppingCartMutation,
     useEditShoppingCartMutation,

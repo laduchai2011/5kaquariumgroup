@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ORDER_API } from '@src/const/api/order';
 import type { MyResponse } from '@src/dataStruct/response';
-import type { PagedOrderField, OrderFilterField, AdminOrderBodyType } from '@src/dataStruct/order';
+import type { PagedOrderField, AdminOrderBodyType, OrderProductField } from '@src/dataStruct/order';
 
 
 
@@ -14,13 +14,13 @@ export const orderRTK = createApi({
     }),
     tagTypes: ['Order'],
     endpoints: (builder) => ({
-        getOrdersWithFilter: builder.query<MyResponse<PagedOrderField>, OrderFilterField>({
-            query: (body) => ({
-                url: ORDER_API.GET_ORDERS_WITH_FILTER,
-                method: 'POST',
-                body
-            })
-        }),
+        // getOrdersWithFilter: builder.query<MyResponse<PagedOrderField>, OrderFilterField>({
+        //     query: (body) => ({
+        //         url: ORDER_API.GET_ORDERS_WITH_FILTER,
+        //         method: 'POST',
+        //         body
+        //     })
+        // }),
         getOrders: builder.query<MyResponse<PagedOrderField>, AdminOrderBodyType>({
             query: (body) => ({
                 url: ORDER_API.GET_ORDERS,
@@ -28,10 +28,14 @@ export const orderRTK = createApi({
                 body
             })
         }),
+        getAllOrderProductsInOrder: builder.query<MyResponse<OrderProductField[]>, {orderId: string}>({
+            query: ({orderId}) => `${ORDER_API.GET_ALL_ORDER_PRODUCTS_IN_ORDER}?orderId=${orderId}`,
+        }),
     }),
 });
 
 export const { 
-    useGetOrdersWithFilterQuery,
-    useGetOrdersQuery
+    // useGetOrdersWithFilterQuery,
+    useGetOrdersQuery,
+    useGetAllOrderProductsInOrderQuery
 } = orderRTK;
