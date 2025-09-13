@@ -1,0 +1,2 @@
+docker build -t nodeserver .
+docker run -dit --name noderserver_container --network network_5kaquarium -v /root/myData:/app/data -p 3000:3000 nodeserver

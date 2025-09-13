@@ -1,0 +1,2 @@
+docker build -t webadmin .
+docker run -dit --name webadmin_container --network network_5kaquarium -p 5000:5000 webadmin 
